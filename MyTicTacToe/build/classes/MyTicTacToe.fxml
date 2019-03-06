@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import atlg4.composant.g47923.MyTicTacToe?>
 
-<MyTicTacToe fx:id="grid" alignment="CENTER" gridLinesVisible="false" maxHeight="-Infinity" 
+<GridPane fx:id="grid" alignment="CENTER" gridLinesVisible="true" maxHeight="-Infinity" 
           maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
           prefHeight="403.0" prefWidth="511.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -30,4 +30,4 @@
       <RowConstraints prefHeight="100.0" />
       <RowConstraints prefHeight="100.0" />
    </rowConstraints>
-</MyTicTacToe>
+</GridPane>
