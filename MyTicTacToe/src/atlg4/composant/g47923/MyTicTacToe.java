@@ -1,28 +1,49 @@
 package atlg4.composant.g47923;
 
-import javafx.scene.control.Label;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import static javafx.scene.layout.GridPane.getColumnIndex;
+import static javafx.scene.layout.GridPane.getRowIndex;
 
 public class MyTicTacToe extends GridPane {
 
     private final int SIZE = 3;
 
-    private boolean isClickable;
-
+    /**
+     * Constructs this MyTicTacToe with 9 empty clickable labels.
+     */
     public MyTicTacToe() {
-        isClickable = true;
-        setup();
-        setGridLinesVisible(true);
-        initialize("default");
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/MyTicTacToe.fxml")
+        );
+        loader.setController(this);
+
+        try {
+            loader.load();
+        } catch (IOException exception) {
+            System.err.println(exception.getMessage());
+        }
+
     }
 
     /**
-     * Sets isClickable value;
+     * Gets the ImageView at the given position in this TicTacToe.
      *
-     * @param value is the value of isClickable;
+     * @param row the row of the ImageView to get.
+     * @param column the column of the ImageView to get.
+     * @return the ImageView at the given position.
      */
-    public void setIsClickable(boolean value) {
-        isClickable = value;
+    private ImageView getImageViewAt(int row, int column) {
+        for (Node node : getChildren()) {
+            if (getColumnIndex(node) == column && getRowIndex(node) == row) {
+                return (ImageView) node;
+            }
+        }
+        return null;
     }
 
     /**
@@ -30,31 +51,10 @@ public class MyTicTacToe extends GridPane {
      *
      * @param row is the row of the marker.
      * @param column is the column of the marker.
-     * @param marker is the value of the marker.
+     * @param marker is an image representing a marker.
      */
-    public void setMarker(int row, int column, String marker) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Adds a new Label at the given position.
-     *
-     * @param row is the row of the new Label.
-     * @param column is the column of the new Label.
-     */
-    private final void addLabelAt(int row, int column) {
-        add(new Label(), column, row);
-    }
-
-    /**
-     * Sets this TicTacToe labels.
-     */
-    private final void setup() {
-        for (int row = 0; row < SIZE; row++) {
-            for (int column = 0; column < 10; column++) {
-                addLabelAt(row, column);
-            }
-        }
+    public void setMarker(int row, int column, Image marker) {
+        getImageViewAt(row, column).setImage(marker);
     }
 
     /**
@@ -62,9 +62,9 @@ public class MyTicTacToe extends GridPane {
      *
      * @param defaultValue is the value to initialize this TictTacToe with.
      */
-    public final void initialize(String defaultValue) {
-        getChildren().forEach((child) -> {
-            ((Label) child).setText(defaultValue);
+    public final void initialize(Image defaultValue) {
+        getChildren().forEach((imageView) -> {
+            ((ImageView) imageView).setImage(defaultValue);
         });
     }
 
