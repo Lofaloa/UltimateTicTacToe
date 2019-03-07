@@ -1,7 +1,7 @@
 package atlg4.composant.g47923;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,14 +13,19 @@ public class MyTicTacToe extends GridPane {
 
     private final int SIZE = 3;
 
-    private final List<ImageView> markers;
-
     /**
-     * Constructs this MyTicTacToe with 9 empty clickable labels.
+     * Constructs this MyTicTacToe with 9 empty clickable cells.
      */
     public MyTicTacToe() {
-        markers = new ArrayList<>();
-        setup();
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/MyTicTacToe.fxml")
+        );
+        try {
+           loader.setRoot(this);
+           loader.load();
+        } catch (IOException exception) {
+            System.err.println(exception.getMessage());
+        }
     }
 
     /**
@@ -48,27 +53,6 @@ public class MyTicTacToe extends GridPane {
      */
     public void setMarker(int row, int column, Image marker) {
         getImageViewAt(row, column).setImage(marker);
-    }
-
-     /**
-     * Adds a new ImageView at the given position.
-     *
-     * @param row is the row of the new ImageView.
-     * @param column is the column of the new ImageView.
-     */
-    private final void addImageViewAt(int row, int column) {
-        add(new ImageView(), column, row);
-    }
-
-    /**
-     * Sets this TicTacToe image views.
-     */
-    private final void setup() {
-        for (int row = 0; row < SIZE; row++) {
-            for (int column = 0; column < 10; column++) {
-                addImageViewAt(row, column);
-            }
-        }
     }
 
     /**

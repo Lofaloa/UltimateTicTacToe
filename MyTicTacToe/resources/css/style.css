@@ -1,0 +1,7 @@
+.tictactoe {
+    -fx-background-color: white;
+}
+
+.cell {
+    -fx-border: solid blak 2px;
+}
