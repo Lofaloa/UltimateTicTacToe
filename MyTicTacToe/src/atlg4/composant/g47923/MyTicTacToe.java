@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import static javafx.scene.layout.GridPane.getColumnIndex;
 import static javafx.scene.layout.GridPane.getRowIndex;
+import javafx.scene.layout.StackPane;
 
 public class MyTicTacToe extends GridPane {
 
@@ -36,10 +37,10 @@ public class MyTicTacToe extends GridPane {
      * @param column the column of the ImageView to get.
      * @return the ImageView at the given position.
      */
-    private ImageView getImageViewAt(int row, int column) {
+    private StackPane getPaneAt(int row, int column) {
         for (Node node : getChildren()) {
             if (getColumnIndex(node) == column && getRowIndex(node) == row) {
-                return (ImageView) node;
+                return (StackPane) node;
             }
         }
         return null;
@@ -53,7 +54,7 @@ public class MyTicTacToe extends GridPane {
      * @param marker is an image representing a marker.
      */
     public void setMarker(int row, int column, Image marker) {
-        getImageViewAt(row, column).setImage(marker);
+        ((ImageView) getPaneAt(row, column).getChildren().get(0)).setImage(marker);
     }
 
     /**
@@ -62,9 +63,13 @@ public class MyTicTacToe extends GridPane {
      * @param defaultValue is the value to initialize this TictTacToe with.
      */
     public final void initialize(Image defaultValue) {
-        getChildren().forEach((imageView) -> {
-            ((ImageView) imageView).setImage(defaultValue);
-        });
+        for (Node node : getChildren()) {
+            StackPane pane = (StackPane) node;
+            ImageView imgv = (ImageView) pane.getChildren().get(0);
+            imgv.setFitHeight(50);
+            imgv.setFitWidth(50);
+            imgv.setImage(defaultValue);
+        }
     }
 
     /**

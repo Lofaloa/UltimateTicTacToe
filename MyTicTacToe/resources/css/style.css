@@ -1,11 +1,10 @@
 .tictactoe {
-    -fx-hgap: 5px;
-    -fx-vgap: 5px;
     -fx-alignment: center;
     -fx-border-color: black;
     -fx-border-width: 2px;
 }
 
 .cell {
-    -fx-border: solid blak 2px;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
 }
