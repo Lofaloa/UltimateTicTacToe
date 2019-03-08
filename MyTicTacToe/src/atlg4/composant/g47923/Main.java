@@ -15,6 +15,9 @@ public class Main extends Application {
         root.initialize(new Image("/images/cross.png"));
         
         Scene scene = new Scene(root);
+        
+        scene.getStylesheets().add("/css/style.css");
+        
         primaryStage.setTitle("MyTicTacToe");
         primaryStage.setScene(scene);
         primaryStage.show();

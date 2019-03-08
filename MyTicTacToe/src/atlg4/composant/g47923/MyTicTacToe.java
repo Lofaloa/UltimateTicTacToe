@@ -26,6 +26,7 @@ public class MyTicTacToe extends GridPane {
         } catch (IOException exception) {
             System.err.println(exception.getMessage());
         }
+        getStyleClass().add("tictactoe");
     }
 
     /**
