@@ -1,6 +1,8 @@
 package atlg4.composant.g47923;
 
 import java.io.IOException;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -37,9 +39,10 @@ public class MyTicTacToe extends GridPane {
      * @param column the column of the ImageView to get.
      * @return the ImageView at the given position.
      */
-    private StackPane getPaneAt(int row, int column) {
+    StackPane getPaneAt(int row, int column) {
         for (Node node : getChildren()) {
             if (getColumnIndex(node) == column && getRowIndex(node) == row) {
+                System.out.println("test: " + node);
                 return (StackPane) node;
             }
         }
@@ -77,8 +80,21 @@ public class MyTicTacToe extends GridPane {
      *
      * @param winnerMarker is the marker to display.
      */
-    public void displayWinner(String winnerMarker) {
+    public void displayWinner(Image winnerMarker) {
         throw new UnsupportedOperationException();
+    }
+    
+    /**
+     * 
+     * 
+     * @param handler 
+     */
+    public void addEventHandler(EventHandler handler) {
+        for (Node node : getChildren()) {
+            StackPane pane = (StackPane) node;
+            ImageView imgv = (ImageView) pane.getChildren().get(0);
+            imgv.addEventHandler(EventType.ROOT, handler);
+        }
     }
 
 }
