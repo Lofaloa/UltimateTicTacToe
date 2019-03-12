@@ -2,7 +2,6 @@ package atlg4.composant.g47923;
 
 import java.io.IOException;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -39,6 +38,12 @@ public class MyTicTacToe extends StackPane {
         }
         getStylesheets().add(STYLESHEET_PATH);
     }
+
+    public GridPane getGrid() {
+        return grid;
+    }
+
+
 
     /**
      * Tells if the given coordinates are valid. A valid coordinate is inside
@@ -125,17 +130,16 @@ public class MyTicTacToe extends StackPane {
         getChildren().add(new ImageView(winnerMarker));
     }
 
-    /**
-     *
-     *
-     * @param handler
-     */
-    public void addEventHandler(EventHandler handler) {
-        addEventHandler(EventType.ROOT, handler);
+    public void addEventHandlerAt(int row, int column, EventHandler handler) {
+        requireValidCoordinate(row, column);
+        StackPane pane = requireNonNull(getPaneAt(row, column));
+        pane.setOnMouseClicked(handler);
     }
 
-    public void removeEventHandler(EventHandler handler) {
-        removeEventHandler(EventType.ROOT, handler);
+    public void removeEventHandlerAt(int row, int column) {
+        requireValidCoordinate(row, column);
+        StackPane pane = requireNonNull(getPaneAt(row, column));
+        pane.setOnMouseClicked(null);
     }
 
 }
