@@ -3,6 +3,7 @@ package atlg4.remise1;
 import atlg4.composant.g47923.MyTicTacToe;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

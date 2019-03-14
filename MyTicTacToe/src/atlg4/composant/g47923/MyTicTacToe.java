@@ -12,6 +12,9 @@ import static javafx.scene.layout.GridPane.getColumnIndex;
 import static javafx.scene.layout.GridPane.getRowIndex;
 import javafx.scene.layout.StackPane;
 import static java.util.Objects.requireNonNull;
+import javafx.collections.ObservableList;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.RowConstraints;
 
 public class MyTicTacToe extends StackPane {
 
@@ -37,13 +40,27 @@ public class MyTicTacToe extends StackPane {
             System.err.println(exception.getMessage());
         }
         getStylesheets().add(STYLESHEET_PATH);
+        doBindings();
     }
 
-    public GridPane getGrid() {
-        return grid;
+    private void doColumnsBindings() {
+        ObservableList<ColumnConstraints> columns = grid.getColumnConstraints();
+        for (ColumnConstraints column : columns) {
+            column.prefWidthProperty().bind(widthProperty().divide(SIZE));
+        }
     }
 
+    private void doRowsBindings() {
+        ObservableList<RowConstraints> rows = grid.getRowConstraints();
+        for (RowConstraints row : rows) {
+            row.prefHeightProperty().bind(heightProperty().divide(SIZE));
+        }
+    }
 
+    private void doBindings() {
+        doColumnsBindings();
+        doRowsBindings();
+    }
 
     /**
      * Tells if the given coordinates are valid. A valid coordinate is inside
