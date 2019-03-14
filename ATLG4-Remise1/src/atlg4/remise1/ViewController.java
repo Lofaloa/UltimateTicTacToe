@@ -3,11 +3,11 @@ package atlg4.remise1;
 import atlg4.composant.g47923.MyTicTacToe;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 
@@ -25,6 +25,32 @@ public class ViewController implements Initializable {
 
     @FXML
     private RadioButton cross;
+
+    @FXML
+    private Button winner;
+
+    @FXML
+    private Button clear;
+
+    @FXML
+    private void showWinner() {
+        tictactoe.displayWinner(getCurrentMarker());
+    }
+
+    @FXML
+    private void clearTicTacToe() {
+        tictactoe.initialize(null);
+    }
+
+    @FXML
+    private void fillTicTacToe() {
+        tictactoe.initialize(getCurrentMarker());
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initializeEventHandlers();
+    }
 
     private final Image getCurrentMarker() {
         if (cross.isSelected()) {
@@ -44,8 +70,7 @@ public class ViewController implements Initializable {
         });
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    private void initializeEventHandlers() {
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 3; column++) {
                 addPlaceMarkerHandlerAt(row, column);

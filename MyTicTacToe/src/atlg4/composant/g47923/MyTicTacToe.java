@@ -19,14 +19,16 @@ import javafx.scene.layout.RowConstraints;
 public class MyTicTacToe extends StackPane {
 
     private static final int SIZE = 3;
-    private static final String FXML_PATH = "/MyTicTacToe.fxml";
+    private static final int IMG_FIT_SIZE = 50;
+    private static final String FXML_PATH = "/fxml/MyTicTacToe.fxml";
     private static final String STYLESHEET_PATH = "/css/style.css";
 
     @FXML
     private GridPane grid;
 
     /**
-     * Constructs this MyTicTacToe with 9 empty clickable cells.
+     * Constructs this MyTicTacToe with 9 empty cells. The cell are initially
+     * not clickable.
      */
     public MyTicTacToe() {
         FXMLLoader loader = new FXMLLoader(
@@ -41,6 +43,98 @@ public class MyTicTacToe extends StackPane {
         }
         getStylesheets().add(STYLESHEET_PATH);
         doBindings();
+    }
+
+    /**
+     * Sets the given marker at the given position. When marker is null the
+     * image in the given cell is removed.
+     *
+     * @param row is the row of the marker.
+     * @param column is the column of the marker.
+     * @param marker is an image representing a marker.
+     * @throws IllegalArgumentException is the given coordinate is not valid.
+     */
+    public void setMarker(int row, int column, Image marker) {
+        requireValidCoordinate(row, column);
+        ((ImageView) getPaneAt(row, column).getChildren().get(0)).setImage(marker);
+    }
+
+    /**
+     * Initializes this TicTacToe markers to a default value. If default value
+     * is null, all images are removed from this MyTicTacToe.
+     *
+     * @param defaultValue is the value to initialize this TictTacToe with.
+     * @throws NullPointerException is the argument is null.
+     */
+    public final void initialize(Image defaultValue) {
+        for (Node node : grid.getChildren()) {
+            StackPane pane = (StackPane) node;
+            ImageView imgv = (ImageView) pane.getChildren().get(0);
+            imgv.setFitHeight(IMG_FIT_SIZE);
+            imgv.setFitWidth(IMG_FIT_SIZE);
+            imgv.setImage(defaultValue);
+        }
+    }
+
+    /**
+     * Displays the given marker over this TicTacToe.
+     *
+     * @param winnerMarker is the marker to display.
+     * @throws NullPointerException is the argument is null.
+     */
+    public void displayWinner(Image winnerMarker) {
+        requireNonNull(winnerMarker);
+        ImageView imvg = new ImageView(winnerMarker);
+        imvg.setFitHeight(getHeight());
+        imvg.setFitWidth(getWidth());
+        imvg.setPreserveRatio(true);
+        getChildren().add(imvg);
+    }
+
+    /**
+     * Adds an event handler at the given cell.
+     *
+     * @param row is the row of the cell.
+     * @param column is the column of the cell.
+     * @param handler is the event handler to add.
+     */
+    public void addEventHandlerAt(int row, int column, EventHandler handler) {
+        requireValidCoordinate(row, column);
+        StackPane pane = requireNonNull(getPaneAt(row, column));
+        pane.setOnMouseClicked(handler);
+    }
+
+    /**
+     * Remove a previously added event handler at the given cell.
+     *
+     * @param row is the row of the cell.
+     * @param column is the column of the cell.
+     */
+    public void removeEventHandlerAt(int row, int column) {
+        requireValidCoordinate(row, column);
+        StackPane pane = requireNonNull(getPaneAt(row, column));
+        pane.setOnMouseClicked(null);
+    }
+
+    static private boolean isValid(int row, int column) {
+        return 0 <= row && row <= SIZE && 0 <= column && column <= SIZE;
+    }
+
+    static private void requireValidCoordinate(int row, int column) {
+        if (!isValid(row, column)) {
+            throw new IllegalArgumentException("Invalid coordinate at (" + row
+                    + "; " + column + ").");
+        }
+    }
+
+    private StackPane getPaneAt(int row, int column) {
+        requireValidCoordinate(row, column);
+        for (Node node : grid.getChildren()) {
+            if (getColumnIndex(node) == column && getRowIndex(node) == row) {
+                return (StackPane) node;
+            }
+        }
+        return null;
     }
 
     private void doColumnsBindings() {
@@ -60,103 +154,6 @@ public class MyTicTacToe extends StackPane {
     private void doBindings() {
         doColumnsBindings();
         doRowsBindings();
-    }
-
-    /**
-     * Tells if the given coordinates are valid. A valid coordinate is inside
-     * this tic tac toe bounds.
-     *
-     * @param row is the row of the coordinate.
-     * @param column is the column of the coordinate.
-     * @return true if the coordinate is valid.
-     */
-    static private boolean isValid(int row, int column) {
-        return 0 <= row && row <= SIZE && 0 <= column && column <= SIZE;
-    }
-
-    /**
-     * Requires a valid coordinate.
-     *
-     * @param row is the row of the coordinate.
-     * @param column is the column of the coordinate.
-     * @throws IllegalArgumentException is the coordinate is not valid.
-     */
-    static private void requireValidCoordinate(int row, int column) {
-        if (!isValid(row, column)) {
-            throw new IllegalArgumentException("Invalid coordinate at (" + row
-                    + "; " + column + ").");
-        }
-    }
-
-    /**
-     * Gets the ImageView at the given position in this TicTacToe.
-     *
-     * @param row the row of the ImageView to get.
-     * @param column the column of the ImageView to get.
-     * @return the ImageView at the given position.
-     * @throws IllegalArgumentException is the coordinate is not valid.
-     */
-    StackPane getPaneAt(int row, int column) {
-        requireValidCoordinate(row, column);
-        for (Node node : grid.getChildren()) {
-            if (getColumnIndex(node) == column && getRowIndex(node) == row) {
-                return (StackPane) node;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Sets the given marker at the given position.
-     *
-     * @param row is the row of the marker.
-     * @param column is the column of the marker.
-     * @param marker is an image representing a marker.
-     * @throws IllegalArgumentException is the given coordinate is not valid.
-     */
-    public void setMarker(int row, int column, Image marker) {
-        requireValidCoordinate(row, column);
-        ((ImageView) getPaneAt(row, column).getChildren().get(0)).setImage(marker);
-    }
-
-    /**
-     * Initializes this TicTacToe markers to a default value;
-     *
-     * @param defaultValue is the value to initialize this TictTacToe with.
-     * @throws NullPointerException is the argument is null.
-     */
-    public final void initialize(Image defaultValue) {
-        requireNonNull(defaultValue);
-        for (Node node : grid.getChildren()) {
-            StackPane pane = (StackPane) node;
-            ImageView imgv = (ImageView) pane.getChildren().get(0);
-            imgv.setFitHeight(50);
-            imgv.setFitWidth(50);
-            imgv.setImage(defaultValue);
-        }
-    }
-
-    /**
-     * Displays the given marker over this TicTacToe.
-     *
-     * @param winnerMarker is the marker to display.
-     * @throws NullPointerException is the argument is null.
-     */
-    public void displayWinner(Image winnerMarker) {
-        requireNonNull(winnerMarker);
-        getChildren().add(new ImageView(winnerMarker));
-    }
-
-    public void addEventHandlerAt(int row, int column, EventHandler handler) {
-        requireValidCoordinate(row, column);
-        StackPane pane = requireNonNull(getPaneAt(row, column));
-        pane.setOnMouseClicked(handler);
-    }
-
-    public void removeEventHandlerAt(int row, int column) {
-        requireValidCoordinate(row, column);
-        StackPane pane = requireNonNull(getPaneAt(row, column));
-        pane.setOnMouseClicked(null);
     }
 
 }
