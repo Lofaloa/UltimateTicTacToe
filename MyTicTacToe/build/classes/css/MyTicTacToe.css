@@ -1,0 +1,15 @@
+.container {
+    -fx-border-color: yellow;
+    -fx-border-width: 5px;
+}
+
+.tictactoe {
+    -fx-alignment: center;
+    -fx-border-color: blue;
+    -fx-border-width: 5px;
+}
+
+.cell {
+    -fx-border-color: black;
+    -fx-border-width: 2.5px;
+}

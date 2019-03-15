@@ -6,23 +6,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- *
- * @author Logan
- */
 public class Main extends Application {
 
     static final String TITLE = "MyTicTacToe Demo";
+    static final String FXML_PATH = "/fxml/MyTicTacToeDemo.fxml";
+    static final int MIN_WIDTH = 400;
+    static final int MIN_HEIGHT = 500;
 
     @Override
     public void start(Stage primaryStage) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/atlg4_remise1.fxml"));
+            loader.setLocation(getClass().getResource(FXML_PATH));
             loader.setController(new ViewController());
-
-            Scene scene = new Scene(loader.load());
-//            scene.getStylesheets().add("/css/style.css");
+            Scene scene = new Scene(loader.load(), MIN_WIDTH, MIN_HEIGHT);
             primaryStage.setTitle(TITLE);
             primaryStage.setScene(scene);
             primaryStage.show();

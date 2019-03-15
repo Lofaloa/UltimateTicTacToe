@@ -7,18 +7,18 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 
-/**
- *
- * @author Logan Farci (47923)
- */
 public class ViewController implements Initializable {
 
     private final String CROSS_IMG_PATH = "/images/cross.png";
     private final String CIRCLE_IMG_PATH = "/images/circle.png";
+    private final String STYLESHEET_PATH = "/css/MyTicTacToeDemo.css";
+
+    @FXML
+    private VBox container;
 
     @FXML
     private MyTicTacToe tictactoe;
@@ -27,29 +27,30 @@ public class ViewController implements Initializable {
     private RadioButton cross;
 
     @FXML
-    private Button winner;
-
-    @FXML
-    private Button clear;
-
-    @FXML
-    private void showWinner() {
+    private void displayWinner() {
+        tictactoe.clearEventHandlers();
         tictactoe.displayWinner(getCurrentMarker());
     }
 
     @FXML
     private void clearTicTacToe() {
         tictactoe.initialize(null);
+        tictactoe.displayWinner(null);
+        initializeEventHandlers();
     }
 
     @FXML
     private void fillTicTacToe() {
+        tictactoe.clearEventHandlers();
         tictactoe.initialize(getCurrentMarker());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeEventHandlers();
+        tictactoe.prefWidthProperty().bind(container.heightProperty());
+        tictactoe.prefHeightProperty().bind(container.widthProperty());
+        container.getStylesheets().add(STYLESHEET_PATH);
     }
 
     private final Image getCurrentMarker() {
@@ -71,8 +72,8 @@ public class ViewController implements Initializable {
     }
 
     private void initializeEventHandlers() {
-        for (int row = 0; row < 3; row++) {
-            for (int column = 0; column < 3; column++) {
+        for (int row = 0; row < MyTicTacToe.SIZE; row++) {
+            for (int column = 0; column < MyTicTacToe.SIZE; column++) {
                 addPlaceMarkerHandlerAt(row, column);
             }
         }

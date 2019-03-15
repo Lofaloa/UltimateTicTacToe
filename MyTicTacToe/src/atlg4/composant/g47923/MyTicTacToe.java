@@ -12,19 +12,23 @@ import static javafx.scene.layout.GridPane.getColumnIndex;
 import static javafx.scene.layout.GridPane.getRowIndex;
 import javafx.scene.layout.StackPane;
 import static java.util.Objects.requireNonNull;
-import javafx.collections.ObservableList;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.RowConstraints;
 
+/**
+ * Component represent a tic tac toe grid.
+ *
+ * @author Logan Farci (47923)
+ */
 public class MyTicTacToe extends StackPane {
 
-    private static final int SIZE = 3;
-    private static final int IMG_FIT_SIZE = 50;
+    public static final int SIZE = 3;
     private static final String FXML_PATH = "/fxml/MyTicTacToe.fxml";
-    private static final String STYLESHEET_PATH = "/css/style.css";
+    private static final String STYLESHEET_PATH = "/css/MyTicTacToe.css";
 
     @FXML
     private GridPane grid;
+
+    @FXML
+    private ImageView winner;
 
     /**
      * Constructs this MyTicTacToe with 9 empty cells. The cell are initially
@@ -70,8 +74,6 @@ public class MyTicTacToe extends StackPane {
         for (Node node : grid.getChildren()) {
             StackPane pane = (StackPane) node;
             ImageView imgv = (ImageView) pane.getChildren().get(0);
-            imgv.setFitHeight(IMG_FIT_SIZE);
-            imgv.setFitWidth(IMG_FIT_SIZE);
             imgv.setImage(defaultValue);
         }
     }
@@ -83,11 +85,7 @@ public class MyTicTacToe extends StackPane {
      * @throws NullPointerException is the argument is null.
      */
     public void displayWinner(Image winnerMarker) {
-        requireNonNull(winnerMarker);
-        ImageView imvg = new ImageView(winnerMarker);
-        imvg.fitHeightProperty().bind(widthProperty());
-        imvg.setPreserveRatio(true);
-        getChildren().add(imvg);
+        winner.setImage(winnerMarker);
     }
 
     /**
@@ -115,6 +113,17 @@ public class MyTicTacToe extends StackPane {
         pane.setOnMouseClicked(null);
     }
 
+    /**
+     * Clears this MyTicTacToe cells event handlers.
+     */
+    public void clearEventHandlers() {
+        for (int row = 0; row < SIZE; row++) {
+            for (int column = 0; column < SIZE; column++) {
+                removeEventHandlerAt(row, column);
+            }
+        }
+    }
+
     static private boolean isValid(int row, int column) {
         return 0 <= row && row <= SIZE && 0 <= column && column <= SIZE;
     }
@@ -136,23 +145,22 @@ public class MyTicTacToe extends StackPane {
         return null;
     }
 
-    private void doColumnsBindings() {
-        ObservableList<ColumnConstraints> columns = grid.getColumnConstraints();
-        for (ColumnConstraints column : columns) {
-            column.prefWidthProperty().bind(widthProperty().divide(SIZE));
+    private void doCellsBindings() {
+        for (Node node : grid.getChildren()) {
+            StackPane pane = (StackPane) node;
+            pane.prefWidthProperty().bind(grid.widthProperty());
+            pane.prefHeightProperty().bind(grid.heightProperty());
         }
     }
 
-    private void doRowsBindings() {
-        ObservableList<RowConstraints> rows = grid.getRowConstraints();
-        for (RowConstraints row : rows) {
-            row.prefHeightProperty().bind(heightProperty().divide(SIZE));
-        }
+    private void doWinnerBindings() {
+        winner.fitWidthProperty().bind(grid.widthProperty());
+        winner.fitHeightProperty().bind(grid.heightProperty());
     }
 
     private void doBindings() {
-        doColumnsBindings();
-        doRowsBindings();
+        doWinnerBindings();
+        doCellsBindings();
     }
 
 }

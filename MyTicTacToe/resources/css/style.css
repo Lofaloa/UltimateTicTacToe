@@ -1,8 +1,0 @@
-.tictactoe {
-    -fx-alignment: center;
-}
-
-.cell {
-    -fx-border-color: black;
-    -fx-border-width: 2px;
-}

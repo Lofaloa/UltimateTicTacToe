@@ -6,59 +6,57 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<fx:root maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" type="StackPane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root styleClass="container" type="StackPane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane fx:id="grid" alignment="CENTER" gridLinesVisible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="tictactoe">
+      <GridPane fx:id="grid" alignment="CENTER" gridLinesVisible="false" styleClass="tictactoe">
           <children>
-              <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="cell" GridPane.columnIndex="0" GridPane.rowIndex="0">
+              <StackPane styleClass="cell" GridPane.columnIndex="0" GridPane.rowIndex="0">
                   <children>
-                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                   </children>
               </StackPane>
-              <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="cell" GridPane.columnIndex="1" GridPane.rowIndex="0">
+              <StackPane styleClass="cell" GridPane.columnIndex="1" GridPane.rowIndex="0">
                   <children>
-                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                   </children>
               </StackPane>
-              <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="cell" GridPane.columnIndex="2" GridPane.rowIndex="0">
+              <StackPane styleClass="cell" GridPane.columnIndex="2" GridPane.rowIndex="0">
                   <children>
-                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                   </children>
               </StackPane>
-              <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="cell" GridPane.columnIndex="0" GridPane.rowIndex="1">
+              <StackPane styleClass="cell" GridPane.columnIndex="0" GridPane.rowIndex="1">
                   <children>
-                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                   </children>
               </StackPane>
-              <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="cell" GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <StackPane styleClass="cell" GridPane.columnIndex="1" GridPane.rowIndex="1">
                   <children>
-                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                   </children>
               </StackPane>
-              <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="cell" GridPane.columnIndex="1" GridPane.rowIndex="2">
+              <StackPane styleClass="cell" GridPane.columnIndex="1" GridPane.rowIndex="2">
                   <children>
-                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                   </children>
               </StackPane>
-              <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="cell" GridPane.columnIndex="0" GridPane.rowIndex="2">
+              <StackPane styleClass="cell" GridPane.columnIndex="0" GridPane.rowIndex="2">
                   <children>
-                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                   </children>
               </StackPane>
-              <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="cell" GridPane.columnIndex="2" GridPane.rowIndex="1">
+              <StackPane styleClass="cell" GridPane.columnIndex="2" GridPane.rowIndex="1">
                   <children>
-                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                   </children>
               </StackPane>
-              <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="cell" GridPane.columnIndex="2" GridPane.rowIndex="2">
+              <StackPane styleClass="cell" GridPane.columnIndex="2" GridPane.rowIndex="2">
                   <children>
-                      <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                   </children>
               </StackPane>
           </children>
          <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
             <ColumnConstraints />
             <ColumnConstraints />
             <ColumnConstraints />
@@ -67,8 +65,8 @@
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
-            <RowConstraints />
          </rowConstraints>
       </GridPane>
+      <ImageView fx:id="winner" disable="true" pickOnBounds="true" preserveRatio="true" />
    </children>
 </fx:root>
