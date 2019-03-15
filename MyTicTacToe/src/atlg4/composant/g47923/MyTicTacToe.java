@@ -85,8 +85,7 @@ public class MyTicTacToe extends StackPane {
     public void displayWinner(Image winnerMarker) {
         requireNonNull(winnerMarker);
         ImageView imvg = new ImageView(winnerMarker);
-        imvg.setFitHeight(getHeight());
-        imvg.setFitWidth(getWidth());
+        imvg.fitHeightProperty().bind(widthProperty());
         imvg.setPreserveRatio(true);
         getChildren().add(imvg);
     }

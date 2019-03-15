@@ -22,7 +22,7 @@ public class Main extends Application {
             loader.setController(new ViewController());
 
             Scene scene = new Scene(loader.load());
-
+//            scene.getStylesheets().add("/css/style.css");
             primaryStage.setTitle(TITLE);
             primaryStage.setScene(scene);
             primaryStage.show();
