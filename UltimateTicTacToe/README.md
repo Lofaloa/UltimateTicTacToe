@@ -2,7 +2,11 @@
 ## Architecture
 On doit respecter les architectures M.V.C. et 3 tiers.
 
-### les packages
+### Les packages
+- atlg4.ultimate.g47923.Main
+- atlg4.ultimate.g47923.view: reprend le code de la représentation des données.
+- atlg4.ultimate.g47923.model: 
+- atlg4.ultimate.g47923.controller:
 - atlg4.ultimate.g47923.db: reprend les méthodes d'accès aux données.
 - atlg4.ultimate.g47923.business: reprend les données métiers.
 - atlg4.ultimate.g47923.db: reprend les méthodes d'accès aux données.
