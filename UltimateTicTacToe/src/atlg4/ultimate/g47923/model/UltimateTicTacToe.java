@@ -7,4 +7,26 @@ package atlg4.ultimate.g47923.model;
  */
 public class UltimateTicTacToe {
     
+    static private int SIZE = 3;
+    
+    private MiniTicTacToe[][] miniTicTacToes;
+
+    /**
+     * Constructs an empty ultimate tic tac toe. 
+     */
+    UltimateTicTacToe() {
+        miniTicTacToes = new MiniTicTacToe[SIZE][SIZE];
+    }
+    
+    /**
+     * Initializes this ultimate tic tac toe with empty marker.
+     */
+    void initialize() {
+        
+    } 
+    
+    static boolean isValid(Cell cell) {
+        return false;
+    }
+   
 }
