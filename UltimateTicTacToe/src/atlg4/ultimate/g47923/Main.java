@@ -3,7 +3,7 @@ package atlg4.ultimate.g47923;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class UltimateTicTacToe extends Application {
+public class Main extends Application {
     
     @Override
     public void start(Stage primaryStage) {
