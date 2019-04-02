@@ -22,11 +22,9 @@ public class UltimateTicTacToe {
      * Initializes this ultimate tic tac toe with empty marker.
      */
     void initialize() {
-        
+        throw new UnsupportedOperationException();
     } 
     
-    static boolean isValid(Cell cell) {
-        return false;
-    }
+    
    
 }

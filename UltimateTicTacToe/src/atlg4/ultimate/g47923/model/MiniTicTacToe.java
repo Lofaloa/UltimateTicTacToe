@@ -7,6 +7,8 @@ package atlg4.ultimate.g47923.model;
  */
 public class MiniTicTacToe {
     
+    private Cell[][] cells;
+    
     
     
 }
