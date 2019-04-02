@@ -18,7 +18,7 @@ public class CellTest {
      * A cell is constructed without errors.
      */
     @Test
-    public void test_case_0() {
+    public void test_case_0_0() {
         Cell cell = new Cell(0, 0);
         assertNull(cell.getOwner());
         assertEquals(0, cell.getRow());
@@ -29,7 +29,7 @@ public class CellTest {
      * A cell is not constructed when the row is negative.
      */
     @Test(expected = CellException.class)
-    public void test_case_1() {
+    public void test_case_0_1() {
         Cell cell = new Cell(-1, 0);
     }
 
@@ -37,7 +37,7 @@ public class CellTest {
      * A cell is not constructed when the row is greater than MAX_COORDINATE.
      */
     @Test(expected = CellException.class)
-    public void test_case_2() {
+    public void test_case_0_2() {
         Cell cell = new Cell(3, 0);
     }
 
@@ -45,7 +45,7 @@ public class CellTest {
      * A cell is not constructed when the column is negative.
      */
     @Test(expected = CellException.class)
-    public void test_case_3() {
+    public void test_case_0_3() {
         Cell cell = new Cell(0, -1);
     }
 
@@ -53,7 +53,7 @@ public class CellTest {
      * A cell is not constructed when the column is greater than MAX_COORDINATE.
      */
     @Test(expected = CellException.class)
-    public void test_case_4() {
+    public void test_case_0_4() {
         Cell cell = new Cell(0, 3);
     }
 
@@ -61,7 +61,7 @@ public class CellTest {
      * The owner setter sets the cell owner as expected.
      */
     @Test
-    public void test_case_5() {
+    public void test_case_1_0() {
         Cell cell = new Cell(0, 0);
         Player owner = new Player(Marker.X);
         cell.setOwner(owner);
@@ -69,10 +69,41 @@ public class CellTest {
     }
 
     /**
+     * The owner cannot be set twice.
+     */
+    @Test(expected = CellException.class)
+    public void test_case_1_1() {
+        Cell cell = new Cell(0, 0);
+        Player owner = new Player(Marker.X);
+        cell.setOwner(owner);
+        cell.setOwner(owner);
+    }
+
+    /**
+     * An empty cell has no owner.
+     */
+    @Test
+    public void test_case_1_2() {
+        Cell cell = new Cell(0, 0);
+        Player owner = new Player(Marker.X);
+        cell.setOwner(owner);
+        assertTrue(cell.hasOwner());
+    }
+
+    /**
+     * A cell has an owner after setting it.
+     */
+    @Test
+    public void test_case_1_3() {
+        Cell cell = new Cell(0, 0);
+        assertFalse(cell.hasOwner());
+    }
+
+    /**
      * The cell equals method is reflexive.
      */
     @Test
-    public void test_case_6() {
+    public void test_case_2_0() {
         Cell cell = new Cell(0, 0);
         assertTrue(cell.equals(cell));
     }
@@ -81,7 +112,7 @@ public class CellTest {
      * The cell equals method is symmetric.
      */
     @Test
-    public void test_case_7() {
+    public void test_case_2_1() {
         Cell cellA = new Cell(0, 0);
         Cell cellB = new Cell(0, 0);
         assertTrue(cellA.equals(cellB));
@@ -92,7 +123,7 @@ public class CellTest {
      * The cell equals method is transitive.
      */
     @Test
-    public void test_case_8() {
+    public void test_case_2_2() {
         Cell cellA = new Cell(0, 0);
         Cell cellB = new Cell(0, 0);
         Cell cellC = new Cell(0, 0);

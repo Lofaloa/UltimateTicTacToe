@@ -31,7 +31,7 @@ class Cell {
                 + "column.");
     }
 
-    private int requireValidCoordinate(int coo, String msg) {
+    static int requireValidCoordinate(int coo, String msg) {
         if (coo < 0 || MAX_COORDINATE < coo) {
             throw new CellException(msg);
         }
@@ -55,6 +55,15 @@ class Cell {
     int getColumn() {
         return column;
     }
+    
+    /**
+     * Tells if this cell has an owner.
+     * 
+     * @return true if this cell has an owner. 
+     */
+    boolean hasOwner() {
+        return owner != null;
+    }
 
     /**
      * Gets this cell owner.
@@ -71,6 +80,10 @@ class Cell {
      * @param owner is the owner of this cell.
      */
     void setOwner(Player owner) {
+        if (hasOwner()) {
+            throw new CellException("Trying to override owner at cell (" + row
+                    + "; " + column + ").");
+        }
         this.owner = owner;
     }
 
