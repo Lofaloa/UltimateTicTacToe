@@ -33,17 +33,18 @@ public class MyTicTacToe extends StackPane {
     /**
      * Constructs this MyTicTacToe with 9 empty cells. The cell are initially
      * not clickable.
+     *
+     * @throws IOException if this component FXML file cannot be loaded.
      */
-    public MyTicTacToe() {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource(FXML_PATH)
-        );
+    public MyTicTacToe() throws IOException {
         try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource(FXML_PATH));
             loader.setRoot(this);
             loader.setController(this);
             loader.load();
         } catch (IOException exception) {
-            System.err.println(exception.getMessage());
+            throw new IOException(FXML_PATH + " cannot be loaded.", exception);
         }
         getStylesheets().add(STYLESHEET_PATH);
         doBindings();
