@@ -1,30 +1,31 @@
 package atlg4.ultimate.g47923.model;
 
 /**
- * Represents an 3 by 3 ultimate tic tac toe. 
- * 
+ * Represents an 3 by 3 ultimate tic tac toe.
+ *
  * @author Logan Farci (47923)
  */
-public class UltimateTicTacToe {
-    
-    static private int SIZE = 3;
-    
-    private MiniTicTacToe[][] miniTicTacToes;
+public class UltimateTicTacToe extends TicTacToe<Grid> {
+
+    private static final int SIZE = 3;
 
     /**
-     * Constructs an empty ultimate tic tac toe. 
+     * Constructs an empty ultimate tic tac toe.
      */
     UltimateTicTacToe() {
-        miniTicTacToes = new MiniTicTacToe[SIZE][SIZE];
+        super(new Position(), SIZE);
+        initialize();
     }
-    
+
     /**
-     * Initializes this ultimate tic tac toe with empty marker.
+     * Initializes this <i>UlimateTicTacToe</i> as empty.
      */
-    void initialize() {
-        throw new UnsupportedOperationException();
-    } 
-    
-    
-   
+    final void initialize() {
+        for (int row = 0; row < SIZE; row++) {
+            for (int column = 0; column < SIZE; column++) {
+                cells.add(new MiniTicTacToe(new Position(row, column)));
+            }
+        }
+    }
+
 }
