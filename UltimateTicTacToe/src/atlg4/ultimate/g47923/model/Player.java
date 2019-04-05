@@ -1,12 +1,23 @@
 package atlg4.ultimate.g47923.model;
 
 /**
+ * Represents a tic tac toe player.
  *
  * @author Logan Farci (47923)
  */
-public class Player {
+enum Player {
 
-    private Marker marker;
+    /**
+     * Represents the player using the X marker.
+     */
+    X(Marker.X),
+
+    /**
+     * Represents the player using the O marker;
+     */
+    O(Marker.O);
+
+    private final Marker marker;
     private boolean isWithdrawn;
 
     /**
@@ -15,20 +26,29 @@ public class Player {
      *
      * @param marker the marker of this player.
      */
-    public Player(Marker marker) {
+    Player(Marker marker) {
         this.marker = marker;
         this.isWithdrawn = false;
     }
 
     /**
+     * Gets this player marker.
+     *
+     * @return this player marker.
+     */
+    public Marker getMarker() {
+        return marker;
+    }
+
+    /**
      * Tells if this player is withdrawn.
-     * 
-     * @return true if this player is withdrawn. 
+     *
+     * @return true if this player is withdrawn.
      */
     public boolean isIsWithdrawn() {
         return isWithdrawn;
     }
-    
+
     /**
      * Withdraws this player.
      */
