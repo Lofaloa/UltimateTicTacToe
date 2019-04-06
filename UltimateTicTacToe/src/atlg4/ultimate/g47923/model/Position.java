@@ -22,9 +22,9 @@ class Position {
      * @param column is the column of this position.
      */
     Position(int row, int column) {
-        this.row = requireValidCoordinate(row, row + " is not a valid position "
+        this.row = requireValidCoordinate(row, 1, row + " is not a valid position "
                 + "row.");
-        this.column = requireValidCoordinate(column, column + " is not a valid "
+        this.column = requireValidCoordinate(column, 2, column + " is not a valid "
                 + "position column.");
     }
 
@@ -62,9 +62,9 @@ class Position {
         return column;
     }
 
-    static int requireValidCoordinate(int coo, String msg) {
+    static int requireValidCoordinate(int coo, int id, String msg) {
         if (coo < 0 || MAX_COORDINATE < coo) {
-            throw new IllegalPositionException(msg);
+            throw new IllegalPositionException(id, msg);
         }
         return coo;
     }

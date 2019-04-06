@@ -5,7 +5,7 @@ package atlg4.ultimate.g47923.model;
  *
  * @author Logan Farci (47923)
  */
-public class UltimateTicTacToe extends TicTacToe<Grid> {
+public class UltimateTicTacToe extends Grid<MiniTicTacToe> {
 
     private static final int SIZE = 3;
 
@@ -20,6 +20,7 @@ public class UltimateTicTacToe extends TicTacToe<Grid> {
     /**
      * Initializes this <i>UlimateTicTacToe</i> as empty.
      */
+    @Override
     final void initialize() {
         for (int row = 0; row < SIZE; row++) {
             for (int column = 0; column < SIZE; column++) {
