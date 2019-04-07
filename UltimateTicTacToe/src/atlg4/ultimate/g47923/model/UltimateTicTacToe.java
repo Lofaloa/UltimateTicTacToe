@@ -1,5 +1,7 @@
 package atlg4.ultimate.g47923.model;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Represents an 3 by 3 ultimate tic tac toe.
  *
@@ -7,7 +9,7 @@ package atlg4.ultimate.g47923.model;
  */
 public class UltimateTicTacToe extends Grid<MiniTicTacToe> {
 
-    private static final int SIZE = 3;
+    static final int SIZE = 3;
 
     /**
      * Constructs an empty ultimate tic tac toe.
@@ -27,6 +29,24 @@ public class UltimateTicTacToe extends Grid<MiniTicTacToe> {
                 cells.add(new MiniTicTacToe(new Position(row, column)));
             }
         }
+    }
+
+    /**
+     * Sets the given owner in the specified <code>Cell</code> of the specified
+     * <code>MiniTicTacToe</code> in this <code>UltimateTicTacToe</code>.
+     *
+     * @param owner is the given owner.
+     * @param miniTicTacToe is the specified <code>MiniTicTacToe</code>.
+     * @param cell is the specified <code>Cell</code>.
+     */
+    void setOwnerAt(Player owner, Position miniTicTacToe, Position cell) {
+        requireNonNull(owner, "Trying to set a null player in an "
+                + "UltimateTicTacToe.");
+        requireNonNull(miniTicTacToe, "Trying to set a player in an "
+                + "UltimateTicTacToe at a null MiniTicTacToe position");
+        requireNonNull(cell, "Trying to set a player in an "
+                + "UltimateTicTacToe at a null Cell position");
+        ((MiniTicTacToe) getCellAt(miniTicTacToe)).setOwnerAt(owner, cell);
     }
 
 }

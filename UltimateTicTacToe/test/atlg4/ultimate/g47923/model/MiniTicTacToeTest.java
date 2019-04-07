@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package atlg4.ultimate.g47923.model;
 
 import org.junit.Test;
@@ -34,17 +29,17 @@ public class MiniTicTacToeTest {
     @Test
     public void initialization() {
         Position position = new Position();
-        Grid test = new MiniTicTacToe(position);
+        Grid m = new MiniTicTacToe(position);
         int current = 0;
         for (int row = 0; row < MiniTicTacToe.SIZE; row++) {
             for (int column = 0; column < MiniTicTacToe.SIZE; column++) {
-                Grid grid = (Grid) test.getCells().get(current);
+                Grid grid = (Grid) m.getCells().get(current);
                 assertFalse(grid.hasOwner());
                 assertEquals(new Position(row, column), grid.getPosition());
                 current++;
             }
         }
-        assertEquals(9, test.getCells().size());
+        assertEquals(9, m.getCells().size());
     }
 
     /**
@@ -101,6 +96,25 @@ public class MiniTicTacToeTest {
         Player owner = Player.O;
         m.setOwnerAt(owner, dest);
         assertEquals(owner, m.getCellAt(dest).getOwner());
+        assertFalse(m.hasOwner());
+        assertFalse(m.isOwnedBy(owner));
+    }
+
+    /**
+     * After setting a full row of an owner, the <code>MiniTicTacToe</code>
+     * owner should be set to the same owner.
+     */
+    @Test
+    public void setOwnerAt_miniTicTacToeSetAfterSettingAFullRow() {
+        Position position = new Position();
+        MiniTicTacToe m = new MiniTicTacToe(position);
+        m.setOwnerAt(Player.O, new Position(1, 0));
+        m.setOwnerAt(Player.O, new Position(1, 1));
+        m.setOwnerAt(Player.O, new Position(1, 2));
+        assertTrue(m.hasFullRowOwnedBy(Player.O));
+        assertTrue(m.isOwnedBy(Player.O));
+        assertTrue(m.hasOwner());
+        assertEquals(Player.O, m.getOwner());
     }
 
     /**
@@ -192,6 +206,19 @@ public class MiniTicTacToeTest {
         m.setOwnerAt(Player.O, new Position(1, 1));
         m.setOwnerAt(Player.O, new Position(2, 2));
         assertTrue(m.hasFullDiagonalOwnedBy(Player.O));
+    }
+
+    /**
+     * Calling isOwnedBy should return true if a player owns a full row.
+     */
+    @Test
+    public void isOwnedBy() {
+        Position position = new Position();
+        MiniTicTacToe m = new MiniTicTacToe(position);
+        m.setOwnerAt(Player.O, new Position(0, 0));
+        m.setOwnerAt(Player.O, new Position(1, 1));
+        m.setOwnerAt(Player.O, new Position(2, 2));
+        assertTrue(m.isOwnedBy(Player.O));
     }
 
 }

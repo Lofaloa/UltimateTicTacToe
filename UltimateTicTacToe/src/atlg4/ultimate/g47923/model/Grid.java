@@ -223,4 +223,16 @@ abstract class Grid<CellType extends Grid> {
         return hasAscendingDiagonalOf(owner) || hasDescendingDiagonalOf(owner);
     }
 
+    /**
+     * Tells if this grid is owned by the given player.
+     *
+     * @param owner is the given player.
+     * @return true if this grid is owned by the given player.
+     */
+    final boolean isOwnedBy(Player owner) {
+        return hasFullRowOwnedBy(owner)
+                || hasFullColumnOwnedBy(owner)
+                || hasFullDiagonalOwnedBy(owner);
+    }
+
 }

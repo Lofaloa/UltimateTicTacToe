@@ -33,8 +33,10 @@ class MiniTicTacToe extends Grid<Cell> {
     }
 
     /**
-     * Sets the given owner at the given position in this
-     * <code>MiniTicTacToe</code>.
+     * Sets the given owner of the <code>Cell</code> at the given position in
+     * this <code>MiniTicTacToe</code>. If the given owner owns a row, a column
+     * or a diagonal in this <code>MiniTicTacToe</code>, this
+     * <code>MiniTicTacToe</code> is set to the given owner.
      *
      * @param owner is the owner of the cell to set.
      * @param position is the position of the cell to set.
@@ -47,7 +49,9 @@ class MiniTicTacToe extends Grid<Cell> {
         requireNonNull(position, "Trying to set a player in a MiniTicTacToe at a"
                 + " null position");
         ((Cell) getCellAt(position)).setOwner(owner);
-
+        if (isOwnedBy(owner)) {
+            this.owner = owner;
+        }
     }
 
 }
