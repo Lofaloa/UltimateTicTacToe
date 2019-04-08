@@ -73,6 +73,17 @@ abstract class Grid<CellType extends Grid> {
     }
 
     /**
+     * Tells if this grid is full. A grid is full when all its cells are full.
+     * If this grid has no cells, it is full if it has an owner.
+     *
+     * @returntrue if this grid is full.
+     */
+    boolean isFull() {
+        return cells.isEmpty() ? hasOwner()
+                : cells.stream().allMatch(cell -> cell.isFull());
+    }
+
+    /**
      * Gets this grid owner.
      *
      * @return this grid owner.

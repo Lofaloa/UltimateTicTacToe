@@ -48,7 +48,13 @@ class MiniTicTacToe extends Grid<Cell> {
         requireNonNull(owner, "Trying to set a null player in a MiniTicTacToe.");
         requireNonNull(position, "Trying to set a player in a MiniTicTacToe at a"
                 + " null position");
-        ((Cell) getCellAt(position)).setOwner(owner);
+        Cell cell = (Cell) getCellAt(position);
+        if (cell.hasOwner()) {
+            throw new GridException(11, "Trying to override a cell owner at ("
+                    + position.getRow() + "; " + position.getColumn() + ").");
+        } else {
+            cell.setOwner(owner);
+        }
         if (isOwnedBy(owner)) {
             this.owner = owner;
         }

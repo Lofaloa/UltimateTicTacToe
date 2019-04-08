@@ -20,6 +20,7 @@ public class CellTest {
         Grid cell = new Cell(position);
         assertEquals(position, cell.getPosition());
         assertFalse(cell.hasOwner());
+        assertFalse(cell.isFull());
     }
 
     /**
@@ -33,7 +34,20 @@ public class CellTest {
         cell.setOwner(owner);
         assertEquals(position, cell.getPosition());
         assertTrue(cell.hasOwner());
+        assertTrue(cell.isFull());
         assertEquals(owner, cell.getOwner());
+    }
+
+    /**
+     * Setting the owner of a owned cell should cause an exception.
+     */
+    @Test(expected = GridException.class)
+    public void setOwner_overridingOwner() {
+        Position position = new Position();
+        Player owner = Player.O;
+        Cell cell = new Cell(position);
+        cell.setOwner(owner);
+        cell.setOwner(owner);
     }
 
     /**

@@ -1,5 +1,6 @@
 package atlg4.ultimate.g47923.model;
 
+import atlg4.ultimate.g47923.exception.GridException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,6 +16,7 @@ public class MiniTicTacToeTest {
         Position position = new Position();
         Grid m = new MiniTicTacToe(position);
         assertFalse(m.hasOwner());
+        assertFalse(m.isFull());
         assertFalse(m.hasFullColumnOwnedBy(Player.O));
         assertFalse(m.hasFullColumnOwnedBy(Player.X));
         assertFalse(m.hasFullRowOwnedBy(Player.O));
@@ -115,6 +117,53 @@ public class MiniTicTacToeTest {
         assertTrue(m.isOwnedBy(Player.O));
         assertTrue(m.hasOwner());
         assertEquals(Player.O, m.getOwner());
+    }
+
+    /**
+     * Trying to override a MiniTicTacToe Cell should cause an exception.
+     */
+    @Test(expected = GridException.class)
+    public void setOwnerAt_overridingOwner() {
+        Position position = new Position();
+        MiniTicTacToe m = new MiniTicTacToe(position);
+        m.setOwnerAt(Player.O, new Position(1, 1));
+        m.setOwnerAt(Player.X, new Position(1, 1));
+    }
+
+    /**
+     * A MiniTicTacToe should be full when all of its cells are owned and should
+     * not have a owner if no full row, column or diagonal is owned.
+     */
+    @Test
+    public void isFull_allCellsOwned_noOwner() {
+        MiniTicTacToe m = new MiniTicTacToe(new Position());
+        m.setOwnerAt(Player.O, new Position(0, 0));
+        m.setOwnerAt(Player.X, new Position(0, 1));
+        m.setOwnerAt(Player.O, new Position(0, 2));
+        m.setOwnerAt(Player.X, new Position(1, 0));
+        m.setOwnerAt(Player.O, new Position(1, 1));
+        m.setOwnerAt(Player.X, new Position(1, 2));
+        m.setOwnerAt(Player.X, new Position(2, 0));
+        m.setOwnerAt(Player.O, new Position(2, 1));
+        m.setOwnerAt(Player.X, new Position(2, 2));
+        assertTrue(m.isFull());
+        assertFalse(m.isOwnedBy(Player.O));
+        assertFalse(m.isOwnedBy(Player.X));
+        assertFalse(m.hasOwner());
+    }
+
+    /**
+     * A MiniTicTacToe should be full when all of its cells are owned.
+     */
+    @Test
+    public void isFull_allCellsOwned() {
+        MiniTicTacToe m = new MiniTicTacToe(new Position());
+        for (int row = 0; row < MiniTicTacToe.SIZE; row++) {
+            for (int column = 0; column < MiniTicTacToe.SIZE; column++) {
+                m.setOwnerAt(Player.O, new Position(row, column));
+            }
+        }
+        assertTrue(m.isFull());
     }
 
     /**

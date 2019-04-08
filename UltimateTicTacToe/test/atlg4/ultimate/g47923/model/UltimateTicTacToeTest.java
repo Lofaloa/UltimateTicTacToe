@@ -66,6 +66,54 @@ public class UltimateTicTacToeTest {
     }
 
     /**
+     * A UltimateTicTacToe should be full when all of its MiniTicTacToe are
+     * owned and should not have a owner if no full row, column or diagonal is
+     * owned.
+     */
+    @Test
+    public void isFull_allCellsOwned_noOwner() {
+        UltimateTicTacToe u = new UltimateTicTacToe();
+        for (int row = 0; row < UltimateTicTacToe.SIZE; row++) {
+            for (int column = 0; column < UltimateTicTacToe.SIZE; column++) {
+                Position current = new Position(row, column);
+                u.setOwnerAt(Player.O, current, new Position(0, 0));
+                u.setOwnerAt(Player.X, current, new Position(0, 1));
+                u.setOwnerAt(Player.O, current, new Position(0, 2));
+                u.setOwnerAt(Player.X, current, new Position(1, 0));
+                u.setOwnerAt(Player.O, current, new Position(1, 1));
+                u.setOwnerAt(Player.X, current, new Position(1, 2));
+                u.setOwnerAt(Player.X, current, new Position(2, 0));
+                u.setOwnerAt(Player.O, current, new Position(2, 1));
+                u.setOwnerAt(Player.X, current, new Position(2, 2));
+            }
+        }
+        assertTrue(u.isFull());
+        assertFalse(u.isOwnedBy(Player.O));
+        assertFalse(u.isOwnedBy(Player.X));
+        assertFalse(u.hasOwner());
+    }
+
+    /**
+     * A UltimateTicTacToe should be full when all of its cells are owned.
+     */
+    @Test
+    public void isFull_allCellsOwned() {
+        UltimateTicTacToe u = new UltimateTicTacToe();
+        for (int mrow = 0; mrow < UltimateTicTacToe.SIZE; mrow++) {
+            for (int mcol = 0; mcol < UltimateTicTacToe.SIZE; mcol++) {
+                for (int crow = 0; crow < UltimateTicTacToe.SIZE; crow++) {
+                    for (int ccol = 0; ccol < UltimateTicTacToe.SIZE; ccol++) {
+                        Position currentMini = new Position(mrow, mcol);
+                        Position currentCell = new Position(crow, ccol);
+                        u.setOwnerAt(Player.O, currentMini, currentCell);
+                    }
+                }
+            }
+        }
+        assertTrue(u.isFull());
+    }
+
+    /**
      * Setting an null owner causes an exception.
      */
     @Test(expected = NullPointerException.class)
