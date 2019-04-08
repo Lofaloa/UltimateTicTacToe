@@ -7,7 +7,7 @@ import static java.util.Objects.requireNonNull;
  *
  * @author Logan Farci (47923)
  */
-public class UltimateTicTacToe extends Grid<MiniTicTacToe> {
+class UltimateTicTacToe extends Grid<MiniTicTacToe> {
 
     static final int SIZE = 3;
 

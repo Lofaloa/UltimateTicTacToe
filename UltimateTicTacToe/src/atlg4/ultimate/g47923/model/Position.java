@@ -1,5 +1,6 @@
 package atlg4.ultimate.g47923.model;
 
+import atlg4.ultimate.g47923.dto.PositionDTO;
 import atlg4.ultimate.g47923.exception.IllegalPositionException;
 import java.util.Objects;
 
@@ -42,6 +43,18 @@ class Position {
      */
     Position() {
         this(0, 0);
+    }
+
+    /**
+     * Constructs a position with the specified data transfer object.
+     *
+     * @param dto is the specified data transfer object.
+     */
+    Position(PositionDTO dto) {
+        this.row = requireValidCoordinate(dto.getRow(), 9, dto.getRow() + " is "
+                + "not a valid position row.");
+        this.column = requireValidCoordinate(dto.getColumn(), 10, dto.getColumn()
+                + " is not a valid position column.");
     }
 
     /**
@@ -95,6 +108,15 @@ class Position {
     @Override
     public int hashCode() {
         return Objects.hash(this.row, this.column);
+    }
+
+    /**
+     * Converts this position to a data transfer object;
+     *
+     * @return a data transfer object.
+     */
+    PositionDTO toDTO() {
+        return new PositionDTO(row, column);
     }
 
 }

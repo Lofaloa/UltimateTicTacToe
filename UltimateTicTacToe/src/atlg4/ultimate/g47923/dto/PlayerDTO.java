@@ -1,23 +1,13 @@
-package atlg4.ultimate.g47923.model;
+package atlg4.ultimate.g47923.dto;
 
-import atlg4.ultimate.g47923.dto.PlayerDTO;
+import atlg4.ultimate.g47923.model.*;
 
 /**
  * Represents a tic tac toe player.
  *
  * @author Logan Farci (47923)
  */
-enum Player {
-
-    /**
-     * Represents the player using the X marker.
-     */
-    X(Marker.X),
-
-    /**
-     * Represents the player using the O marker;
-     */
-    O(Marker.O);
+public class PlayerDTO {
 
     private final Marker marker;
     private boolean isWithdrawn;
@@ -28,7 +18,7 @@ enum Player {
      *
      * @param marker the marker of this player.
      */
-    Player(Marker marker) {
+    public PlayerDTO(Marker marker) {
         this.marker = marker;
         this.isWithdrawn = false;
     }
@@ -49,20 +39,6 @@ enum Player {
      */
     public boolean isIsWithdrawn() {
         return isWithdrawn;
-    }
-
-    /**
-     * Withdraws this player.
-     */
-    void withdraw() {
-        this.isWithdrawn = true;
-    }
-
-    /**
-     * Converts this player to a data transfer object.
-     */
-    PlayerDTO toDTO() {
-        return new PlayerDTO(this.marker);
     }
 
 }
