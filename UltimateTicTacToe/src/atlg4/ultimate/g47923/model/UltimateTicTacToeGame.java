@@ -2,6 +2,7 @@ package atlg4.ultimate.g47923.model;
 
 import atlg4.ultimate.g47923.dto.PlayerDTO;
 import atlg4.ultimate.g47923.dto.PositionDTO;
+import atlg4.ultimate.g47923.exception.IllegalMoveException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class UltimateTicTacToeGame implements Game {
     private final UltimateTicTacToe board;
     private boolean isXCurrentPlayer;
     private Move currentMove;
-    private final List<Move> moves;
+    private final List<Move> executedMoves;
 
     public UltimateTicTacToeGame() {
         this.X = Player.X;
@@ -25,7 +26,23 @@ public class UltimateTicTacToeGame implements Game {
         this.board = new UltimateTicTacToe();
         this.isXCurrentPlayer = true;
         this.currentMove = null;
-        this.moves = new ArrayList<>();
+        this.executedMoves = new ArrayList<>();
+    }
+
+    UltimateTicTacToe getBoard() {
+        return board;
+    }
+
+    Move getCurrentMove() {
+        return currentMove;
+    }
+
+    List<Move> getExecutedMoves() {
+        return executedMoves;
+    }
+
+    boolean isFirstRound() {
+        return executedMoves.size() <= 2;
     }
 
     @Override
@@ -35,12 +52,16 @@ public class UltimateTicTacToeGame implements Game {
 
     @Override
     public PlayerDTO getWinner() {
+        if (!isOver()) {
+            throw new IllegalStateException("No winner yet as the game is not "
+                    + "over.");
+        }
         return board.getOwner().toDTO();
     }
 
     @Override
     public boolean isOver() {
-        return board.isOwnedBy(O) || board.isOwnedBy(X); // Or is full
+        return board.hasOwner() || board.isFull();
     }
 
     @Override
@@ -48,7 +69,28 @@ public class UltimateTicTacToeGame implements Game {
         this.board.initialize();
         this.isXCurrentPlayer = true;
         this.currentMove = null;
-        this.moves.clear();
+        this.executedMoves.clear();
+    }
+
+    Move getLastExecutedMove() {
+        if (executedMoves.isEmpty()) {
+            throw new IllegalStateException("No executed moves yet.");
+        }
+        return executedMoves.get(executedMoves.size() - 1);
+    }
+
+    boolean isValidMove(Move move) {
+        Grid mini = board.getCellAt(move.getMiniTicTacToePosition());
+        return (isFirstRound() || !mini.isFull() || !mini.hasOwner())
+                || getLastExecutedMove().getCellPosition()
+                == move.getMiniTicTacToePosition();
+    }
+
+    Move requireValidMove(Move move) {
+        if (!isValidMove(move)) {
+            throw new IllegalMoveException(12, "This move cannot be done.");
+        }
+        return move;
     }
 
     @Override
@@ -56,12 +98,14 @@ public class UltimateTicTacToeGame implements Game {
         Position miniPosition = new Position(miniTicTacToe);
         Position cellPosition = new Position(cell);
         Player current = isXCurrentPlayer ? X : O;
-        this.currentMove = new Move(current, miniPosition, cellPosition, board);
+        Move move = new Move(current, miniPosition, cellPosition, board);
+        this.currentMove = requireValidMove(move);
     }
 
     @Override
     public void play() {
         currentMove.execute();
+        executedMoves.add(currentMove);
     }
 
     @Override

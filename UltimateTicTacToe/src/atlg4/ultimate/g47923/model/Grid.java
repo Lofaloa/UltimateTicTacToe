@@ -50,6 +50,21 @@ abstract class Grid<CellType extends Grid> {
     }
 
     /**
+     * Makes sure the given size is valid. A valid size is positive.
+     *
+     * @param size the given size.
+     * @return the given size if it is valid.
+     * @throws GridException is the given size is negative.
+     */
+    static int requireValidSize(int size) {
+        if (size < 0) {
+            throw new GridException(5, size + " is not valid grid size, it "
+                    + "should be positive.");
+        }
+        return size;
+    }
+
+    /**
      * Initializes this grid cells.
      */
     abstract void initialize();
@@ -102,18 +117,12 @@ abstract class Grid<CellType extends Grid> {
     }
 
     /**
-     * Makes sure the given size is valid. A valid size is positive.
+     * Sets this grid owner. This method should only be used in a unit test.
      *
-     * @param size the given size.
-     * @return the given size if it is valid.
-     * @throws GridException is the given size is negative.
+     * @param owner the owner of this grid.
      */
-    static int requireValidSize(int size) {
-        if (size < 0) {
-            throw new GridException(5, size + " is not valid grid size, it "
-                    + "should be positive.");
-        }
-        return size;
+    void setOwner(Player owner) {
+        this.owner = owner;
     }
 
     /**
