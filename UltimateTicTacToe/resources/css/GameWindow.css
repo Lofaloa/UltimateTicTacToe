@@ -1,0 +1,9 @@
+.playableByX {
+    -fx-border-color: blue;
+    -fx-border-width: 3px;
+}
+
+.playableByO {
+    -fx-border-color: red;
+    -fx-border-width: 3px;
+}

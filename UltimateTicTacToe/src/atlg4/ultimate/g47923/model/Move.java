@@ -14,6 +14,7 @@ class Move {
     private final Position miniTicTacToePosition;
     private final Position cellPosition;
     private final UltimateTicTacToe board;
+    private boolean isWinning;
 
     /**
      * Constructs this move with the given player, the specified
@@ -36,6 +37,7 @@ class Move {
                 + "null.");
         this.board = requireNonNull(board, "This move "
                 + "target is null.");
+        this.isWinning = false;
     }
 
     Player getAuthor() {
@@ -54,11 +56,21 @@ class Move {
         return board;
     }
 
+    private boolean hasAuthorWon() {
+        Grid miniTicTacToe = board.getCellAt(miniTicTacToePosition);
+        return miniTicTacToe.hasOwner() && author.getMarker()
+                == miniTicTacToe.getOwner().getMarker();
+    }
+
+
     /**
      * Executes this move.
      */
     void execute() {
         board.setOwnerAt(author, miniTicTacToePosition, cellPosition);
+        if (hasAuthorWon()) {
+            isWinning = true;
+        }
     }
 
     /**
@@ -68,7 +80,7 @@ class Move {
      */
     MoveDTO toDTO() {
         return new MoveDTO(author.toDTO(), miniTicTacToePosition.toDTO(),
-                cellPosition.toDTO());
+                cellPosition.toDTO(), isWinning);
     }
 
 }

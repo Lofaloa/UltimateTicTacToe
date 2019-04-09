@@ -5,6 +5,7 @@ import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.model.UltimateTicTacToeGame;
 import atlg4.ultimate.g47923.view.UltimateTicTacToeView;
 import atlg4.ultimate.g47923.view.View;
+import java.io.IOException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.stage.Stage;
@@ -22,6 +23,8 @@ public class Main extends Application {
             view.showGameWindow();
         } catch (UltimateTicTacToeException e) {
             System.out.println(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

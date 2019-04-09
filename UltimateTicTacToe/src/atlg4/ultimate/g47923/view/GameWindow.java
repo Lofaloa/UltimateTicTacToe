@@ -17,12 +17,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import static java.util.Objects.requireNonNull;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.scene.control.Label;
 import static javafx.scene.layout.GridPane.getRowIndex;
 import static javafx.scene.layout.GridPane.getColumnIndex;
 
@@ -35,13 +37,16 @@ public class GameWindow extends VBox implements Initializable, Observer {
 
     private final String CROSS_IMG_PATH = "/images/cross.png";
     private final String CIRCLE_IMG_PATH = "/images/circle.png";
-    private static final String FXML_PATH = "/fxml/GameScreen.fxml";
+    private static final String FXML_PATH = "/fxml/GameWindow.fxml";
 
     private Game game;
     private Stage stage;
 
     @FXML
     private GridPane board;
+
+    @FXML
+    private Label warning;
 
     /**
      * Constructs this MyTicTacToe with 9 empty cells. The cell are initially
@@ -70,6 +75,17 @@ public class GameWindow extends VBox implements Initializable, Observer {
         }
     }
 
+    MyTicTacToe getTicTacToeAt(int row, int column) {
+        MyTicTacToe target = null;
+        for (Node node : board.getChildren()) {
+            MyTicTacToe t = (MyTicTacToe) node;
+            if (getRowIndex(node) == row && getColumnIndex(node) == column) {
+                target = t;
+            }
+        }
+        return target;
+    }
+
     /**
      * Shows this game screen.
      */
@@ -88,10 +104,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
                     game.play();
                     game.nextPlayer();
                 } catch (UltimateTicTacToeException e) {
-                    Alert a = new Alert(Alert.AlertType.ERROR);
-                    a.setTitle("Attention!");
-                    a.setContentText(e.getMessage());
-                    a.showAndWait();
+                    showWarning(e.getMessage());
                 }
             }
         });
@@ -112,6 +125,17 @@ public class GameWindow extends VBox implements Initializable, Observer {
         }
     }
 
+    void showWarning(String msg) {
+        warning.setText(msg);
+        warning.setVisible(true);
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                warning.setVisible(false);
+            }
+        }, 2000);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         addHandlers();
@@ -123,18 +147,21 @@ public class GameWindow extends VBox implements Initializable, Observer {
         PositionDTO c = move.getCellPosition();
         Marker marker = move.getAuthor().getMarker();
         Image img = new Image(marker == Marker.X ? CROSS_IMG_PATH : CIRCLE_IMG_PATH);
-        for (Node node : board.getChildren()) {
-            MyTicTacToe t = (MyTicTacToe) node;
-            if (getRowIndex(node) == m.getRow()
-                    && getColumnIndex(node) == m.getColumn()) {
-                t.setMarker(c.getRow(), c.getColumn(), img);
-            }
+        MyTicTacToe t = getTicTacToeAt(m.getRow(), m.getColumn());
+        t.setMarker(c.getRow(), c.getColumn(), img);
+        if (move.isWinning()) {
+            t.displayWinner(img);
         }
+    }
+
+    private void updateCurrentPlayer() {
+
     }
 
     @Override
     public void update(Observable o, Object o1) {
         updateBoard();
+        updateCurrentPlayer();
     }
 
 }
