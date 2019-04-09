@@ -94,23 +94,20 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         return lastCellPosition.equals(move.getMiniTicTacToePosition());
     }
 
-    boolean isValid(Move move) {
-        /*
-        La position du mini doit être égale à celle de la cellule du joueur
-        précédent ssi:
-            - le premier tour de la partie a été joué
-            - le mini correspondant n'est pas rempli
-            - le mini correspondant n'a pas de proriétaire
-         */
-        Grid mini = board.getCellAt(move.getMiniTicTacToePosition());
-
-        return (isFirstTurn() || mini.isFull() || mini.hasOwner()) ? true
-                : isInExpectedMiniTicTacToe(move);
-    }
-
     Move requireValidMove(Move move) {
-        if (!isValid(move)) {
-            throw new IllegalMoveException(12, "This move cannot be done.");
+        Grid selected = board.getCellAt(move.getMiniTicTacToePosition());
+        if (!selected.isPlayable()) {
+            throw new IllegalMoveException(14, "The selected MiniTicTacToe is"
+                    + "not playable!");
+        }
+        if (!isFirstTurn()) {
+            Position expectedMiniPos = new Position(getLastMove().getCellPosition());
+            Grid expected = board.getCellAt(expectedMiniPos);
+            if (expected.isPlayable() && !isInExpectedMiniTicTacToe(move)) {
+                throw new IllegalMoveException(12, "The MiniTicTacToe should be "
+                        + "at the same position than the Cell the last player "
+                        + "selected");
+            }
         }
         return move;
     }

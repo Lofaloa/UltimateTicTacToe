@@ -96,17 +96,7 @@ public class UltimateTicTacToeGameTest {
     @Test
     public void isOver_boardIsFull() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        for (int mrow = 0; mrow < UltimateTicTacToe.SIZE; mrow++) {
-            for (int mcol = 0; mcol < UltimateTicTacToe.SIZE; mcol++) {
-                for (int crow = 0; crow < UltimateTicTacToe.SIZE; crow++) {
-                    for (int ccol = 0; ccol < UltimateTicTacToe.SIZE; ccol++) {
-                        Position currentMini = new Position(mrow, mcol);
-                        Position currentCell = new Position(crow, ccol);
-                        game.getBoard().setOwnerAt(Player.O, currentMini, currentCell);
-                    }
-                }
-            }
-        }
+        game.getBoard().fillWith(Player.O);
         assertTrue(game.isOver());
     }
 
@@ -155,7 +145,6 @@ public class UltimateTicTacToeGameTest {
         game.getExecutedMoves().add(lastMove);
         assertFalse(game.isInExpectedMiniTicTacToe(currentMove));
     }
-
 
     /**
      * Calling isInExpectedMiniTicTacToe during the first turn should cause an
@@ -230,16 +219,53 @@ public class UltimateTicTacToeGameTest {
     }
 
     /**
-     * When the MiniTicTacToe located at the same position than the la
+     * When the expected MiniTicTacToe has an owner, the player can choose
+     * another MiniTicTacToe.
      */
     @Test
     public void select_expectedMiniTicTacToeHasAnOwner() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        game.select(new PositionDTO(0, 0), new PositionDTO(1, 1));
+        Position miniPosSelectedByX = new Position(1, 1);
+        Position cellPosSelectedByX = new Position(1, 2);
+        Position miniPosSelectedByO = new Position(2, 2);
+        Position cellPosSelectedByO = new Position(1, 1);
+
+        game.select(miniPosSelectedByX.toDTO(), cellPosSelectedByX.toDTO());
         game.play();
-        game.getBoard().getCellAt(new Position(1, 1)).setOwner(Player.X);
+        game.getBoard().getCellAt(cellPosSelectedByX).setOwner(Player.X);
         game.nextPlayer();
-        game.select(new PositionDTO(2, 2), new PositionDTO(0, 0));
+
+        game.select(miniPosSelectedByO.toDTO(), cellPosSelectedByO.toDTO());
+        game.play();
+
+        Grid miniSelectedByO = game.getBoard().getCellAt(miniPosSelectedByO);
+        Grid cellSelectedByO = miniSelectedByO.getCellAt(cellPosSelectedByO);
+
+        assertEquals(Player.O, cellSelectedByO.getOwner());
+    }
+
+    /**
+     * When the selected MiniTicTacToe is full an exception is thrown
+     */
+    @Test(expected = IllegalMoveException.class)
+    public void select_selectedMiniTicTacToeIsFull() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        Position miniPosSelectedByX = new Position(1, 1);
+        Position cellPosSelectedByX = new Position(1, 2);
+        game.getBoard().getCellAt(miniPosSelectedByX).setOwner(Player.X);
+        game.select(miniPosSelectedByX.toDTO(), cellPosSelectedByX.toDTO());
+    }
+
+    /**
+     * When the selected MiniTicTacToe has an owner an exception is thrown
+     */
+    @Test(expected = IllegalMoveException.class)
+    public void select_selectedMiniTicTacToeHasAnOwner() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        Position miniPosSelectedByX = new Position(1, 1);
+        Position cellPosSelectedByX = new Position(1, 2);
+        game.getBoard().getCellAt(miniPosSelectedByX).setOwner(Player.X);
+        game.select(miniPosSelectedByX.toDTO(), cellPosSelectedByX.toDTO());
     }
 
     /**

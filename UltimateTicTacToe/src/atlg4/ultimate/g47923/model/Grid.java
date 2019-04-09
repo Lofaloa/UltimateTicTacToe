@@ -99,6 +99,16 @@ abstract class Grid<CellType extends Grid> {
     }
 
     /**
+     * Tells if this grid is playable. A grid is playable when it is not owned
+     * and is not full.
+     *
+     * @return true if this grid is playable.
+     */
+    boolean isPlayable() {
+        return !isFull() && !hasOwner();
+    }
+
+    /**
      * Gets this grid owner.
      *
      * @return this grid owner.
