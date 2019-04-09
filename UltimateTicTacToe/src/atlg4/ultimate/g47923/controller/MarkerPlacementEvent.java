@@ -1,7 +1,7 @@
 package atlg4.ultimate.g47923.controller;
 
 import atlg4.ultimate.g47923.model.Game;
-import atlg4.ultimate.g47923.view.GameView;
+import atlg4.ultimate.g47923.view.GameWindow;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
@@ -13,11 +13,11 @@ import javafx.scene.input.MouseEvent;
 public class MarkerPlacementEvent implements EventHandler<MouseEvent> {
 
     private final Game game;
-    private final GameView view;
+    private final GameWindow view;
     private final int row;
     private final int col;
 
-    public MarkerPlacementEvent(Game game, GameView view, int row, int col) {
+    public MarkerPlacementEvent(Game game, GameWindow view, int row, int col) {
         this.game = game;
         this.view = view;
         this.row = row;

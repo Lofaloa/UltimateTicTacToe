@@ -17,12 +17,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import static java.util.Objects.requireNonNull;
 import static javafx.scene.layout.GridPane.getRowIndex;
 import static javafx.scene.layout.GridPane.getColumnIndex;
 
@@ -31,11 +31,10 @@ import static javafx.scene.layout.GridPane.getColumnIndex;
  *
  * @author Logan Farci (47923)
  */
-public class GameView extends VBox implements Initializable, Observer {
+public class GameWindow extends VBox implements Initializable, Observer {
 
     private final String CROSS_IMG_PATH = "/images/cross.png";
     private final String CIRCLE_IMG_PATH = "/images/circle.png";
-    private static final String TITLE = "Ultimate Tic Tac Toe";
     private static final String FXML_PATH = "/fxml/GameScreen.fxml";
 
     private Game game;
@@ -47,10 +46,15 @@ public class GameView extends VBox implements Initializable, Observer {
     /**
      * Constructs this MyTicTacToe with 9 empty cells. The cell are initially
      * not clickable.
+     * @param game
+     * @param stage
      */
-    public GameView(Game game) {
-        this.game = game;
-        this.stage = new Stage();
+    public GameWindow(Game game, Stage stage) {
+        this.game = requireNonNull(game, "Constructing a GameWindow with a null "
+                + "game.");
+        this.stage = requireNonNull(stage, "Constructing a GameWindow with a null "
+                + "stage.");
+        game.addObserver(this);
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource(FXML_PATH));
@@ -62,18 +66,10 @@ public class GameView extends VBox implements Initializable, Observer {
         }
     }
 
-    private void initializeStage() {
-        stage.setTitle(TITLE);
-        stage.setResizable(true);
-        Scene scene = new Scene(this);
-        stage.setScene(scene);
-    }
-
     /**
      * Shows this game screen.
      */
     public void show() {
-        initializeStage();
         stage.show();
     }
 
@@ -134,7 +130,7 @@ public class GameView extends VBox implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object o1) {
-
+        updateBoard();
     }
 
 }
