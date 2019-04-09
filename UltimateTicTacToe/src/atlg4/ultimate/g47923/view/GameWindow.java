@@ -46,15 +46,19 @@ public class GameWindow extends VBox implements Initializable, Observer {
     /**
      * Constructs this MyTicTacToe with 9 empty cells. The cell are initially
      * not clickable.
+     *
      * @param game
      * @param stage
      */
-    public GameWindow(Game game, Stage stage) {
+    public GameWindow(Game game, Stage stage) throws IOException {
         this.game = requireNonNull(game, "Constructing a GameWindow with a null "
                 + "game.");
         this.stage = requireNonNull(stage, "Constructing a GameWindow with a null "
                 + "stage.");
-        game.addObserver(this);
+        load();
+    }
+
+    private void load() throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource(FXML_PATH));
@@ -62,7 +66,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
             loader.setController(this);
             loader.load();
         } catch (IOException exception) {
-            exception.printStackTrace();
+            throw new IOException(FXML_PATH + " cannot be loaded!", exception);
         }
     }
 
