@@ -1,5 +1,6 @@
 package atlg4.ultimate.g47923.model;
 
+import atlg4.ultimate.g47923.exception.GridException;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -38,15 +39,27 @@ class UltimateTicTacToe extends Grid<MiniTicTacToe> {
      * @param owner is the given owner.
      * @param miniTicTacToe is the specified <code>MiniTicTacToe</code>.
      * @param cell is the specified <code>Cell</code>.
+     * @throws NullPointerException if one of the arguments is null.
+     * @throws GridException if the <code>MiniTicTacToe</code> to set the owner
+     * for has already an owner or is full.
      */
     void setOwnerAt(Player owner, Position miniTicTacToe, Position cell) {
-        requireNonNull(owner, "Trying to set a null player in an "
-                + "UltimateTicTacToe.");
-        requireNonNull(miniTicTacToe, "Trying to set a player in an "
-                + "UltimateTicTacToe at a null MiniTicTacToe position");
-        requireNonNull(cell, "Trying to set a player in an "
+        requireNonNull(owner, "Setting a null player in an UltimateTicTacToe.");
+        requireNonNull(miniTicTacToe, "Setting a player in an UltimateTicTacToe "
+                + "at a null MiniTicTacToe position");
+        requireNonNull(cell, "Setting to set a player in an "
                 + "UltimateTicTacToe at a null Cell position");
-        ((MiniTicTacToe) getCellAt(miniTicTacToe)).setOwnerAt(owner, cell);
+        MiniTicTacToe mini = (MiniTicTacToe) getCellAt(miniTicTacToe);
+        if (mini.hasOwner()) {
+            throw new GridException(12, "This MiniTicTacToe is already owned!");
+        } else if (mini.isFull()) {
+            throw new GridException(12, "This MiniTicTacToe is full!");
+        } else {
+            mini.setOwnerAt(owner, cell);
+        }
+        if (isOwnedBy(owner)) {
+            this.owner = owner;
+        }
     }
 
 }

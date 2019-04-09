@@ -117,13 +117,24 @@ abstract class Grid<CellType extends Grid> {
     }
 
     /**
-     * Sets this grid owner. This method should only be used in a unit test.
+     * Sets this grid owner. /!\ This method should only be used in a unit test.
      *
      * @param owner the owner of this grid.
      */
     void setOwner(Player owner) {
         this.owner = owner;
     }
+
+    /**
+     * Fills this grid. /!\ This method should only be used in a unit test /!\.
+     */
+    void fillWith(Player owner) {
+        if (cells.isEmpty()) {
+            setOwner(owner);
+        } else {
+            cells.forEach(cell -> cell.fillWith(owner));
+        }
+     }
 
     /**
      * Gets the cell located at the given position in this grid.

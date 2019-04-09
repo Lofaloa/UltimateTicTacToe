@@ -12,9 +12,6 @@ import javafx.scene.input.MouseEvent;
  */
 public class MarkerPlacementEvent implements EventHandler<MouseEvent> {
 
-    private final String CROSS_IMG_PATH = "/images/cross.png";
-    private final String CIRCLE_IMG_PATH = "/images/circle.png";
-
     private final Game game;
     private final GameView view;
     private final int row;

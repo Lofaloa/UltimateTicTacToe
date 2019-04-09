@@ -1,5 +1,6 @@
 package atlg4.ultimate.g47923.model;
 
+import atlg4.ultimate.g47923.dto.MoveDTO;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -58,6 +59,16 @@ class Move {
      */
     void execute() {
         board.setOwnerAt(author, miniTicTacToePosition, cellPosition);
+    }
+
+    /**
+     * Converts this move to a data transfer object.
+     *
+     * @return a data transfer object for this move.
+     */
+    MoveDTO toDTO() {
+        return new MoveDTO(author.toDTO(), miniTicTacToePosition.toDTO(),
+                cellPosition.toDTO());
     }
 
 }

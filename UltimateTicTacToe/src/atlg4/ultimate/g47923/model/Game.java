@@ -1,7 +1,9 @@
 package atlg4.ultimate.g47923.model;
 
+import atlg4.ultimate.g47923.dto.MoveDTO;
 import atlg4.ultimate.g47923.dto.PlayerDTO;
 import atlg4.ultimate.g47923.dto.PositionDTO;
+import java.util.Observer;
 
 /**
  * The user of this interface can manage the logic of a game.
@@ -23,6 +25,13 @@ public interface Game {
      * @return the winner.
      */
     PlayerDTO getWinner();
+
+    /**
+     * Gets this game last move.
+     *
+     * @return this game last move.
+     */
+    MoveDTO getLastMove();
 
     /**
      * Tells if this game is over.
@@ -53,5 +62,12 @@ public interface Game {
      * Passes to the next player.
      */
     void nextPlayer();
+
+    /**
+     * Adds an observer to this game.
+     *
+     * @param observer is the observer to add.
+     */
+    void addObserver(Observer observer);
 
 }

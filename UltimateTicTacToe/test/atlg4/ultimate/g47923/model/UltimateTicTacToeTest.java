@@ -1,5 +1,6 @@
 package atlg4.ultimate.g47923.model;
 
+import atlg4.ultimate.g47923.exception.GridException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -99,17 +100,7 @@ public class UltimateTicTacToeTest {
     @Test
     public void isFull_allCellsOwned() {
         UltimateTicTacToe u = new UltimateTicTacToe();
-        for (int mrow = 0; mrow < UltimateTicTacToe.SIZE; mrow++) {
-            for (int mcol = 0; mcol < UltimateTicTacToe.SIZE; mcol++) {
-                for (int crow = 0; crow < UltimateTicTacToe.SIZE; crow++) {
-                    for (int ccol = 0; ccol < UltimateTicTacToe.SIZE; ccol++) {
-                        Position currentMini = new Position(mrow, mcol);
-                        Position currentCell = new Position(crow, ccol);
-                        u.setOwnerAt(Player.O, currentMini, currentCell);
-                    }
-                }
-            }
-        }
+        u.fillWith(Player.O);
         assertTrue(u.isFull());
     }
 
@@ -140,6 +131,28 @@ public class UltimateTicTacToeTest {
     public void setOwnerAt_nullCellPosition() {
         UltimateTicTacToe u = new UltimateTicTacToe();
         u.setOwnerAt(Player.O, new Position(), null);
+    }
+
+    /**
+     * Setting an owner at an owned <code>MiniTicTacToe</code> position causes
+     * an exception.
+     */
+    @Test(expected = GridException.class)
+    public void setOwnerAt_miniTicTacToeIsOwned() {
+        UltimateTicTacToe u = new UltimateTicTacToe();
+        u.getCellAt(new Position(0, 0)).setOwner(Player.X);
+        u.setOwnerAt(Player.O, new Position(0, 0), new Position(1, 1));
+    }
+
+    /**
+     * Setting an owner at a full <code>MiniTicTacToe</code> position causes
+     * an exception.
+     */
+    @Test(expected = GridException.class)
+    public void setOwnerAt_miniTicTacToeIsFull() {
+        UltimateTicTacToe u = new UltimateTicTacToe();
+        u.getCellAt(new Position(0, 0)).fillWith(Player.X);
+        u.setOwnerAt(Player.O, new Position(0, 0), new Position(1, 1));
     }
 
     /**
@@ -251,6 +264,24 @@ public class UltimateTicTacToeTest {
             u.setOwnerAt(Player.O, mini, new Position(1, 2));
         }
         assertTrue(u.hasFullDiagonalOwnedBy(Player.O));
+    }
+
+    /**
+     * Calling isOwnedBy should return true if a player owns a full row.
+     */
+    @Test
+    public void isOwnedBy() {
+        UltimateTicTacToe u = new UltimateTicTacToe();
+        int size = UltimateTicTacToe.SIZE - 1;
+        for (int row = size, column = size; row >= 0; row--, column--) {
+            Position mini = new Position(row, column);
+            u.setOwnerAt(Player.O, mini, new Position(1, 0));
+            u.setOwnerAt(Player.O, mini, new Position(1, 1));
+            u.setOwnerAt(Player.O, mini, new Position(1, 2));
+        }
+        assertTrue(u.hasOwner());
+        assertEquals(Player.O, u.getOwner());
+        assertTrue(u.isOwnedBy(Player.O));
     }
 
 }

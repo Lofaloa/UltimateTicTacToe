@@ -1,17 +1,20 @@
 package atlg4.ultimate.g47923.model;
 
+import atlg4.ultimate.g47923.dto.MoveDTO;
 import atlg4.ultimate.g47923.dto.PlayerDTO;
 import atlg4.ultimate.g47923.dto.PositionDTO;
 import atlg4.ultimate.g47923.exception.IllegalMoveException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Represents a game of <code>UltimateTicTacToe</code>.
  *
  * @author Logan Farci (47923)
  */
-public class UltimateTicTacToeGame implements Game {
+public class UltimateTicTacToeGame extends Observable implements Game {
 
     private final Player X;
     private final Player O;
@@ -20,6 +23,9 @@ public class UltimateTicTacToeGame implements Game {
     private Move currentMove;
     private final List<Move> executedMoves;
 
+    /**
+     * Constructs a game Ultimate TicTacToe.
+     */
     public UltimateTicTacToeGame() {
         this.X = Player.X;
         this.O = Player.O;
@@ -41,8 +47,8 @@ public class UltimateTicTacToeGame implements Game {
         return executedMoves;
     }
 
-    boolean isFirstRound() {
-        return executedMoves.size() <= 2;
+    boolean isFirstTurn() {
+        return executedMoves.isEmpty();
     }
 
     @Override
@@ -72,22 +78,38 @@ public class UltimateTicTacToeGame implements Game {
         this.executedMoves.clear();
     }
 
-    Move getLastExecutedMove() {
-        if (executedMoves.isEmpty()) {
+    @Override
+    public MoveDTO getLastMove() {
+        if (isFirstTurn()) {
             throw new IllegalStateException("No executed moves yet.");
         }
-        return executedMoves.get(executedMoves.size() - 1);
+        return executedMoves.get(executedMoves.size() - 1).toDTO();
     }
 
-    boolean isValidMove(Move move) {
+    boolean isInExpectedMiniTicTacToe(Move move) {
+        if (isFirstTurn()) {
+            throw new IllegalStateException("No executed moves yet.");
+        }
+        Position lastCellPosition = new Position(getLastMove().getCellPosition());
+        return lastCellPosition.equals(move.getMiniTicTacToePosition());
+    }
+
+    boolean isValid(Move move) {
+        /*
+        La position du mini doit être égale à celle de la cellule du joueur
+        précédent ssi:
+            - le premier tour de la partie a été joué
+            - le mini correspondant n'est pas rempli
+            - le mini correspondant n'a pas de proriétaire
+         */
         Grid mini = board.getCellAt(move.getMiniTicTacToePosition());
-        return (isFirstRound() || !mini.isFull() || !mini.hasOwner())
-                || getLastExecutedMove().getCellPosition()
-                == move.getMiniTicTacToePosition();
+
+        return (isFirstTurn() || mini.isFull() || mini.hasOwner()) ? true
+                : isInExpectedMiniTicTacToe(move);
     }
 
     Move requireValidMove(Move move) {
-        if (!isValidMove(move)) {
+        if (!isValid(move)) {
             throw new IllegalMoveException(12, "This move cannot be done.");
         }
         return move;
@@ -106,11 +128,23 @@ public class UltimateTicTacToeGame implements Game {
     public void play() {
         currentMove.execute();
         executedMoves.add(currentMove);
+        notifyView();
     }
 
     @Override
     public void nextPlayer() {
         this.isXCurrentPlayer = !isXCurrentPlayer;
+        notifyView();
+    }
+
+    @Override
+    public void addObserver(Observer obsrvr) {
+        super.addObserver(obsrvr);
+    }
+
+    private void notifyView() {
+        setChanged();
+        notifyObservers();
     }
 
 }
