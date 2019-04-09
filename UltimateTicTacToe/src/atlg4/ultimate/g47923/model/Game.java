@@ -3,6 +3,7 @@ package atlg4.ultimate.g47923.model;
 import atlg4.ultimate.g47923.dto.MoveDTO;
 import atlg4.ultimate.g47923.dto.PlayerDTO;
 import atlg4.ultimate.g47923.dto.PositionDTO;
+import atlg4.ultimate.g47923.exception.IllegalMoveException;
 import java.util.Observer;
 
 /**
@@ -23,6 +24,8 @@ public interface Game {
      * Gets the winner of the game.
      *
      * @return the winner.
+     * @throws IllegalStateException if the game is not over or when the game is
+     * over but even.
      */
     PlayerDTO getWinner();
 
@@ -34,7 +37,8 @@ public interface Game {
     MoveDTO getLastMove();
 
     /**
-     * Tells if this game is over.
+     * Tells if this game is over. A game is over when its board is full or one
+     * of the two players owns the board.
      *
      * @return true if this game is over.
      */
@@ -48,18 +52,35 @@ public interface Game {
     /**
      * Selects the position where the next move will take place.
      *
-     * @param parent is the
-     * @param child
+     * @param parent is the position of the MiniTicTacToe where to execute the
+     * move.
+     * @param child is the position of the cell where to execute the move.
+     * @throws IllegalMoveException is thrown in the following cases:
+     * <ul>
+     * <li>... the selected MiniTicTacToe is not playable (is full or owned).
+     * </li>
+     * <li>... the selected MiniTicTacToe is not the expected one even though it
+     * is playable (is full or owned). The expected MiniTicTacToe is the one
+     * located at the position of the last Cell selected by the previous player.
+     * </li>
+     * <li>... the selected Cell has already an owner.
+     * </li>
+     * </ul>
      */
     void select(PositionDTO parent, PositionDTO child);
 
     /**
-     * Plays the current move.
+     * Plays the current player at the selected position.
+     *
+     * @throws IllegalStateException if no position has been previously selected
+     * with <code>select</code> method by the current player.
      */
     void play();
 
     /**
      * Passes to the next player.
+     *
+     * @throws IllegalStateException if the current player is not done playing.
      */
     void nextPlayer();
 

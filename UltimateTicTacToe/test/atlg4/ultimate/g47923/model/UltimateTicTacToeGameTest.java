@@ -279,14 +279,82 @@ public class UltimateTicTacToeGameTest {
     }
 
     /**
+     * Play method should set the owner at the selected position.
+     */
+    @Test
+    public void play_setOwnerAtSelectedPosition() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        Position miniPosSelectedByX = new Position(1, 1);
+        Position cellPosSelectedByX = new Position(1, 2);
+        game.select(miniPosSelectedByX.toDTO(), cellPosSelectedByX.toDTO());
+        game.play();
+        Grid mini = game.getBoard().getCellAt(miniPosSelectedByX);
+        Grid cell = mini.getCellAt(cellPosSelectedByX);
+        assertEquals(Player.X, cell.getOwner());
+    }
+
+    /**
+     * At first turn, play method should throw an exception when the current
+     * player has not selected a position.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void play_firstTurn_currentPlayerHasNotSelected() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.play();
+    }
+
+    /**
+     * Play method should throw an exception when the current player has not
+     * selected a position.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void play_currentPlayerHasNotSelected() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        Move last = new Move(
+                Player.O,
+                new Position(2, 2),
+                new Position(1, 1),
+                game.getBoard()
+        );
+        game.getExecutedMoves().add(last);
+        game.play();
+    }
+
+    /**
      * The game should pass to the next player as expected.
      */
     @Test
     public void nextPlayer() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
         assertEquals(Marker.X, game.getCurrentPlayer().getMarker());
+        game.select(new PositionDTO(1, 1), new PositionDTO(0, 0));
+        game.play();
         game.nextPlayer();
         assertEquals(Marker.O, game.getCurrentPlayer().getMarker());
+    }
+
+    /**
+     * Calling nextPlayer methods when the first player has not selected nor
+     * played causes an exception.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void nextPlayer_firstPlayerNotDone() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.nextPlayer();
+    }
+
+    /**
+     * Calling nextPlayer methods when the current player is done causes an
+     * exception.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void nextPlayer_currentPlayerNotDone() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.select(new PositionDTO(1, 1), new PositionDTO(0, 0));
+        game.play();
+        game.nextPlayer();
+        game.select(new PositionDTO(0, 0), new PositionDTO(2, 1));
+        game.nextPlayer();
     }
 
 }

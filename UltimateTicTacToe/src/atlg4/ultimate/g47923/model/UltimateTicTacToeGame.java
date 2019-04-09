@@ -121,15 +121,39 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         this.currentMove = requireValidMove(move);
     }
 
+    private boolean currentPlayerHasSelected() {
+        if (currentMove == null) {
+            throw new IllegalStateException("Select a position before playing!");
+        }
+        return currentMove.getAuthor().getMarker()
+                == getCurrentPlayer().getMarker();
+    }
+
     @Override
     public void play() {
+        if (!currentPlayerHasSelected()) {
+            throw new IllegalStateException("Select a position before playing!");
+        }
         currentMove.execute();
         executedMoves.add(currentMove);
         notifyView();
     }
 
+    private boolean hasCurrentPlayerPlayed() {
+        if (isFirstTurn()) {
+            throw new IllegalStateException("The first player has not even "
+                    + "selected nor played yet!");
+        }
+        return getLastMove().getAuthor().getMarker()
+                == getCurrentPlayer().getMarker();
+    }
+
     @Override
     public void nextPlayer() {
+        if (!hasCurrentPlayerPlayed()) {
+            throw new IllegalStateException("The current player has not played "
+                    + "yet!");
+        }
         this.isXCurrentPlayer = !isXCurrentPlayer;
         notifyView();
     }

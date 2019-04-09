@@ -1,6 +1,6 @@
 package atlg4.ultimate.g47923.model;
 
-import atlg4.ultimate.g47923.exception.GridException;
+import atlg4.ultimate.g47923.exception.IllegalMoveException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -122,7 +122,7 @@ public class MiniTicTacToeTest {
     /**
      * Trying to override a MiniTicTacToe Cell should cause an exception.
      */
-    @Test(expected = GridException.class)
+    @Test(expected = IllegalMoveException.class)
     public void setOwnerAt_overridingOwner() {
         Position position = new Position();
         MiniTicTacToe m = new MiniTicTacToe(position);

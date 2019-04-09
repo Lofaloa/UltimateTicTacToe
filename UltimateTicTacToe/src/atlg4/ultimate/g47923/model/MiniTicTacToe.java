@@ -1,6 +1,7 @@
 package atlg4.ultimate.g47923.model;
 
 import atlg4.ultimate.g47923.exception.GridException;
+import atlg4.ultimate.g47923.exception.IllegalMoveException;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -50,7 +51,7 @@ class MiniTicTacToe extends Grid<Cell> {
                 + " null position");
         Cell cell = (Cell) getCellAt(position);
         if (cell.hasOwner()) {
-            throw new GridException(11, "Trying to override a cell owner at ("
+            throw new IllegalMoveException(11, "Trying to override a cell owner at ("
                     + position.getRow() + "; " + position.getColumn() + ").");
         } else {
             cell.setOwner(owner);
