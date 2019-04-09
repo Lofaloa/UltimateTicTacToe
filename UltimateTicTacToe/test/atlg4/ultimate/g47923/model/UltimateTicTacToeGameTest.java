@@ -81,10 +81,20 @@ public class UltimateTicTacToeGameTest {
     }
 
     /**
+     * Trying to get the winner when the game is over but the board is full.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void getWinner_gameIsEven() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.getBoard().fillWith(Player.O);
+        game.getWinner();
+    }
+
+    /**
      * A game should be over when the board is owned.
      */
     @Test
-    public void isOver_boardOwnedByO() {
+    public void isOver_boardHasAnOwner() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
         game.getBoard().setOwner(Player.O);
         assertTrue(game.isOver());

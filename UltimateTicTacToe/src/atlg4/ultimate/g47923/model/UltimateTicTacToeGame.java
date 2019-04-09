@@ -58,9 +58,9 @@ public class UltimateTicTacToeGame extends Observable implements Game {
 
     @Override
     public PlayerDTO getWinner() {
-        if (!isOver()) {
+        if (!board.hasOwner()) {
             throw new IllegalStateException("No winner yet as the game is not "
-                    + "over.");
+                    + "over or the board is full.");
         }
         return board.getOwner().toDTO();
     }
@@ -94,7 +94,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         return lastCellPosition.equals(move.getMiniTicTacToePosition());
     }
 
-    Move requireValidMove(Move move) {
+    private Move requireValidMove(Move move) {
         Grid selected = board.getCellAt(move.getMiniTicTacToePosition());
         if (!selected.isPlayable()) {
             throw new IllegalMoveException(14, "The selected MiniTicTacToe is"
