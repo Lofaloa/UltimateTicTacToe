@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import static java.util.Objects.requireNonNull;
 import java.util.Timer;
 import java.util.TimerTask;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import static javafx.scene.layout.GridPane.getRowIndex;
 import static javafx.scene.layout.GridPane.getColumnIndex;
@@ -136,26 +137,34 @@ public class GameWindow extends VBox implements Initializable, Observer {
         }, 2000);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        addHandlers();
+    void showEnd() {
+        Dialog replay = new ReplayDialog(game);
+        replay.showAndWait();
     }
 
     private void updateBoard() {
         MoveDTO move = game.getLastMove();
-        PositionDTO m = move.getMiniTicTacToePosition();
-        PositionDTO c = move.getCellPosition();
+        PositionDTO mini = move.getMiniTicTacToePosition();
+        PositionDTO cell = move.getCellPosition();
         Marker marker = move.getAuthor().getMarker();
+        MyTicTacToe tictactoe = getTicTacToeAt(mini.getRow(), mini.getColumn());
         Image img = new Image(marker == Marker.X ? CROSS_IMG_PATH : CIRCLE_IMG_PATH);
-        MyTicTacToe t = getTicTacToeAt(m.getRow(), m.getColumn());
-        t.setMarker(c.getRow(), c.getColumn(), img);
+        tictactoe.setMarker(cell.getRow(), cell.getColumn(), img);
         if (move.isWinning()) {
-            t.displayWinner(img);
+            tictactoe.displayWinner(img);
+        }
+        if (game.isOver()) {
+            showEnd();
         }
     }
 
     private void updateCurrentPlayer() {
 
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        addHandlers();
     }
 
     @Override
