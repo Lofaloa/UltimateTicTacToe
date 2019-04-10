@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import static java.util.Objects.requireNonNull;
 import java.util.Timer;
 import java.util.TimerTask;
+import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import static javafx.scene.layout.GridPane.getRowIndex;
@@ -36,6 +37,7 @@ import static javafx.scene.layout.GridPane.getColumnIndex;
  */
 public class GameWindow extends VBox implements Initializable, Observer {
 
+    private static final String TITLE = "Ultimate Tic Tac Toe";
     private final String CROSS_IMG_PATH = "/images/cross.png";
     private final String CIRCLE_IMG_PATH = "/images/circle.png";
     private static final String FXML_PATH = "/fxml/GameWindow.fxml";
@@ -56,11 +58,11 @@ public class GameWindow extends VBox implements Initializable, Observer {
      * @param game
      * @param stage
      */
-    public GameWindow(Game game, Stage stage) throws IOException {
+    public GameWindow(Game game) throws IOException {
         this.game = requireNonNull(game, "Constructing a GameWindow with a null "
                 + "game.");
-        this.stage = requireNonNull(stage, "Constructing a GameWindow with a null "
-                + "stage.");
+        this.stage = new Stage();
+        game.addObserver(this);
         load();
     }
 
@@ -74,6 +76,13 @@ public class GameWindow extends VBox implements Initializable, Observer {
         } catch (IOException exception) {
             throw new IOException(FXML_PATH + " cannot be loaded!", exception);
         }
+    }
+
+    private void initializeStage() {
+        stage.setTitle(TITLE);
+        stage.setResizable(true);
+        Scene scene = new Scene(this);
+        stage.setScene(scene);
     }
 
     MyTicTacToe getTicTacToeAt(int row, int column) {
@@ -91,6 +100,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
      * Shows this game screen.
      */
     public void show() {
+        initializeStage();
         stage.show();
     }
 
@@ -99,6 +109,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
             @Override
             public void handle(Event event) {
                 try {
+                    System.out.println("test");
                     PositionDTO m = new PositionDTO(getRowIndex(t), getColumnIndex(t));
                     PositionDTO c = new PositionDTO(row, column);
                     game.select(m, c);
@@ -183,6 +194,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object o1) {
+        System.out.println("update");
         updateBoard();
     }
 
