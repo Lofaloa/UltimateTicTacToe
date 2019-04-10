@@ -143,6 +143,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
     }
 
     private void updateBoard() {
+        // problème si aucun mouvement n'a eu lieu!
         MoveDTO move = game.getLastMove();
         PositionDTO mini = move.getMiniTicTacToePosition();
         PositionDTO cell = move.getCellPosition();
@@ -156,10 +157,23 @@ public class GameWindow extends VBox implements Initializable, Observer {
         if (game.isOver()) {
             showEnd();
         }
+        updatePlayable(cell, marker == Marker.X ? Marker.O : Marker.X);
     }
 
-    private void updateCurrentPlayer() {
+    private void setTicTacToeStyleClass(String styleClass) {
+        for (int row = 0; row < MyTicTacToe.SIZE; row++) {
+            for (int column = 0; column < MyTicTacToe.SIZE; column++) {
+                getTicTacToeAt(row, column).getStyleClass().clear();
+                getTicTacToeAt(row, column).getStyleClass().add(styleClass);
+            }
+        }
+    }
 
+    private void updatePlayable(PositionDTO playable, Marker nextPlayer) {
+        MyTicTacToe t = getTicTacToeAt(playable.getRow(), playable.getColumn());
+        setTicTacToeStyleClass("tictactoe");
+        t.getStyleClass().clear();
+        t.getStyleClass().add("playableBy" + nextPlayer);
     }
 
     @Override
@@ -170,7 +184,6 @@ public class GameWindow extends VBox implements Initializable, Observer {
     @Override
     public void update(Observable o, Object o1) {
         updateBoard();
-        updateCurrentPlayer();
     }
 
 }
