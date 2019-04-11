@@ -155,7 +155,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
     }
 
     private void addMenuHandlers() {
-        withdraw.setOnAction(new WithdrawalHandler(game));
+        withdraw.setOnAction(new WithdrawalHandler(game, this));
         newgame.setOnAction(new RestartStartAGameHandler(game, this));
         quit.setOnAction((ActionEvent e) -> {
             if (askConfirmation("You are about to quit the game, all the "
@@ -176,7 +176,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
         warning.show();
     }
 
-    private void showEnd() {
+    public void showEnd() {
         Dialog replay = new ReplayDialog(game);
         replay.showAndWait();
     }
