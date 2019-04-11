@@ -177,8 +177,8 @@ public class GameWindow extends VBox implements Initializable, Observer {
     }
 
     public void showEnd() {
-        Dialog replay = new ReplayDialog(game);
-        replay.showAndWait();
+        Dialog replay = new ReplayDialog(game, this);
+        replay.show();
     }
 
     private void updateBoard() {

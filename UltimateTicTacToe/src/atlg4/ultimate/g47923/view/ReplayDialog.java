@@ -1,5 +1,6 @@
 package atlg4.ultimate.g47923.view;
 
+import atlg4.ultimate.g47923.controller.RestartStartAGameHandler;
 import atlg4.ultimate.g47923.model.Game;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -22,11 +23,13 @@ public class ReplayDialog extends Dialog<ButtonType> {
     private static final String QUIT_BUTTON = "Quit";
 
     private final Game game;
+    private final GameWindow view;
     private final ButtonType replay;
     private final ButtonType quit;
 
-    public ReplayDialog(Game game) {
+    public ReplayDialog(Game game, GameWindow view) {
         this.game = game;
+        this.view = view;
         this.replay = new ButtonType(REPLAY_BUTTON);
         this.quit = new ButtonType(QUIT_BUTTON);
         setContent();
@@ -42,9 +45,7 @@ public class ReplayDialog extends Dialog<ButtonType> {
 
     private void setEventFilter() {
         Button replayButton = (Button) getDialogPane().lookupButton(this.replay);
-        replayButton.addEventFilter(ActionEvent.ACTION, event -> {
-            game.start();
-        });
+        replayButton.setOnAction(new RestartStartAGameHandler(game, view));
         Button quitButton = (Button) getDialogPane().lookupButton(this.quit);
         quitButton.addEventFilter(ActionEvent.ACTION, event -> {
             System.exit(0);

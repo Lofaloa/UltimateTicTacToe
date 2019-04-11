@@ -6,7 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 /**
- *
+ * 
+ * 
  * @author Logan Farci (47923)
  */
 public class WithdrawalHandler implements EventHandler<ActionEvent> {
