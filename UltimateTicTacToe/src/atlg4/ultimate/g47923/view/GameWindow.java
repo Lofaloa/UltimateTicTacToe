@@ -1,6 +1,8 @@
 package atlg4.ultimate.g47923.view;
 
 import atlg4.composant.g47923.MyTicTacToe;
+import atlg4.ultimate.g47923.controller.RestartStartAGameHandler;
+import atlg4.ultimate.g47923.controller.WithdrawalHandler;
 import atlg4.ultimate.g47923.dto.MoveDTO;
 import atlg4.ultimate.g47923.dto.PositionDTO;
 import atlg4.ultimate.g47923.exception.UltimateTicTacToeException;
@@ -22,10 +24,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import static java.util.Objects.requireNonNull;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import static javafx.scene.layout.GridPane.getRowIndex;
 import static javafx.scene.layout.GridPane.getColumnIndex;
 
@@ -46,6 +49,15 @@ class GameWindow extends VBox implements Initializable, Observer {
 
     @FXML
     private GridPane board;
+
+    @FXML
+    private MenuItem withdraw;
+
+    @FXML
+    private MenuItem newgame;
+
+    @FXML
+    private MenuItem quit;
 
     /**
      * Constructs an instance of this GameWindow with the specified game and a
@@ -118,16 +130,25 @@ class GameWindow extends VBox implements Initializable, Observer {
         }
     }
 
-    private void addHandlers() {
+    private void addBoardHandlers() {
         for (Node child : board.getChildren()) {
             MyTicTacToe tictactoe = (MyTicTacToe) child;
             addHandlersTo(tictactoe);
         }
     }
 
+    private void addMenuHandlers() {
+        withdraw.setOnAction(new WithdrawalHandler(game));
+        newgame.setOnAction(new RestartStartAGameHandler(game));
+        quit.setOnAction((ActionEvent e) -> {
+            System.exit(0);
+        });
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        addHandlers();
+        addMenuHandlers();
+        addBoardHandlers();
     }
 
     private void showIllegalMoveAlert(String msg) {
