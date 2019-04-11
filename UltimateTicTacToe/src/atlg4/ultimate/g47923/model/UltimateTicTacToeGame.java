@@ -100,6 +100,8 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         this.board.initialize();
         this.isXCurrentPlayer = true;
         this.currentMove = null;
+        this.X.setWithDrawn(false);
+        this.O.setWithDrawn(false);
         this.executedMoves.clear();
     }
 

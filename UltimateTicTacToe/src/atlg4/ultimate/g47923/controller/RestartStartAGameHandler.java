@@ -12,6 +12,9 @@ import javafx.event.EventHandler;
  */
 public class RestartStartAGameHandler implements EventHandler<ActionEvent> {
 
+    private static final String MESSAGE = "You are about to restart the game, all the "
+                + "advancement will be lost!";
+    
     private final Game game;
     private final GameWindow view;
 
@@ -22,9 +25,10 @@ public class RestartStartAGameHandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent t) {
-        game.start();
-        if (view.askConfirmation("You are about to restart the game, all the "
-                + "advancement will be lost!")) {
+        if (game.isOver() || view.askConfirmation(MESSAGE)) {
+            if (game.isOver()) System.out.println("the game is over: restarting");
+            else System.out.println("the game is not over: restarting");
+            game.start();
             view.clearBoard();
         }
     }
