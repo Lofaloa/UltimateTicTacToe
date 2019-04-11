@@ -97,6 +97,11 @@ abstract class Grid<CellType extends Grid> {
         return cells.isEmpty() ? hasOwner()
                 : cells.stream().allMatch(cell -> cell.isFull());
     }
+    
+    boolean isEmpty() {
+        return cells.isEmpty() ? !hasOwner()
+                : cells.stream().allMatch(cell -> cell.isEmpty());
+    }
 
     /**
      * Tells if this grid is playable. A grid is playable when it is not owned

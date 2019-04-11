@@ -24,6 +24,46 @@ public class UltimateTicTacToeGameTest {
     }
 
     /**
+     * When starting a game, the board should be empty.
+     */
+    @Test
+    public void start_theBoardIsEmpty() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.start();
+        assertTrue(game.getBoard().isEmpty());
+    }
+
+    /**
+     * When starting a game, the players should not be withdrawn.
+     */
+    @Test
+    public void start_playersAreNotWithDrawn() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.start();
+        assertFalse(game.hasAPlayerWithdrawn());
+    }
+
+    /**
+     * When starting a game, X should be the current player.
+     */
+    @Test
+    public void start_xIsTheCurrentPlayer() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.start();
+        assertEquals(Marker.X, game.getCurrentPlayer().getMarker());
+    }
+
+    /**
+     * When starting a game, no moves should have been executed.
+     */
+    @Test
+    public void start_noMovesAreExecuted() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.start();
+        assertTrue(game.getExecutedMoves().isEmpty());
+    }
+
+    /**
      * Right after construction, the game should be at first turn.
      */
     @Test
@@ -69,7 +109,7 @@ public class UltimateTicTacToeGameTest {
         game.getBoard().setOwner(Player.X);
         assertEquals(Marker.X, game.getWinner().getMarker());
     }
-    
+
     /**
      * Getting the winner when O has withdrawn should return X.
      */
@@ -80,7 +120,7 @@ public class UltimateTicTacToeGameTest {
         game.getO().setWithDrawn(true);
         assertEquals(Marker.X, game.getWinner().getMarker());
     }
-    
+
     /**
      * Getting the winner when X has withdrawn should return O.
      */
