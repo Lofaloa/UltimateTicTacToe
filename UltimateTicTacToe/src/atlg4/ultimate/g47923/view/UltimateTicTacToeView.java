@@ -3,12 +3,15 @@ package atlg4.ultimate.g47923.view;
 import atlg4.ultimate.g47923.model.Game;
 import java.io.IOException;
 import static java.util.Objects.requireNonNull;
+import java.util.Optional;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 /**
  * Manages the view of this application.
- * 
+ *
  * @author Logan Farci (47923)
  */
 public class UltimateTicTacToeView implements View {
@@ -42,7 +45,14 @@ public class UltimateTicTacToeView implements View {
         stage.setTitle(TITLE);
         stage.setResizable(true);
     }
-    
+
+    @Override
+    public boolean askConfirmation(String message) {
+        Alert confirmation = new ConfirmationAlert(message);
+        Optional<ButtonType> result = confirmation.showAndWait();
+        return result.get() == ButtonType.OK;
+    }
+
     @Override
     public void showGameMenuWindow() {
         stage.setScene(new Scene(gameMenuWindow));

@@ -1,6 +1,5 @@
 package atlg4.ultimate.g47923.view;
 
-import atlg4.ultimate.g47923.controller.RestartStartAGameHandler;
 import atlg4.ultimate.g47923.model.Game;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -45,7 +44,14 @@ public class ReplayDialog extends Dialog<ButtonType> {
 
     private void setEventFilter() {
         Button replayButton = (Button) getDialogPane().lookupButton(this.replay);
-        replayButton.setOnAction(new RestartStartAGameHandler(game, view));
+        replayButton.setOnAction(e -> {
+            String message = "You are about to restart the game, all the "
+                    + "advancement will be lost!";
+            if (game.isOver()) {
+                game.start();
+                view.clearBoard();
+            }
+        });
         Button quitButton = (Button) getDialogPane().lookupButton(this.quit);
         quitButton.addEventFilter(ActionEvent.ACTION, event -> {
             System.exit(0);

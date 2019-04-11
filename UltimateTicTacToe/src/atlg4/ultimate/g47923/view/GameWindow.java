@@ -1,8 +1,6 @@
 package atlg4.ultimate.g47923.view;
 
 import atlg4.composant.g47923.MyTicTacToe;
-import atlg4.ultimate.g47923.controller.RestartStartAGameHandler;
-import atlg4.ultimate.g47923.controller.WithdrawalHandler;
 import atlg4.ultimate.g47923.dto.MoveDTO;
 import atlg4.ultimate.g47923.dto.PositionDTO;
 import atlg4.ultimate.g47923.exception.UltimateTicTacToeException;
@@ -21,10 +19,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import static java.util.Objects.requireNonNull;
-import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
 import static javafx.scene.layout.GridPane.getRowIndex;
@@ -57,7 +53,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
     private MenuItem quit;
 
     /**
-     * Constructs an instance of this GameWindow with the specified game to 
+     * Constructs an instance of this GameWindow with the specified game to
      * represent and the managing view.
      *
      * @param game is the specified game.
@@ -83,30 +79,40 @@ public class GameWindow extends VBox implements Initializable, Observer {
         }
     }
 
-    /**
-     * Asks a confirmation to the user with the specified message.
-     * 
-     * @param message is the specified message.
-     * @return true if the player confirmed.
-     */
-    public boolean askConfirmation(String message) {
-        Alert confirmation = new ConfirmationAlert(message);
-        Optional<ButtonType> result = confirmation.showAndWait();
-        return result.get() == ButtonType.OK;
-    }
-
-    /**
-     * Clears the content of the board.
-     */
-    public void clearBoard() {
-        for (Node node : board.getChildren()) {
-            MyTicTacToe tictactoe = (MyTicTacToe) node;
-            tictactoe.initialize(null);
-            tictactoe.displayWinner(null);
-            tictactoe.getStyleClass().clear();
+    @FXML
+    private void withdraw(ActionEvent event) {
+        String message = "You are about to withdraw and grant "
+                + "the victory to your opponent!";
+        if (view.askConfirmation(message)) {
+            game.withdraw();
+            showEnd();
         }
     }
-    
+
+    @FXML
+    private void startNewGame(ActionEvent event) {
+        String message = "You are about to restart the game, all the "
+                + "advancement will be lost!";
+        if (game.isOver() || view.askConfirmation(message)) {
+            if (game.isOver()) {
+                System.out.println("the game is over: restarting");
+            } else {
+                System.out.println("the game is not over: restarting");
+            }
+            game.start();
+            clearBoard();
+        }
+    }
+
+    @FXML
+    private void quit(ActionEvent event) {
+        String message = "You are about to quit the game, all the "
+                + "advancement will be lost!";
+        if (view.askConfirmation(message)) {
+            System.exit(0);
+        }
+    }
+
     private MyTicTacToe getTicTacToeAt(int row, int column) {
         MyTicTacToe target = null;
         for (Node node : board.getChildren()) {
@@ -147,20 +153,8 @@ public class GameWindow extends VBox implements Initializable, Observer {
         }
     }
 
-    private void addMenuHandlers() {
-        withdraw.setOnAction(new WithdrawalHandler(game, this));
-        newgame.setOnAction(new RestartStartAGameHandler(game, this));
-        quit.setOnAction((ActionEvent e) -> {
-            if (askConfirmation("You are about to quit the game, all the "
-                    + "advancement will be lost!")) {
-                System.exit(0);
-            }
-        });
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        addMenuHandlers();
         addBoardHandlers();
     }
 
@@ -190,6 +184,15 @@ public class GameWindow extends VBox implements Initializable, Observer {
             showEnd();
         }
         updatePlayable(cell, marker == Marker.X ? Marker.O : Marker.X);
+    }
+
+    void clearBoard() {
+        for (Node node : board.getChildren()) {
+            MyTicTacToe tictactoe = (MyTicTacToe) node;
+            tictactoe.initialize(null);
+            tictactoe.displayWinner(null);
+            tictactoe.getStyleClass().clear();
+        }
     }
 
     private void setTicTacToeStyleClass(String styleClass) {

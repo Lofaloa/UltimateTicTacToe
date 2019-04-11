@@ -16,9 +16,9 @@
             <menus>
                 <Menu mnemonicParsing="false" text="Game">
                     <items>
-                        <MenuItem fx:id="withdraw" mnemonicParsing="false" text="Withdraw" />
-                        <MenuItem fx:id="newgame" mnemonicParsing="false" text="New game" />
-                        <MenuItem fx:id="quit" mnemonicParsing="false" text="Quit" />
+                        <MenuItem fx:id="withdraw" mnemonicParsing="false" text="Withdraw" onAction="#withdraw" />
+                        <MenuItem fx:id="newgame" mnemonicParsing="false" text="New game" onAction="#startNewGame" />
+                        <MenuItem fx:id="quit" mnemonicParsing="false" text="Quit" onAction="#quit" />
                     </items>
                 </Menu>
             </menus>

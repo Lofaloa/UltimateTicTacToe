@@ -192,7 +192,6 @@ public class UltimateTicTacToeGame extends Observable implements Game {
                     + "yet!");
         }
         this.isXCurrentPlayer = !isXCurrentPlayer;
-        notifyView();
     }
 
     @Override

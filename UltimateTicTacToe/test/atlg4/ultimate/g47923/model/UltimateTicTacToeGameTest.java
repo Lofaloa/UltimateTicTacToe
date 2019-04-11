@@ -64,6 +64,42 @@ public class UltimateTicTacToeGameTest {
     }
 
     /**
+     * When starting a game after the game was full, the game should not be over
+     * anymore.
+     */
+    @Test
+    public void start_afterGameIsOver() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.getBoard().fillWith(Player.O);
+        game.start();
+        assertFalse(game.isOver());
+    }
+
+    /**
+     * When starting a game after the game had an owner, the game should not be
+     * over anymore.
+     */
+    @Test
+    public void start_afterGameHadOwner() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.getBoard().setOwner(Player.O);
+        game.start();
+        assertFalse(game.isOver());
+    }
+
+    /**
+     * When starting a game after the game had an withdrawer, the game should
+     * not be over anymore.
+     */
+    @Test
+    public void start_afterGameHadWithdrawer() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.withdraw();
+        game.start();
+        assertFalse(game.isOver());
+    }
+
+    /**
      * Right after construction, the game should be at first turn.
      */
     @Test
