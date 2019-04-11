@@ -22,9 +22,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import static java.util.Objects.requireNonNull;
-import java.util.Timer;
-import java.util.TimerTask;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import static javafx.scene.layout.GridPane.getRowIndex;
@@ -35,34 +34,29 @@ import static javafx.scene.layout.GridPane.getColumnIndex;
  *
  * @author Logan Farci (47923)
  */
-public class GameWindow extends VBox implements Initializable, Observer {
+class GameWindow extends VBox implements Initializable, Observer {
 
     private static final String TITLE = "Ultimate Tic Tac Toe";
     private final String CROSS_IMG_PATH = "/images/cross.png";
     private final String CIRCLE_IMG_PATH = "/images/circle.png";
     private static final String FXML_PATH = "/fxml/GameWindow.fxml";
 
-    private Game game;
-    private Stage stage;
+    private final Game game;
+    private final Stage stage;
 
     @FXML
     private GridPane board;
 
-    @FXML
-    private Label warning;
-
     /**
-     * Constructs this MyTicTacToe with 9 empty cells. The cell are initially
-     * not clickable.
+     * Constructs an instance of this GameWindow with the specified game and a
+     * new stage.
      *
-     * @param game
-     * @param stage
+     * @param game is the game to represent.
      */
-    public GameWindow(Game game) throws IOException {
+    GameWindow(Game game) throws IOException {
         this.game = requireNonNull(game, "Constructing a GameWindow with a null "
                 + "game.");
         this.stage = new Stage();
-        game.addObserver(this);
         load();
     }
 
@@ -85,7 +79,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
         stage.setScene(scene);
     }
 
-    MyTicTacToe getTicTacToeAt(int row, int column) {
+    private MyTicTacToe getTicTacToeAt(int row, int column) {
         MyTicTacToe target = null;
         for (Node node : board.getChildren()) {
             MyTicTacToe t = (MyTicTacToe) node;
@@ -96,36 +90,30 @@ public class GameWindow extends VBox implements Initializable, Observer {
         return target;
     }
 
-    /**
-     * Shows this game screen.
-     */
-    public void show() {
+    void show() {
+        game.addObserver(this);
         initializeStage();
         stage.show();
     }
 
-    private void addHandler(MyTicTacToe t, final int row, final int column) {
-        t.addEventHandlerAt(row, column, new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                try {
-                    System.out.println("test");
-                    PositionDTO m = new PositionDTO(getRowIndex(t), getColumnIndex(t));
-                    PositionDTO c = new PositionDTO(row, column);
-                    game.select(m, c);
-                    game.play();
-                    game.nextPlayer();
-                } catch (UltimateTicTacToeException e) {
-                    showWarning(e.getMessage());
-                }
+    private void addHandlerAt(MyTicTacToe t, final int row, final int column) {
+        t.addEventHandlerAt(row, column, event -> {
+            try {
+                PositionDTO m = new PositionDTO(getRowIndex(t), getColumnIndex(t));
+                PositionDTO c = new PositionDTO(row, column);
+                game.select(m, c);
+                game.play();
+                game.nextPlayer();
+            } catch (UltimateTicTacToeException e) {
+                showIllegalMoveAlert(e.getMessage());
             }
         });
     }
 
-    private void addHandlers(MyTicTacToe t) {
+    private void addHandlersTo(MyTicTacToe t) {
         for (int row = 0; row < MyTicTacToe.SIZE; row++) {
             for (int column = 0; column < MyTicTacToe.SIZE; column++) {
-                addHandler(t, row, column);
+                addHandlerAt(t, row, column);
             }
         }
     }
@@ -133,22 +121,21 @@ public class GameWindow extends VBox implements Initializable, Observer {
     private void addHandlers() {
         for (Node child : board.getChildren()) {
             MyTicTacToe tictactoe = (MyTicTacToe) child;
-            addHandlers(tictactoe);
+            addHandlersTo(tictactoe);
         }
     }
 
-    void showWarning(String msg) {
-        warning.setText(msg);
-        warning.setVisible(true);
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                warning.setVisible(false);
-            }
-        }, 2000);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        addHandlers();
     }
 
-    void showEnd() {
+    private void showIllegalMoveAlert(String msg) {
+        Alert warning = new IllegalMoveAlert(msg);
+        warning.show();
+    }
+
+    private void showEnd() {
         Dialog replay = new ReplayDialog(game);
         replay.showAndWait();
     }
@@ -188,13 +175,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        addHandlers();
-    }
-
-    @Override
     public void update(Observable o, Object o1) {
-        System.out.println("update");
         updateBoard();
     }
 

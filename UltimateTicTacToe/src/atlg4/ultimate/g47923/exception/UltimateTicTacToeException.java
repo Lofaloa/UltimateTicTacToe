@@ -41,7 +41,7 @@ public class UltimateTicTacToeException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return id + ": " + super.getMessage();
+        return super.getMessage();
     }
 
 
