@@ -101,13 +101,13 @@ public class GameWindow extends VBox implements Initializable, Observer {
         }
         return target;
     }
-    
+
     public boolean askConfirmation(String message) {
         Alert confirmation = new ConfirmationAlert(message);
         Optional<ButtonType> result = confirmation.showAndWait();
         return result.get() == ButtonType.OK;
     }
-    
+
     /**
      * Clears the content of the board.
      */
@@ -158,7 +158,10 @@ public class GameWindow extends VBox implements Initializable, Observer {
         withdraw.setOnAction(new WithdrawalHandler(game));
         newgame.setOnAction(new RestartStartAGameHandler(game, this));
         quit.setOnAction((ActionEvent e) -> {
-            System.exit(0);
+            if (askConfirmation("You are about to quit the game, all the "
+                    + "advancement will be lost!")) {
+                System.exit(0);
+            }
         });
     }
 

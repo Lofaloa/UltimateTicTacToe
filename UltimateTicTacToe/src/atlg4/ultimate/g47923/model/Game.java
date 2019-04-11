@@ -76,6 +76,11 @@ public interface Game {
      * with <code>select</code> method by the current player.
      */
     void play();
+    
+    /**
+     * Withdraws the current player of the game. The other player wins the game.
+     */
+    void withdraw();
 
     /**
      * Passes to the next player.

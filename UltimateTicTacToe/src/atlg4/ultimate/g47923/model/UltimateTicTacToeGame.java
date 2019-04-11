@@ -38,6 +38,14 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     UltimateTicTacToe getBoard() {
         return board;
     }
+    
+    Player getX() {
+        return X;
+    }
+    
+    Player getO() {
+        return O;
+    }
 
     Move getCurrentMove() {
         return currentMove;
@@ -55,19 +63,36 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     public PlayerDTO getCurrentPlayer() {
         return isXCurrentPlayer ? X.toDTO() : O.toDTO();
     }
+    
+    boolean hasAPlayerWithdrawn() {
+        return X.isWithdrawn() || O.isWithdrawn();
+    }
+
+    private Player getRemainingPlayer() {
+        if (!hasAPlayerWithdrawn()) {
+            throw new IllegalStateException("No player has withdrawn.");
+        }
+        return X.isWithdrawn() ? O : X;
+    }
 
     @Override
     public PlayerDTO getWinner() {
-        if (!board.hasOwner()) {
+        if (!isOver()) {
             throw new IllegalStateException("No winner yet as the game is not "
                     + "over or the board is full.");
         }
-        return board.getOwner().toDTO();
+        if (hasAPlayerWithdrawn()) {
+            return getRemainingPlayer().toDTO();
+        } else if (board.hasOwner()) {
+            return board.getOwner().toDTO();
+        } else {
+            throw new IllegalStateException("The game is even and has no winner");
+        }
     }
 
     @Override
     public boolean isOver() {
-        return board.hasOwner() || board.isFull();
+        return board.hasOwner() || board.isFull() || hasAPlayerWithdrawn();
     }
 
     @Override
@@ -137,6 +162,16 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         currentMove.execute();
         executedMoves.add(currentMove);
         notifyView();
+    }
+
+    @Override
+    public void withdraw() {
+        System.out.println("withdraw");
+        if (isXCurrentPlayer) {
+            X.setWithDrawn(true);
+        } else {
+            O.setWithDrawn(true);
+        }
     }
 
     private boolean hasCurrentPlayerPlayed() {

@@ -47,22 +47,22 @@ enum Player {
      *
      * @return true if this player is withdrawn.
      */
-    public boolean isIsWithdrawn() {
+    public boolean isWithdrawn() {
         return isWithdrawn;
     }
 
     /**
      * Withdraws this player.
      */
-    void withdraw() {
-        this.isWithdrawn = true;
+    void setWithDrawn(boolean value) {
+        this.isWithdrawn = value;
     }
 
     /**
      * Converts this player to a data transfer object.
      */
     PlayerDTO toDTO() {
-        return new PlayerDTO(this.marker);
+        return new PlayerDTO(this.marker, this.isWithdrawn);
     }
 
 }

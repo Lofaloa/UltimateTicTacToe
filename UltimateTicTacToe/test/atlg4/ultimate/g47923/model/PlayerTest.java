@@ -14,21 +14,21 @@ public class PlayerTest {
     public void construction_x_player() {
         Player player = Player.X;
         assertEquals(Marker.X, player.getMarker());
-        assertFalse(player.isIsWithdrawn());
+        assertFalse(player.isWithdrawn());
     }
 
     @Test
     public void construction_o_player() {
         Player player = Player.O;
         assertEquals(Marker.O, player.getMarker());
-        assertFalse(player.isIsWithdrawn());
+        assertFalse(player.isWithdrawn());
     }
 
     @Test
     public void withdraw() {
         Player player = Player.O;
-        player.withdraw();
-        assertTrue(player.isIsWithdrawn());
+        player.setWithDrawn(true);
+        assertTrue(player.isWithdrawn());
     }
 
 }

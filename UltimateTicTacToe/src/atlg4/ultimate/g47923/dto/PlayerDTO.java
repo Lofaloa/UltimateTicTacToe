@@ -18,9 +18,9 @@ public class PlayerDTO {
      *
      * @param marker the marker of this player.
      */
-    public PlayerDTO(Marker marker) {
+    public PlayerDTO(Marker marker, boolean isWithdrawn) {
         this.marker = marker;
-        this.isWithdrawn = false;
+        this.isWithdrawn = isWithdrawn;
     }
 
     /**
@@ -37,7 +37,7 @@ public class PlayerDTO {
      *
      * @return true if this player is withdrawn.
      */
-    public boolean isIsWithdrawn() {
+    public boolean isWithDrawn() {
         return isWithdrawn;
     }
 
