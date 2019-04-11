@@ -20,11 +20,9 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import static java.util.Objects.requireNonNull;
 import java.util.Optional;
 import javafx.event.ActionEvent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -33,19 +31,18 @@ import static javafx.scene.layout.GridPane.getRowIndex;
 import static javafx.scene.layout.GridPane.getColumnIndex;
 
 /**
- * Is the game screen.
+ * Is the game window.
  *
  * @author Logan Farci (47923)
  */
 public class GameWindow extends VBox implements Initializable, Observer {
 
-    private static final String TITLE = "Ultimate Tic Tac Toe";
     private final String CROSS_IMG_PATH = "/images/cross.png";
     private final String CIRCLE_IMG_PATH = "/images/circle.png";
     private static final String FXML_PATH = "/fxml/GameWindow.fxml";
 
     private final Game game;
-    private final Stage stage;
+    private final View view;
 
     @FXML
     private GridPane board;
@@ -60,15 +57,17 @@ public class GameWindow extends VBox implements Initializable, Observer {
     private MenuItem quit;
 
     /**
-     * Constructs an instance of this GameWindow with the specified game and a
-     * new stage.
+     * Constructs an instance of this GameWindow with the specified game to 
+     * represent and the managing view.
      *
-     * @param game is the game to represent.
+     * @param game is the specified game.
+     * @param view is the managing view.
      */
-    GameWindow(Game game) throws IOException {
+    GameWindow(Game game, View view) throws IOException {
         this.game = requireNonNull(game, "Constructing a GameWindow with a null "
                 + "game.");
-        this.stage = new Stage();
+        this.view = requireNonNull(view, "Constructing a GameWindow with a null "
+                + "view.");
         load();
     }
 
@@ -84,24 +83,12 @@ public class GameWindow extends VBox implements Initializable, Observer {
         }
     }
 
-    private void initializeStage() {
-        stage.setTitle(TITLE);
-        stage.setResizable(true);
-        Scene scene = new Scene(this);
-        stage.setScene(scene);
-    }
-
-    private MyTicTacToe getTicTacToeAt(int row, int column) {
-        MyTicTacToe target = null;
-        for (Node node : board.getChildren()) {
-            MyTicTacToe t = (MyTicTacToe) node;
-            if (getRowIndex(node) == row && getColumnIndex(node) == column) {
-                target = t;
-            }
-        }
-        return target;
-    }
-
+    /**
+     * Asks a confirmation to the user with the specified message.
+     * 
+     * @param message is the specified message.
+     * @return true if the player confirmed.
+     */
     public boolean askConfirmation(String message) {
         Alert confirmation = new ConfirmationAlert(message);
         Optional<ButtonType> result = confirmation.showAndWait();
@@ -115,14 +102,20 @@ public class GameWindow extends VBox implements Initializable, Observer {
         for (Node node : board.getChildren()) {
             MyTicTacToe tictactoe = (MyTicTacToe) node;
             tictactoe.initialize(null);
+            tictactoe.displayWinner(null);
             tictactoe.getStyleClass().clear();
         }
     }
-
-    void show() {
-        game.addObserver(this);
-        initializeStage();
-        stage.show();
+    
+    private MyTicTacToe getTicTacToeAt(int row, int column) {
+        MyTicTacToe target = null;
+        for (Node node : board.getChildren()) {
+            MyTicTacToe t = (MyTicTacToe) node;
+            if (getRowIndex(node) == row && getColumnIndex(node) == column) {
+                target = t;
+            }
+        }
+        return target;
     }
 
     private void addHandlerAt(MyTicTacToe t, final int row, final int column) {

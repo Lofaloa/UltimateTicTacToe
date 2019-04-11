@@ -9,21 +9,11 @@ public interface View {
     /**
      * Shows the menu window. It allows the users the browse all the features.
      */
-    void showMenuWindow();
-
-    /**
-     * Closes the menu window.
-     */
-    void closesMenuWindow();
+    void showGameMenuWindow();
 
     /**
      * Shows the window of the game. It allows the users to play the game.
      */
     void showGameWindow();
-
-    /**
-     * Closes the window of the game.
-     */
-    void closeGameWindow();
 
 }

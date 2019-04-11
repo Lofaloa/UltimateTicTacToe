@@ -20,7 +20,7 @@ public class Main extends Application {
         try {
             Game game = new UltimateTicTacToeGame();
             View view = new UltimateTicTacToeView(game, primaryStage);
-            view.showMenuWindow();
+            view.showGameMenuWindow();
         } catch (UltimateTicTacToeException e) {
             System.out.println(e.getMessage());
         } catch (IOException e) {
