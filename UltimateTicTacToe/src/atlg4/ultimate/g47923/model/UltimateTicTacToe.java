@@ -25,6 +25,7 @@ class UltimateTicTacToe extends Grid<MiniTicTacToe> {
      */
     @Override
     final void initialize() {
+        cells.clear();
         for (int row = 0; row < SIZE; row++) {
             for (int column = 0; column < SIZE; column++) {
                 cells.add(new MiniTicTacToe(new Position(row, column)));

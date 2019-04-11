@@ -13,8 +13,6 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,9 +22,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import static java.util.Objects.requireNonNull;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
 import static javafx.scene.layout.GridPane.getRowIndex;
@@ -37,7 +37,7 @@ import static javafx.scene.layout.GridPane.getColumnIndex;
  *
  * @author Logan Farci (47923)
  */
-class GameWindow extends VBox implements Initializable, Observer {
+public class GameWindow extends VBox implements Initializable, Observer {
 
     private static final String TITLE = "Ultimate Tic Tac Toe";
     private final String CROSS_IMG_PATH = "/images/cross.png";
@@ -101,6 +101,23 @@ class GameWindow extends VBox implements Initializable, Observer {
         }
         return target;
     }
+    
+    public boolean askConfirmation(String message) {
+        Alert confirmation = new ConfirmationAlert(message);
+        Optional<ButtonType> result = confirmation.showAndWait();
+        return result.get() == ButtonType.OK;
+    }
+    
+    /**
+     * Clears the content of the board.
+     */
+    public void clearBoard() {
+        for (Node node : board.getChildren()) {
+            MyTicTacToe tictactoe = (MyTicTacToe) node;
+            tictactoe.initialize(null);
+            tictactoe.getStyleClass().clear();
+        }
+    }
 
     void show() {
         game.addObserver(this);
@@ -139,7 +156,7 @@ class GameWindow extends VBox implements Initializable, Observer {
 
     private void addMenuHandlers() {
         withdraw.setOnAction(new WithdrawalHandler(game));
-        newgame.setOnAction(new RestartStartAGameHandler(game));
+        newgame.setOnAction(new RestartStartAGameHandler(game, this));
         quit.setOnAction((ActionEvent e) -> {
             System.exit(0);
         });
