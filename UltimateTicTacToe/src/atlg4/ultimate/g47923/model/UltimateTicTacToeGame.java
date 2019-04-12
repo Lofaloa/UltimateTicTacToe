@@ -3,6 +3,7 @@ package atlg4.ultimate.g47923.model;
 import atlg4.ultimate.g47923.dto.MoveDTO;
 import atlg4.ultimate.g47923.dto.PlayerDTO;
 import atlg4.ultimate.g47923.dto.PositionDTO;
+import atlg4.ultimate.g47923.dto.UserDTO;
 import atlg4.ultimate.g47923.exception.IllegalMoveException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +39,11 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     UltimateTicTacToe getBoard() {
         return board;
     }
-    
+
     Player getX() {
         return X;
     }
-    
+
     Player getO() {
         return O;
     }
@@ -63,7 +64,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     public PlayerDTO getCurrentPlayer() {
         return isXCurrentPlayer ? X.toDTO() : O.toDTO();
     }
-    
+
     boolean hasAPlayerWithdrawn() {
         return X.isWithdrawn() || O.isWithdrawn();
     }
@@ -103,6 +104,19 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         this.X.setWithDrawn(false);
         this.O.setWithDrawn(false);
         this.executedMoves.clear();
+    }
+
+    @Override
+    public void setUserOf(Marker marker, UserDTO user) {
+        if (!isFirstTurn()) {
+            throw new IllegalStateException("Cannot set the users during the "
+                    + "game.");
+        }
+        if (marker == Marker.X) {
+            X.setUser(new User(user));
+        } else {
+            O.setUser(new User(user));
+        }
     }
 
     @Override

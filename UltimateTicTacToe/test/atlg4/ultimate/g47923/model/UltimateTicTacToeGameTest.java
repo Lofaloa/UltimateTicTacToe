@@ -1,6 +1,7 @@
 package atlg4.ultimate.g47923.model;
 
 import atlg4.ultimate.g47923.dto.PositionDTO;
+import atlg4.ultimate.g47923.dto.UserDTO;
 import atlg4.ultimate.g47923.exception.IllegalMoveException;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -97,6 +98,39 @@ public class UltimateTicTacToeGameTest {
         game.withdraw();
         game.start();
         assertFalse(game.isOver());
+    }
+
+    /**
+     * Setting the user of the X player should set the expected user of the X
+     * player.
+     */
+    @Test
+    public void setUserOf_xPlayerHasAUser() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.setUserOf(Marker.X, new UserDTO("Pinguino", 2, 3, 4));
+        assertEquals("Pinguino", game.getX().getUser().getPseudonym());
+    }
+
+    /**
+     * Setting the user of the O player should set the expected user of the O
+     * player.
+     */
+    @Test
+    public void setUserOf_oPlayerHasAUser() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.setUserOf(Marker.O, new UserDTO("Anatra", 2, 3, 4));
+        assertEquals("Anatra", game.getO().getUser().getPseudonym());
+    }
+
+    /**
+     * Setting a user during a game should cause an exception.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void setUserOf() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        Move move = new Move(Player.X, new Position(), new Position(), game.getBoard());
+        for (int m = 0; m < 5; m++) game.getExecutedMoves().add(move);
+        game.setUserOf(Marker.O, new UserDTO("Cuaddu", 2, 3, 4));
     }
 
     /**

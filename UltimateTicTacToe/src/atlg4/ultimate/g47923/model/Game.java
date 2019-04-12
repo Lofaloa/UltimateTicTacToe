@@ -3,6 +3,7 @@ package atlg4.ultimate.g47923.model;
 import atlg4.ultimate.g47923.dto.MoveDTO;
 import atlg4.ultimate.g47923.dto.PlayerDTO;
 import atlg4.ultimate.g47923.dto.PositionDTO;
+import atlg4.ultimate.g47923.dto.UserDTO;
 import atlg4.ultimate.g47923.exception.IllegalMoveException;
 import java.util.Observer;
 
@@ -50,6 +51,14 @@ public interface Game {
     void start();
 
     /**
+     * Sets the user of the specified marker.
+     *
+     * @param marker is the specified marker.
+     * @param user is the user of the specified marker.
+     */
+    void setUserOf(Marker marker, UserDTO user);
+
+    /**
      * Selects the position where the next move will take place.
      *
      * @param parent is the position of the MiniTicTacToe where to execute the
@@ -76,7 +85,7 @@ public interface Game {
      * with <code>select</code> method by the current player.
      */
     void play();
-    
+
     /**
      * Withdraws the current player of the game. The other player wins the game.
      */
