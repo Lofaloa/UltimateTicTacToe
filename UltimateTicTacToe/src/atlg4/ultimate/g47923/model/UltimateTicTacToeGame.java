@@ -98,6 +98,11 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     }
 
     @Override
+    public boolean haveUsersBeenSet() {
+        return X.hasUser() && O.hasUser();
+    }
+
+    @Override
     public boolean isOver() {
         return board.hasOwner() || board.isFull() || hasAPlayerWithdrawn();
     }
@@ -157,10 +162,6 @@ public class UltimateTicTacToeGame extends Observable implements Game {
             }
         }
         return move;
-    }
-
-    private boolean haveUsersBeenSet() {
-        return X.hasUser() && O.hasUser();
     }
 
     @Override

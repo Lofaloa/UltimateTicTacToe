@@ -23,6 +23,8 @@ public class UltimateTicTacToeView implements View {
     private final Stage stage;
     private final GameMenuWindow gameMenuWindow;
     private final GameWindow gameWindow;
+    private final JoinDialog joinDialog;
+
 
     /**
      * Constructs this view with the specified game to represent.
@@ -37,6 +39,7 @@ public class UltimateTicTacToeView implements View {
                 + "stage.");
         this.gameMenuWindow = new GameMenuWindow(game, this);
         this.gameWindow = new GameWindow(game, this);
+        this.joinDialog = new JoinDialog();
         game.addObserver(gameWindow);
         initializeStage();
     }
@@ -54,6 +57,12 @@ public class UltimateTicTacToeView implements View {
     }
 
     @Override
+    public String askPseudonym() {
+        Optional<String> result = joinDialog.showAndWait();
+        return result.isPresent() ? result.get() : null;
+    }
+
+    @Override
     public void showGameMenuWindow() {
         stage.setScene(new Scene(gameMenuWindow));
         stage.show();
@@ -64,6 +73,12 @@ public class UltimateTicTacToeView implements View {
     public void showGameWindow() {
         stage.setScene(new Scene(gameWindow));
         stage.centerOnScreen();
+    }
+
+    @Override
+    public void showWarning(String header, String message) {
+        Warning warning = new Warning(header, message);
+        warning.show();
     }
 
 }

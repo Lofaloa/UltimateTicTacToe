@@ -38,6 +38,13 @@ public interface Game {
     MoveDTO getLastMove();
 
     /**
+     * Tells if this game has two users ready to start the game.
+     *
+     * @return true if this game has two users.
+     */
+    boolean haveUsersBeenSet();
+
+    /**
      * Tells if this game is over. A game is over when its board is full or one
      * of the two players owns the board.
      *

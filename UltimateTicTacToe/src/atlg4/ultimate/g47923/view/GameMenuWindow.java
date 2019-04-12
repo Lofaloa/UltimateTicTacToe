@@ -1,13 +1,17 @@
 package atlg4.ultimate.g47923.view;
 
+import atlg4.ultimate.g47923.dto.UserDTO;
 import atlg4.ultimate.g47923.model.Game;
+import atlg4.ultimate.g47923.model.Marker;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 import static java.util.Objects.requireNonNull;
+import java.util.Random;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 /**
  * Is the game menu.
@@ -21,7 +25,13 @@ public class GameMenuWindow extends VBox {
 
     private final Game game;
     private final View view;
-    
+
+    @FXML
+    private Label playerX;
+
+    @FXML
+    private Label playerO;
+
     @FXML
     private Button newgame;
 
@@ -41,7 +51,7 @@ public class GameMenuWindow extends VBox {
                 + "view.");
         load();
     }
-    
+
     private void load() throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -51,6 +61,30 @@ public class GameMenuWindow extends VBox {
             loader.load();
         } catch (IOException exception) {
             throw new IOException(FXML_PATH + " cannot be loaded!", exception);
+        }
+    }
+
+    private static int getRandomNumberInRange(int min, int max) {
+        return new Random().nextInt((max - min) + 1) + min;
+    }
+
+    @FXML
+    private void join(ActionEvent event) {
+        if (game.haveUsersBeenSet()) {
+            view.showWarning("All users are set.", "All players are set but if"
+                    + " you desire to change a player, click 'disconnect'");
+        } else {
+            String pseudonym = view.askPseudonym();
+            if (pseudonym != null) {
+                int random = getRandomNumberInRange(0, 1);
+                Marker m = random == 1 ? Marker.X : Marker.O;
+                game.setUserOf(m, new UserDTO(pseudonym, 0, 0, 0));
+                if (m == Marker.X) {
+                    playerX.setText(pseudonym);
+                } else {
+                    playerO.setText(pseudonym);
+                }
+            }
         }
     }
 
