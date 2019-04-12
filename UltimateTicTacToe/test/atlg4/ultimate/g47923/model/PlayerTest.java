@@ -33,6 +33,7 @@ public class PlayerTest {
         User user = new User("Totò", 2, 3 ,4);
         player.setUser(user);
         assertEquals(user.getPseudonym(), player.getUser().getPseudonym());
+        assertTrue(player.hasUser());
     }
 
     @Test

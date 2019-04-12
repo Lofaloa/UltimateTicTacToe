@@ -48,6 +48,10 @@ enum Player {
         return user;
     }
 
+    boolean hasUser() {
+        return user != null;
+    }
+
     /**
      * Tells if this player is withdrawn.
      *

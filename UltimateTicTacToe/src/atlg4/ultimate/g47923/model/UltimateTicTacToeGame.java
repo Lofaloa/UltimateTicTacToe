@@ -153,8 +153,15 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         return move;
     }
 
+    private boolean haveUsersBeenSet() {
+        return X.hasUser() && O.hasUser();
+    }
+
     @Override
     public void select(PositionDTO miniTicTacToe, PositionDTO cell) {
+        if (!haveUsersBeenSet()) {
+            throw new IllegalStateException("No users have been set.");
+        }
         Position miniPosition = new Position(miniTicTacToe);
         Position cellPosition = new Position(cell);
         Player current = isXCurrentPlayer ? X : O;
@@ -216,6 +223,11 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     private void notifyView() {
         setChanged();
         notifyObservers();
+    }
+
+    void clearUsers() {
+        X.setUser(null);
+        O.setUser(null);
     }
 
 }
