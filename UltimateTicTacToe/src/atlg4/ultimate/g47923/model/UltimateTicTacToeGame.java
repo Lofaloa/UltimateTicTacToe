@@ -34,17 +34,19 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         this.isXCurrentPlayer = true;
         this.currentMove = null;
         this.executedMoves = new ArrayList<>();
+        getX().setWithDrawn(false);
+        getO().setWithDrawn(false);
     }
 
     UltimateTicTacToe getBoard() {
         return board;
     }
 
-    Player getX() {
+    final Player getX() {
         return X;
     }
 
-    Player getO() {
+    final Player getO() {
         return O;
     }
 
@@ -74,6 +76,10 @@ public class UltimateTicTacToeGame extends Observable implements Game {
             throw new IllegalStateException("No player has withdrawn.");
         }
         return X.isWithdrawn() ? O : X;
+    }
+
+    void setIsXCurrentPlayer(boolean value) {
+        isXCurrentPlayer = value;
     }
 
     @Override
@@ -189,7 +195,6 @@ public class UltimateTicTacToeGame extends Observable implements Game {
 
     @Override
     public void withdraw() {
-        System.out.println("withdraw");
         if (isXCurrentPlayer) {
             X.setWithDrawn(true);
         } else {
@@ -213,6 +218,29 @@ public class UltimateTicTacToeGame extends Observable implements Game {
                     + "yet!");
         }
         this.isXCurrentPlayer = !isXCurrentPlayer;
+    }
+
+    private boolean isExaequo() {
+        return isOver() && board.isFull();
+    }
+
+    @Override
+    public void updateUsersStatistics() {
+        if (!isOver()) {
+            throw new IllegalStateException("The game is not over yet.");
+        }
+        if (isExaequo()) {
+            X.getUser().addAnExaequo();
+            O.getUser().addAnExaequo();
+        } else {
+            if (getWinner().getMarker() == Marker.X) {
+                X.getUser().addAVictory();
+                O.getUser().addADefeat();
+            } else {
+                X.getUser().addADefeat();
+                O.getUser().addAVictory();
+            }
+        }
     }
 
     @Override

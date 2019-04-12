@@ -55,6 +55,7 @@ public interface Game {
      *
      * @param marker is the specified marker.
      * @param user is the user of the specified marker.
+     * @throws IllegalStateException when setting a using during the game.
      */
     void setUserOf(Marker marker, UserDTO user);
 
@@ -97,6 +98,12 @@ public interface Game {
      * @throws IllegalStateException if the current player is not done playing.
      */
     void nextPlayer();
+
+    /**
+     *
+     * @throws IllegalStateException if the game is not over.
+     */
+    void updateUsersStatistics();
 
     /**
      * Adds an observer to this game.

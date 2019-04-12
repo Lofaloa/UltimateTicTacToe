@@ -1,5 +1,6 @@
 package atlg4.ultimate.g47923.model;
 
+import atlg4.ultimate.g47923.dto.UserDTO;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -117,8 +118,6 @@ public class EndOfAGameTest {
     @Test
     public void withdraw() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        game.getX().setWithDrawn(false);
-        game.getO().setWithDrawn(false);
         game.withdraw();
         assertTrue(game.getCurrentPlayer().isWithDrawn());
     }
@@ -130,10 +129,93 @@ public class EndOfAGameTest {
     @Test
     public void withdraw_gameIsOver() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        game.getX().setWithDrawn(false);
-        game.getO().setWithDrawn(false);
         game.withdraw();
         assertTrue(game.isOver());
+    }
+
+    /**
+     * If the user of X wins the game he should have a victory added and the
+     * user of O should have a defeat added.
+     */
+    @Test
+    public void updateUsersStatistics_xWins() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.setUserOf(Marker.X, new UserDTO("Bob", 0, 0, 0));
+        game.setUserOf(Marker.O, new UserDTO("Patrick", 0, 0, 0));
+        game.getBoard().setOwner(Player.X);
+        game.updateUsersStatistics();
+        assertEquals(1, game.getX().getUser().getNbOfVictories());
+        assertEquals(1, game.getO().getUser().getNbOfDefeats());
+    }
+
+    /**
+     * If the user of X wins because the user of O has withdrawn. X should have
+     * a victory added and the user of O should have a defeat added.
+     */
+    @Test
+    public void updateUsersStatistics_xWinsOWithdraws() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.setUserOf(Marker.X, new UserDTO("Bob", 0, 0, 0));
+        game.setUserOf(Marker.O, new UserDTO("Patrick", 0, 0, 0));
+        game.setIsXCurrentPlayer(false);
+        game.withdraw();
+        game.updateUsersStatistics();
+        assertEquals(1, game.getX().getUser().getNbOfVictories());
+        assertEquals(1, game.getO().getUser().getNbOfDefeats());
+    }
+
+    /**
+     * If the user of O wins the game he should have a victory added and the
+     * user of X should have a defeat added.
+     */
+    @Test
+    public void updateUsersStatistics_oWins() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.setUserOf(Marker.O, new UserDTO("Patrick", 0, 0, 0));
+        game.setUserOf(Marker.X, new UserDTO("Bob", 0, 0, 0));
+        game.getBoard().setOwner(Player.O);
+        game.updateUsersStatistics();
+        assertEquals(1, game.getO().getUser().getNbOfVictories());
+        assertEquals(1, game.getX().getUser().getNbOfDefeats());
+    }
+
+    /**
+     * If the user of O wins because the user of X has withdrawn. O should have
+     * a victory added and the user of X should have a defeat added.
+     */
+    @Test
+    public void updateUsersStatistics_oWinsXWithdraws() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.setUserOf(Marker.O, new UserDTO("Patrick", 0, 0, 0));
+        game.setUserOf(Marker.X, new UserDTO("Bob", 0, 0, 0));
+        game.withdraw();
+        game.updateUsersStatistics();
+        assertEquals(1, game.getO().getUser().getNbOfVictories());
+        assertEquals(1, game.getX().getUser().getNbOfDefeats());
+    }
+
+    /**
+     * Both users should have an ex aequo added after en ex aequo.
+     */
+    @Test
+    public void updateUsersStatistics_exaequo() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.setUserOf(Marker.O, new UserDTO("Patrick", 0, 0, 0));
+        game.setUserOf(Marker.X, new UserDTO("Bob", 0, 0, 0));
+        game.getBoard().fillWith(Player.O);
+        game.updateUsersStatistics();
+        assertEquals(1, game.getO().getUser().getNbOfExaequos());
+        assertEquals(1, game.getX().getUser().getNbOfExaequos());
+    }
+
+    /**
+     * Trying to update the users statistics when the game is not over should
+     * causes an exception.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void updateUsersStatistics() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.updateUsersStatistics();
     }
 
 }
