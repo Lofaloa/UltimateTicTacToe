@@ -24,6 +24,17 @@ public class PlayerTest {
         assertFalse(player.isWithdrawn());
     }
 
+    /**
+     * Setting the user should set the expected user.
+     */
+    @Test
+    public void setUser() {
+        Player player = Player.X;
+        User user = new User("Totò", 2, 3 ,4);
+        player.setUser(user);
+        assertEquals(user.getPseudonym(), player.getUser().getPseudonym());
+    }
+
     @Test
     public void withdraw() {
         Player player = Player.O;

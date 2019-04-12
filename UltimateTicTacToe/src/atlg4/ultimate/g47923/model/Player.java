@@ -20,6 +20,7 @@ enum Player {
     O(Marker.O);
 
     private final Marker marker;
+    private User user;
     private boolean isWithdrawn;
 
     /**
@@ -30,6 +31,7 @@ enum Player {
      */
     Player(Marker marker) {
         this.marker = marker;
+        this.user = null;
         this.isWithdrawn = false;
     }
 
@@ -38,8 +40,12 @@ enum Player {
      *
      * @return this player marker.
      */
-    public Marker getMarker() {
+    Marker getMarker() {
         return marker;
+    }
+
+    User getUser() {
+        return user;
     }
 
     /**
@@ -47,8 +53,12 @@ enum Player {
      *
      * @return true if this player is withdrawn.
      */
-    public boolean isWithdrawn() {
+    boolean isWithdrawn() {
         return isWithdrawn;
+    }
+
+    void setUser(User user) {
+        this.user = user;
     }
 
     /**
