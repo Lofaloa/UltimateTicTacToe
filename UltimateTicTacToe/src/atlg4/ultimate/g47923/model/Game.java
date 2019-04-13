@@ -38,11 +38,12 @@ public interface Game {
     MoveDTO getLastMove();
 
     /**
-     * Tells if this game has two users ready to start the game.
+     * Tells if this game has an user for the given marker.
      *
+     * @param marker is the given marker.
      * @return true if this game has two users.
      */
-    boolean haveUsersBeenSet();
+    boolean hasUserFor(Marker marker);
 
     /**
      * Tells if this game has moves.
