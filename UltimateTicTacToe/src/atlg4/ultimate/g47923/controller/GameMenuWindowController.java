@@ -33,9 +33,8 @@ public class GameMenuWindowController {
         return new Random().nextInt((max - min) + 1) + min;
     }
 
-     @FXML
+    @FXML
     private void join(ActionEvent event) {
-         System.out.println("i am in the controller");
         if (game.haveUsersBeenSet()) {
             view.showWarning("All users are set.", "All players are set but if"
                     + " you desire to change a player, click 'disconnect'");

@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 public class UltimateTicTacToeView implements View {
 
     private static final String TITLE = "Ultimate Tic Tac Toe Menu";
+    private static final String ICON_PATH = "/images/icon.png";
     private static final String FXML_PATH = "/fxml/GameMenuWindow.fxml";
 
     private final Game game;
@@ -43,13 +45,13 @@ public class UltimateTicTacToeView implements View {
         this.gameWindow = new GameWindow(game, this);
         this.replayDialog = new ReplayDialog();
         this.joinDialog = new JoinDialog();
-        System.out.println("observer added");
         game.addObserver(gameWindow);
         initializeStage();
     }
 
     private void initializeStage() {
         stage.setTitle(TITLE);
+        stage.getIcons().add(new Image(ICON_PATH));
         stage.setResizable(true);
     }
 
