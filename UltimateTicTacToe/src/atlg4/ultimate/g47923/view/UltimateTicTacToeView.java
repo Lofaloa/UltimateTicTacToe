@@ -7,6 +7,7 @@ import java.util.Optional;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 
 /**
@@ -23,7 +24,8 @@ public class UltimateTicTacToeView implements View {
     private final Stage stage;
     private final GameMenuWindow gameMenuWindow;
     private final GameWindow gameWindow;
-    private final JoinDialog joinDialog;
+    private final Dialog replayDialog;
+    private final Dialog joinDialog;
 
 
     /**
@@ -39,7 +41,9 @@ public class UltimateTicTacToeView implements View {
                 + "stage.");
         this.gameMenuWindow = new GameMenuWindow(game, this);
         this.gameWindow = new GameWindow(game, this);
+        this.replayDialog = new ReplayDialog();
         this.joinDialog = new JoinDialog();
+        System.out.println("observer added");
         game.addObserver(gameWindow);
         initializeStage();
     }
@@ -60,6 +64,13 @@ public class UltimateTicTacToeView implements View {
     public String askPseudonym() {
         Optional<String> result = joinDialog.showAndWait();
         return result.isPresent() ? result.get() : null;
+    }
+
+    @Override
+    public boolean askReplay() {
+        Optional<ButtonType> result = replayDialog.showAndWait();
+        System.out.println(result);
+        return result.get().getText().equals("Replay");
     }
 
     @Override

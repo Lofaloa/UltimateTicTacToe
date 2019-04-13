@@ -45,6 +45,13 @@ public interface Game {
     boolean haveUsersBeenSet();
 
     /**
+     * Tells if this game has moves.
+     *
+     * @return true if this game has moves.
+     */
+    boolean hasMoves();
+
+    /**
      * Tells if this game is over. A game is over when its board is full or one
      * of the two players owns the board.
      *

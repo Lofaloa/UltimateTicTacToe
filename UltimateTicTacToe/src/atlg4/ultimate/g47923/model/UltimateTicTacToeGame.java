@@ -108,6 +108,11 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     }
 
     @Override
+    public boolean hasMoves() {
+        return !isFirstTurn();
+    }
+
+    @Override
     public void start() {
         this.board.initialize();
         this.isXCurrentPlayer = true;
@@ -115,6 +120,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         this.X.setWithDrawn(false);
         this.O.setWithDrawn(false);
         this.executedMoves.clear();
+        notifyView();
     }
 
     @Override

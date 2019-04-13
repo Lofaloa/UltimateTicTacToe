@@ -1,28 +1,20 @@
 package atlg4.ultimate.g47923.view;
 
 import atlg4.composant.g47923.MyTicTacToe;
+import atlg4.ultimate.g47923.controller.GameWindowController;
 import atlg4.ultimate.g47923.dto.MoveDTO;
 import atlg4.ultimate.g47923.dto.PositionDTO;
-import atlg4.ultimate.g47923.exception.UltimateTicTacToeException;
 import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.model.Marker;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import static java.util.Objects.requireNonNull;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.MenuItem;
 import static javafx.scene.layout.GridPane.getRowIndex;
 import static javafx.scene.layout.GridPane.getColumnIndex;
 
@@ -31,7 +23,7 @@ import static javafx.scene.layout.GridPane.getColumnIndex;
  *
  * @author Logan Farci (47923)
  */
-public class GameWindow extends VBox implements Initializable, Observer {
+public class GameWindow extends VBox implements Observer {
 
     private final String CROSS_IMG_PATH = "/images/cross.png";
     private final String CIRCLE_IMG_PATH = "/images/circle.png";
@@ -40,17 +32,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
     private final Game game;
     private final View view;
 
-    @FXML
-    private GridPane board;
-
-    @FXML
-    private MenuItem withdraw;
-
-    @FXML
-    private MenuItem newgame;
-
-    @FXML
-    private MenuItem quit;
+    private final GridPane board;
 
     /**
      * Constructs an instance of this GameWindow with the specified game to
@@ -65,6 +47,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
         this.view = requireNonNull(view, "Constructing a GameWindow with a null "
                 + "view.");
         load();
+        this.board = requireNonNull(getBoard(), "No board has been found");
     }
 
     private void load() throws IOException {
@@ -72,45 +55,21 @@ public class GameWindow extends VBox implements Initializable, Observer {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource(FXML_PATH));
             loader.setRoot(this);
-            loader.setController(this);
+            loader.setController(new GameWindowController(game, view));
             loader.load();
         } catch (IOException exception) {
             throw new IOException(FXML_PATH + " cannot be loaded!", exception);
         }
     }
 
-    @FXML
-    private void withdraw(ActionEvent event) {
-        String message = "You are about to withdraw and grant "
-                + "the victory to your opponent!";
-        if (view.askConfirmation(message)) {
-            game.withdraw();
-            showEnd();
-        }
-    }
-
-    @FXML
-    private void startNewGame(ActionEvent event) {
-        String message = "You are about to restart the game, all the "
-                + "advancement will be lost!";
-        if (game.isOver() || view.askConfirmation(message)) {
-            if (game.isOver()) {
-                System.out.println("the game is over: restarting");
-            } else {
-                System.out.println("the game is not over: restarting");
+    private GridPane getBoard() {
+        GridPane target = null;
+        for (Node node : getChildren()) {
+            if (node.getClass() == GridPane.class) {
+                target = (GridPane) node;
             }
-            game.start();
-            clearBoard();
         }
-    }
-
-    @FXML
-    private void quit(ActionEvent event) {
-        String message = "You are about to quit the game, all the "
-                + "advancement will be lost!";
-        if (view.askConfirmation(message)) {
-            System.exit(0);
-        }
+        return target;
     }
 
     private MyTicTacToe getTicTacToeAt(int row, int column) {
@@ -124,52 +83,7 @@ public class GameWindow extends VBox implements Initializable, Observer {
         return target;
     }
 
-    private void addHandlerAt(MyTicTacToe t, final int row, final int column) {
-        t.addEventHandlerAt(row, column, event -> {
-            try {
-                PositionDTO m = new PositionDTO(getRowIndex(t), getColumnIndex(t));
-                PositionDTO c = new PositionDTO(row, column);
-                game.select(m, c);
-                game.play();
-                game.nextPlayer();
-            } catch (UltimateTicTacToeException e) {
-                showIllegalMoveAlert(e.getMessage());
-            }
-        });
-    }
-
-    private void addHandlersTo(MyTicTacToe t) {
-        for (int row = 0; row < MyTicTacToe.SIZE; row++) {
-            for (int column = 0; column < MyTicTacToe.SIZE; column++) {
-                addHandlerAt(t, row, column);
-            }
-        }
-    }
-
-    private void addBoardHandlers() {
-        for (Node child : board.getChildren()) {
-            MyTicTacToe tictactoe = (MyTicTacToe) child;
-            addHandlersTo(tictactoe);
-        }
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        addBoardHandlers();
-    }
-
-    private void showIllegalMoveAlert(String msg) {
-        Alert warning = new IllegalMoveAlert(msg);
-        warning.show();
-    }
-
-    public void showEnd() {
-        Dialog replay = new ReplayDialog(game, this);
-        replay.show();
-    }
-
-    private void updateBoard() {
-        // problème si aucun mouvement n'a eu lieu!
+    private void showLastMove() {
         MoveDTO move = game.getLastMove();
         PositionDTO mini = move.getMiniTicTacToePosition();
         PositionDTO cell = move.getCellPosition();
@@ -180,9 +94,6 @@ public class GameWindow extends VBox implements Initializable, Observer {
         if (move.isWinning()) {
             tictactoe.displayWinner(img);
         }
-        if (game.isOver()) {
-            showEnd();
-        }
         updatePlayable(cell, marker == Marker.X ? Marker.O : Marker.X);
     }
 
@@ -192,6 +103,14 @@ public class GameWindow extends VBox implements Initializable, Observer {
             tictactoe.initialize(null);
             tictactoe.displayWinner(null);
             tictactoe.getStyleClass().clear();
+        }
+    }
+
+    private void updateBoard() {
+        if (game.hasMoves()) {
+            showLastMove();
+        } else {
+            clearBoard();
         }
     }
 

@@ -1,8 +1,5 @@
 package atlg4.ultimate.g47923.view;
 
-import atlg4.ultimate.g47923.model.Game;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 
@@ -12,7 +9,7 @@ import javafx.scene.control.Dialog;
  *
  * @author Logan Farci (47923)
  */
-public class ReplayDialog extends Dialog<ButtonType> {
+public class ReplayDialog extends Dialog<Boolean> {
 
     private static final String TITLE = "Replay a game";
     private static final String HEADER = "The game is over, do you want to replay?";
@@ -21,18 +18,13 @@ public class ReplayDialog extends Dialog<ButtonType> {
     private static final String REPLAY_BUTTON = "Replay";
     private static final String QUIT_BUTTON = "Quit";
 
-    private final Game game;
-    private final GameWindow view;
     private final ButtonType replay;
     private final ButtonType quit;
 
-    public ReplayDialog(Game game, GameWindow view) {
-        this.game = game;
-        this.view = view;
+    public ReplayDialog() {
         this.replay = new ButtonType(REPLAY_BUTTON);
         this.quit = new ButtonType(QUIT_BUTTON);
         setContent();
-        setEventFilter();
     }
 
     private void setContent() {
@@ -40,22 +32,6 @@ public class ReplayDialog extends Dialog<ButtonType> {
         setHeaderText(HEADER);
         setContentText(CONTENT);
         getDialogPane().getButtonTypes().addAll(replay, quit);
-    }
-
-    private void setEventFilter() {
-        Button replayButton = (Button) getDialogPane().lookupButton(this.replay);
-        replayButton.setOnAction(e -> {
-            String message = "You are about to restart the game, all the "
-                    + "advancement will be lost!";
-            if (game.isOver()) {
-                game.start();
-                view.clearBoard();
-            }
-        });
-        Button quitButton = (Button) getDialogPane().lookupButton(this.quit);
-        quitButton.addEventFilter(ActionEvent.ACTION, event -> {
-            System.exit(0);
-        });
     }
 
 }

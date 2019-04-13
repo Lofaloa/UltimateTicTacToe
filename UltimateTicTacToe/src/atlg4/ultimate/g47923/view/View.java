@@ -22,6 +22,13 @@ public interface View {
     String askPseudonym();
 
     /**
+     * Asks the user if she/ he wants to replay a game.
+     *
+     * @return true if the player wants to replay a game.
+     */
+    boolean askReplay();
+
+    /**
      * Shows the menu window. It allows the users the browse all the features.
      */
     void showGameMenuWindow();
