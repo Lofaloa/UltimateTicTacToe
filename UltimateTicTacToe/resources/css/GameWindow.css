@@ -9,3 +9,20 @@
 .playableByO {
     -fx-background-color: rgb(205,92,92);
 }
+
+.playerLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.pseudonym {
+    -fx-font-style: italic;
+}
+
+#playerX > .label {
+    -fx-text-fill: rgb(135,206,250);
+}
+
+#playerO > .label {
+    -fx-text-fill: rgb(205,92,92);
+}

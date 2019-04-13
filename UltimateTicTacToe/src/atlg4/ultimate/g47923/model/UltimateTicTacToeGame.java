@@ -103,6 +103,11 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     }
 
     @Override
+    public PlayerDTO getPlayer(Marker marker) {
+        return marker == Marker.X ? X.toDTO() : O.toDTO();
+    }
+
+    @Override
     public boolean isOver() {
         return board.hasOwner() || board.isFull() || hasAPlayerWithdrawn();
     }
@@ -134,6 +139,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         } else {
             O.setUser(new User(user));
         }
+        notifyView();
     }
 
     @Override

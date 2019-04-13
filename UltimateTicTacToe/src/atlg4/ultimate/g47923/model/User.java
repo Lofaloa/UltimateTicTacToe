@@ -64,4 +64,11 @@ class User {
         nbOfDefeats++;
     }
 
+    /**
+     * Converts this user to a data transfer object.
+     */
+    UserDTO toDTO() {
+        return new UserDTO(pseudonym, nbOfVictories, nbOfExaequos, nbOfDefeats);
+    }
+
 }

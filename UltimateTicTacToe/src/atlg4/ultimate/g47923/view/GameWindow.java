@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import static java.util.Objects.requireNonNull;
+import javafx.scene.control.Label;
 import static javafx.scene.layout.GridPane.getRowIndex;
 import static javafx.scene.layout.GridPane.getColumnIndex;
 
@@ -63,13 +64,19 @@ public class GameWindow extends VBox implements Observer {
     }
 
     private GridPane getBoard() {
-        GridPane target = null;
-        for (Node node : getChildren()) {
-            if (node.getClass() == GridPane.class) {
-                target = (GridPane) node;
-            }
+        return (GridPane) lookup("#board");
+    }
+
+    private Label getPlayerLabel(Marker marker) {
+        if (marker == Marker.X) {
+            return (Label) lookup("#playerLabelX");
+        } else {
+            return (Label) lookup("#playerLabelO");
         }
-        return target;
+    }
+
+    private Label getPlayerLabelO() {
+        return (Label) lookup("#playerLabelO");
     }
 
     private MyTicTacToe getTicTacToeAt(int row, int column) {
@@ -130,9 +137,21 @@ public class GameWindow extends VBox implements Observer {
         t.getStyleClass().add("playableBy" + nextPlayer);
     }
 
+    private void updateUsers() {
+        if (game.hasUserFor(Marker.X)) {
+            String XUserPseudonym = game.getPlayer(Marker.X).getUser().getPseudonym();
+            getPlayerLabel(Marker.X).setText(XUserPseudonym);
+        }
+        if (game.hasUserFor(Marker.O)) {
+            String OUserPseudonym = game.getPlayer(Marker.O).getUser().getPseudonym();
+            getPlayerLabel(Marker.O).setText(OUserPseudonym);
+        }
+    }
+
     @Override
     public void update(Observable o, Object o1) {
         updateBoard();
+        updateUsers();
     }
 
 }

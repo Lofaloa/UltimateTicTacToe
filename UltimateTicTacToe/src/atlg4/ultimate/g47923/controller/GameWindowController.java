@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import static javafx.scene.layout.GridPane.getColumnIndex;
 import static javafx.scene.layout.GridPane.getRowIndex;
@@ -33,6 +34,12 @@ public class GameWindowController implements Initializable {
 
     @FXML
     private GridPane board;
+
+    @FXML
+    private Label playerOPseudonym;
+
+    @FXML
+    private Label playerXPseudonym;
 
     public GameWindowController(Game game, View view) {
         this.game = game;

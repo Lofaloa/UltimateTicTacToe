@@ -76,7 +76,7 @@ enum Player {
      * Converts this player to a data transfer object.
      */
     PlayerDTO toDTO() {
-        return new PlayerDTO(this.marker, this.isWithdrawn);
+        return new PlayerDTO(marker, user == null ? null : user.toDTO(), isWithdrawn);
     }
 
 }

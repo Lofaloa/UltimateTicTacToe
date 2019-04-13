@@ -46,6 +46,14 @@ public interface Game {
     boolean hasUserFor(Marker marker);
 
     /**
+     * Gets the player corresponding to the given marker.
+     *
+     * @param marker is the given marker.
+     * @return the corresponding player.
+     */
+    PlayerDTO getPlayer(Marker marker);
+
+    /**
      * Tells if this game has moves.
      *
      * @return true if this game has moves.
