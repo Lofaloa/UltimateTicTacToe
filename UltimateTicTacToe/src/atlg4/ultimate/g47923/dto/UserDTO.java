@@ -17,6 +17,10 @@ public class UserDTO {
         this.nbOfExaequos = nbOfExaequos;
         this.nbOfDefeats = nbOfDefeats;
     }
+    
+    public UserDTO(String pseudonym) {
+        this(pseudonym, 0, 0, 0);
+    }
 
     public String getPseudonym() {
         return pseudonym;

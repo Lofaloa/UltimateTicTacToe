@@ -1,8 +1,10 @@
 package atlg4.ultimate.g47923.controller;
 
 import atlg4.ultimate.g47923.dto.UserDTO;
+import atlg4.ultimate.g47923.exception.UltimateTicTacToeDbException;
 import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.model.Marker;
+import atlg4.ultimate.g47923.persistence.business.AdminFacade;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
 import java.util.Random;
@@ -71,6 +73,28 @@ public class GameMenuWindowController implements Initializable {
         return game.hasUserFor(Marker.X) && game.hasUserFor(Marker.O);
     }
 
+    private UserDTO getUser(String pseudonym) {
+        UserDTO user = null;
+        try {
+            user = AdminFacade.findUserByPseudonym(pseudonym);
+            view.showWarning("Welcome back " + pseudonym + "!", "You are now "
+                    + "registered as " + pseudonym + ", you can check your"
+                    + "statistics now.");
+        } catch (UltimateTicTacToeDbException notFoundException) {
+            try {
+                user = new UserDTO(pseudonym);
+                AdminFacade.addUser(user);
+                view.showWarning("Welcome " + pseudonym + "!", "You are now registered as "
+                        + pseudonym + ", you can use this pseudonym in order"
+                        + "to join the game next time!");
+            } catch (UltimateTicTacToeDbException cannotAddException) {
+                view.showWarning("Error while joining", "Registering the new "
+                        + "user was unsucessful, please try again.");
+            }
+        }
+        return user;
+    }
+
     @FXML
     private void join(ActionEvent event) {
         String pseudonym = view.askPseudonym();
@@ -79,7 +103,7 @@ public class GameMenuWindowController implements Initializable {
             if (game.hasUserFor(marker)) {
                 marker = marker == Marker.X ? Marker.O : Marker.X;
             }
-            game.setUserOf(marker, new UserDTO(pseudonym, 0, 0, 0));
+            game.setUserOf(marker, getUser(pseudonym));
             if (marker == Marker.X) {
                 playerX.setText(pseudonym);
             } else {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package atlg4.ultimate.g47923.controller;
 
 import atlg4.composant.g47923.MyTicTacToe;

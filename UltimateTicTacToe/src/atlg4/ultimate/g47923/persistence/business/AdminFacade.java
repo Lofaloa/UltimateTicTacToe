@@ -16,7 +16,7 @@ public class AdminFacade {
      * @param user the given user.
      * @throws UltimateTicTacToeDbException
      */
-    public void addUser(UserDTO user) throws UltimateTicTacToeDbException {
+    public static void addUser(UserDTO user) throws UltimateTicTacToeDbException {
         try {
             DBManager.startTransaction();
             UserBl.add(user);
@@ -40,7 +40,7 @@ public class AdminFacade {
      * @return the user matching the given pseudonym.
      * @throws UltimateTicTacToeDbException
      */
-    public UserDTO findUserByPseudonym(String pseudonym)
+    public static UserDTO findUserByPseudonym(String pseudonym)
             throws UltimateTicTacToeDbException {
     try {
             DBManager.startTransaction();
@@ -54,7 +54,7 @@ public class AdminFacade {
             } catch (UltimateTicTacToeDbException ex) {
                 msg = ex.getMessage() + "\n" + msg;
             } finally {
-                throw new UltimateTicTacToeDbException(58, "Rayon inaccessible! \n" + msg);
+                throw new UltimateTicTacToeDbException(58, "User not found \n" + msg);
             }
         }
     }
