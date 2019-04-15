@@ -73,24 +73,34 @@ public class GameMenuWindowController implements Initializable {
         return game.hasUserFor(Marker.X) && game.hasUserFor(Marker.O);
     }
 
+    private UserDTO registerUser(String pseudonym) {
+        UserDTO user = null;
+        try {
+            user = new UserDTO(pseudonym);
+            AdminFacade.addUser(user);
+            view.showWarning("Welcome " + pseudonym + "!", "You are now registered as "
+                    + pseudonym + ", you can use this pseudonym in order"
+                    + "to join the game next time!");
+        } catch (UltimateTicTacToeDbException cannotAddException) {
+            view.showWarning("Error while joining", "Registering the new "
+                    + "user was unsucessful, please try again.");
+        }
+        return user;
+    }
+
     private UserDTO getUser(String pseudonym) {
         UserDTO user = null;
         try {
             user = AdminFacade.findUserByPseudonym(pseudonym);
-            view.showWarning("Welcome back " + pseudonym + "!", "You are now "
-                    + "registered as " + pseudonym + ", you can check your"
-                    + "statistics now.");
-        } catch (UltimateTicTacToeDbException notFoundException) {
-            try {
-                user = new UserDTO(pseudonym);
-                AdminFacade.addUser(user);
-                view.showWarning("Welcome " + pseudonym + "!", "You are now registered as "
-                        + pseudonym + ", you can use this pseudonym in order"
-                        + "to join the game next time!");
-            } catch (UltimateTicTacToeDbException cannotAddException) {
-                view.showWarning("Error while joining", "Registering the new "
-                        + "user was unsucessful, please try again.");
+            if (user == null) {
+                user = registerUser(pseudonym);
+            } else {
+                view.showWarning("Welcome back " + pseudonym + "!", "You are now "
+                        + "registered as " + pseudonym + ", you can check your"
+                        + "statistics now.");
             }
+        } catch (UltimateTicTacToeDbException notFoundException) {
+            notFoundException.printStackTrace();
         }
         return user;
     }

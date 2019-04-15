@@ -38,13 +38,15 @@ public class UserBl {
 
     static UserDTO findByPseudonym(String pseudonym)
             throws UltimateTicTacToeDbException {
+        UserDTO user;
         UserSel sel = new UserSel(pseudonym);
         Collection<UserDTO> users = UserDB.getCollection(sel);
         if (users.size() == 1) {
-            return users.iterator().next();
+            user = users.iterator().next();
         } else {
-            return null;
+            user = null;
         }
+        return user;
     }
 
     static Collection<UserDTO> findAll() throws UltimateTicTacToeDbException {

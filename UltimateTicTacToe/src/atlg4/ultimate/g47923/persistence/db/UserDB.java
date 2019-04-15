@@ -73,7 +73,7 @@ public class UserDB {
             java.sql.ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 collection.add(new UserDTO(
-                        rs.getNString("pseudonym"),
+                        rs.getString("pseudonym"),
                         rs.getInt("nvictories"),
                         rs.getInt("nexaequos"),
                         rs.getInt("ndefeats")
