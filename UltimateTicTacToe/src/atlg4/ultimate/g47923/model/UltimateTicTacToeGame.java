@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 /**
  * Represents a game of <code>UltimateTicTacToe</code>.
@@ -134,8 +135,21 @@ public class UltimateTicTacToeGame extends Observable implements Game {
                 || O.hasUser() && user.getPseudonym().equals(O.getUser().getPseudonym());
     }
 
+    private int getRandomNumberInRange(int min, int max) {
+        return new Random().nextInt((max - min) + 1) + min;
+    }
+
+    private Player getRandomPlayer() {
+        int random = getRandomNumberInRange(0, 1);
+        Player player = random == 1 ? X : O;
+        if (player.hasUser()) {
+            player = player == X ? O : X;
+        }
+        return player;
+    }
+
     @Override
-    public void setUserOf(Marker marker, UserDTO user) {
+    public void setUser(UserDTO user) {
         Objects.requireNonNull(user);
         if (!isFirstTurn()) {
             throw new IllegalStateException("Cannot set the users during the "
@@ -144,11 +158,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         if (isSet(user)) {
             throw new IllegalArgumentException("The given user has already been set!");
         }
-        if (marker == Marker.X) {
-            X.setUser(new User(user));
-        } else {
-            O.setUser(new User(user));
-        }
+        getRandomPlayer().setUser(new User(user));
         notifyView();
     }
 

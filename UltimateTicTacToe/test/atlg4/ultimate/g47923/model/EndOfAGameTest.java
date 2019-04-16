@@ -1,6 +1,5 @@
 package atlg4.ultimate.g47923.model;
 
-import atlg4.ultimate.g47923.dto.UserDTO;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -140,8 +139,8 @@ public class EndOfAGameTest {
     @Test
     public void updateUsersStatistics_xWins() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        game.setUserOf(Marker.X, new UserDTO("Bob", 0, 0, 0));
-        game.setUserOf(Marker.O, new UserDTO("Patrick", 0, 0, 0));
+        game.getX().setUser(new User("Bob", 0, 0, 0));
+        game.getO().setUser(new User("Patrick", 0, 0, 0));
         game.getBoard().setOwner(Player.X);
         game.updateUsersStatistics();
         assertEquals(1, game.getX().getUser().getNbOfVictories());
@@ -155,8 +154,8 @@ public class EndOfAGameTest {
     @Test
     public void updateUsersStatistics_xWinsOWithdraws() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        game.setUserOf(Marker.X, new UserDTO("Bob", 0, 0, 0));
-        game.setUserOf(Marker.O, new UserDTO("Patrick", 0, 0, 0));
+        game.getX().setUser(new User("Bob", 0, 0, 0));
+        game.getO().setUser(new User("Patrick", 0, 0, 0));
         game.setIsXCurrentPlayer(false);
         game.withdraw();
         game.updateUsersStatistics();
@@ -171,8 +170,8 @@ public class EndOfAGameTest {
     @Test
     public void updateUsersStatistics_oWins() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        game.setUserOf(Marker.O, new UserDTO("Patrick", 0, 0, 0));
-        game.setUserOf(Marker.X, new UserDTO("Bob", 0, 0, 0));
+        game.getX().setUser(new User("Bob", 0, 0, 0));
+        game.getO().setUser(new User("Patrick", 0, 0, 0));
         game.getBoard().setOwner(Player.O);
         game.updateUsersStatistics();
         assertEquals(1, game.getO().getUser().getNbOfVictories());
@@ -186,8 +185,8 @@ public class EndOfAGameTest {
     @Test
     public void updateUsersStatistics_oWinsXWithdraws() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        game.setUserOf(Marker.O, new UserDTO("Patrick", 0, 0, 0));
-        game.setUserOf(Marker.X, new UserDTO("Bob", 0, 0, 0));
+        game.getX().setUser(new User("Bob", 0, 0, 0));
+        game.getO().setUser(new User("Patrick", 0, 0, 0));
         game.withdraw();
         game.updateUsersStatistics();
         assertEquals(1, game.getO().getUser().getNbOfVictories());
@@ -200,8 +199,8 @@ public class EndOfAGameTest {
     @Test
     public void updateUsersStatistics_exaequo() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        game.setUserOf(Marker.O, new UserDTO("Patrick", 0, 0, 0));
-        game.setUserOf(Marker.X, new UserDTO("Bob", 0, 0, 0));
+        game.getX().setUser(new User("Bob", 0, 0, 0));
+        game.getO().setUser(new User("Patrick", 0, 0, 0));
         game.getBoard().fillWith(Player.O);
         game.updateUsersStatistics();
         assertEquals(1, game.getO().getUser().getNbOfExaequos());

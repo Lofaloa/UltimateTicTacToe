@@ -13,13 +13,13 @@
       <HBox alignment="CENTER">
          <children>
             <Label styleClass="playerLabel" text="Player X: " />
-            <Label fx:id="playerX" styleClass="pseudonym" text="no user..." />
+            <Label id="playerXPseudonym" fx:id="playerX" styleClass="pseudonym" text="no user..." />
          </children>
       </HBox>
       <HBox alignment="CENTER">
          <children>
             <Label styleClass="playerLabel" text="Player O: " />
-            <Label fx:id="playerO" styleClass="pseudonym" text="no user..." />
+            <Label id="playerOPseudonym" fx:id="playerO" styleClass="pseudonym" text="no user..." />
          </children>
       </HBox>
       <Button fx:id="join" mnemonicParsing="false" onAction="#join" prefWidth="150.0" styleClass="available" text="Join" />

@@ -1,6 +1,5 @@
 package atlg4.ultimate.g47923.model;
 
-import atlg4.ultimate.g47923.dto.UserDTO;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -11,11 +10,9 @@ import static org.junit.Assert.*;
  */
 public class PlayTest {
 
-    private void setPlayersUsers(Game game) {
-        UserDTO xUser = new UserDTO("Willie", 1, 2, 3);
-        UserDTO oUser = new UserDTO("Nazari", 1, 2, 3);
-        game.setUserOf(Marker.X, xUser);
-        game.setUserOf(Marker.O, oUser);
+    private void setPlayersUsers(UltimateTicTacToeGame game) {
+        game.getX().setUser(new User("Willie", 1, 2, 3));
+        game.getO().setUser(new User("Nazari", 1, 2, 3));
     }
 
 

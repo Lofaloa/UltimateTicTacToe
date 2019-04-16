@@ -12,11 +12,9 @@ import org.junit.Test;
  */
 public class PlayerManagementTest {
 
-    private void setPlayersUsers(Game game) {
-        UserDTO xUser = new UserDTO("Willie", 1, 2, 3);
-        UserDTO oUser = new UserDTO("Nazari", 1, 2, 3);
-        game.setUserOf(Marker.X, xUser);
-        game.setUserOf(Marker.O, oUser);
+    private void setPlayersUsers(UltimateTicTacToeGame game) {
+        game.getX().setUser(new User("Willie", 1, 2, 3));
+        game.getO().setUser(new User("Nazari", 1, 2, 3));
     }
 
     /**
@@ -26,7 +24,7 @@ public class PlayerManagementTest {
     @Test
     public void setUserOf_xPlayerHasAUser() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        game.setUserOf(Marker.X, new UserDTO("Pinguino", 2, 3, 4));
+        game.getX().setUser(new User("Pinguino", 2, 3, 4));
         assertEquals("Pinguino", game.getX().getUser().getPseudonym());
     }
 
@@ -37,7 +35,7 @@ public class PlayerManagementTest {
     @Test
     public void setUserOf_oPlayerHasAUser() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        game.setUserOf(Marker.O, new UserDTO("Anatra", 2, 3, 4));
+        game.getO().setUser(new User("Anatra", 2, 3, 4));
         assertEquals("Anatra", game.getO().getUser().getPseudonym());
     }
 
@@ -51,19 +49,7 @@ public class PlayerManagementTest {
         for (int m = 0; m < 5; m++) {
             game.getExecutedMoves().add(move);
         }
-        game.setUserOf(Marker.O, new UserDTO("Cuaddu", 2, 3, 4));
-    }
-
-    /**
-     * Setting a user that has already been used should cause an exception.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void setUserOf_userIsAlreadySet() {
-        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
-        game.getX().setUser(null);
-        game.getO().setUser(null);
-        game.setUserOf(Marker.O, new UserDTO("User", 2, 3, 4));
-        game.setUserOf(Marker.O, new UserDTO("User", 2, 3, 4));
+        game.setUser(new UserDTO("Cuaddu", 2, 3, 4));
     }
 
     /**

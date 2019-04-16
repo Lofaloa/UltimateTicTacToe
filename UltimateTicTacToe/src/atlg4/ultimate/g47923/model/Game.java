@@ -74,14 +74,14 @@ public interface Game {
     void start();
 
     /**
-     * Sets the user of the specified marker.
+     * Sets the given user of one of the two player randomly. If one of the two
+     * players has an user, then the given user is set for the opponent.
      *
-     * @param marker is the specified marker.
-     * @param user is the user of the specified marker.
+     * @param user is the given user.
      * @throws IllegalStateException when setting a using during the game.
      * @throws IllegalArgumentException when the player is already set.
      */
-    void setUserOf(Marker marker, UserDTO user);
+    void setUser(UserDTO user);
 
     /**
      * Selects the position where the next move will take place.

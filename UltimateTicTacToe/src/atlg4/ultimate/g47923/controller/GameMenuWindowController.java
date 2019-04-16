@@ -7,7 +7,6 @@ import atlg4.ultimate.g47923.model.Marker;
 import atlg4.ultimate.g47923.persistence.business.AdminFacade;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,16 +59,7 @@ public class GameMenuWindowController implements Initializable {
         button.getStyleClass().add("unavailable");
     }
 
-    private int getRandomNumberInRange(int min, int max) {
-        return new Random().nextInt((max - min) + 1) + min;
-    }
-
-    private Marker getRandomMarker() {
-        int random = getRandomNumberInRange(0, 1);
-        return random == 1 ? Marker.X : Marker.O;
-    }
-
-    private boolean haveUsersBothBeenSeet() {
+    private boolean haveUsersBothBeenSet() {
         return game.hasUserFor(Marker.X) && game.hasUserFor(Marker.O);
     }
 
@@ -103,21 +93,12 @@ public class GameMenuWindowController implements Initializable {
         String pseudonym = view.askPseudonym();
         try {
             if (pseudonym != null) {
-                Marker marker = getRandomMarker();
-                if (game.hasUserFor(marker)) {
-                    marker = marker == Marker.X ? Marker.O : Marker.X;
-                }
-                game.setUserOf(marker, getUser(pseudonym));
+                game.setUser(getUser(pseudonym));
                 view.showWarning("Welcome" + pseudonym + "!", "You are now "
                         + "registered as " + pseudonym + ", your statistics will"
                                 + " be updated after each game you play.");
-                if (marker == Marker.X) {
-                    playerX.setText(pseudonym);
-                } else {
-                    playerO.setText(pseudonym);
-                }
             }
-            if (haveUsersBothBeenSeet()) {
+            if (haveUsersBothBeenSet()) {
                 enable(newgame);
                 disable(join);
             }

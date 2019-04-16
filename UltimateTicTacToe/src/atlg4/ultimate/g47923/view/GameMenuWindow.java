@@ -2,17 +2,21 @@ package atlg4.ultimate.g47923.view;
 
 import atlg4.ultimate.g47923.controller.GameMenuWindowController;
 import atlg4.ultimate.g47923.model.Game;
+import atlg4.ultimate.g47923.model.Marker;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 import static java.util.Objects.requireNonNull;
+import java.util.Observable;
+import java.util.Observer;
+import javafx.scene.control.Label;
 
 /**
  * Is the game menu.
  *
  * @author Logan Farci (47923)
  */
-public class GameMenuWindow extends VBox {
+public class GameMenuWindow extends VBox implements Observer {
 
     private static final String FXML_PATH = "/fxml/GameMenuWindow.fxml";
 
@@ -43,6 +47,31 @@ public class GameMenuWindow extends VBox {
         } catch (IOException exception) {
             throw new IOException(FXML_PATH + " cannot be loaded!", exception);
         }
+    }
+
+    private Label getPlayerLabel(Marker marker) {
+        if (marker == Marker.X) {
+            return (Label) lookup("#playerXPseudonym");
+        } else {
+            return (Label) lookup("#playerOPseudonym");
+        }
+    }
+
+    private void setPseudonymLabelFor(Marker marker) {
+        if (game.hasUserFor(marker)) {
+            String pseudonym = game.getPlayer(marker).getUser().getPseudonym();
+            getPlayerLabel(marker).setText(pseudonym);
+        }
+    }
+
+    private void updateUsers() {
+        setPseudonymLabelFor(Marker.X);
+        setPseudonymLabelFor(Marker.O);
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        updateUsers();
     }
 
 }
