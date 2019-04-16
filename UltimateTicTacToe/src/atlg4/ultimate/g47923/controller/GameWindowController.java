@@ -4,6 +4,8 @@ import atlg4.composant.g47923.MyTicTacToe;
 import atlg4.ultimate.g47923.dto.PositionDTO;
 import atlg4.ultimate.g47923.exception.UltimateTicTacToeException;
 import atlg4.ultimate.g47923.model.Game;
+import atlg4.ultimate.g47923.model.Marker;
+import atlg4.ultimate.g47923.persistence.business.AdminFacade;
 import atlg4.ultimate.g47923.view.IllegalMoveAlert;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
@@ -98,6 +100,11 @@ public class GameWindowController implements Initializable {
         warning.show();
     }
 
+    private void updateDataBase() {
+        AdminFacade.updateUser(game.getPlayer(Marker.X).getUser());
+        AdminFacade.updateUser(game.getPlayer(Marker.O).getUser());
+    }
+
     private void addHandlerAt(MyTicTacToe t, final int row, final int column) {
         t.addEventHandlerAt(row, column, event -> {
             try {
@@ -107,8 +114,11 @@ public class GameWindowController implements Initializable {
                 game.play();
                 game.nextPlayer();
                 if (game.isOver()) {
+                    game.updateUsersStatistics();
                     if (view.askReplay()) {
                         game.start();
+                    } else {
+                        updateDataBase();
                     }
                 }
             } catch (UltimateTicTacToeException e) {

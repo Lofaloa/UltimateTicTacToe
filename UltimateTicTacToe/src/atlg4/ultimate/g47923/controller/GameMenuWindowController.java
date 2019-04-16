@@ -94,9 +94,9 @@ public class GameMenuWindowController implements Initializable {
         try {
             if (pseudonym != null) {
                 game.setUser(getUser(pseudonym));
-                view.showWarning("Welcome" + pseudonym + "!", "You are now "
+                view.showWarning("Welcome " + pseudonym + "!", "You are now "
                         + "registered as " + pseudonym + ", your statistics will"
-                                + " be updated after each game you play.");
+                                + " be updated after you are done playing!");
             }
             if (haveUsersBothBeenSet()) {
                 enable(newgame);

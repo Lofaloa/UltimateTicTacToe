@@ -78,4 +78,23 @@ public class AdminFacade {
         }
     }
 
+    public static void updateUser(UserDTO user) {
+        try {
+            DBManager.startTransaction();
+            UserBl.setNbOfVictories(user.getPseudonym(), user.getNbOfVictories());
+            UserBl.setNbOfExaequos(user.getPseudonym(), user.getNbOfExaequos());
+            UserBl.setNbOfDefeats(user.getPseudonym(), user.getNbOfDefeats());
+            DBManager.validateTransaction();
+        } catch (UltimateTicTacToeDbException e) {
+            String msg = e.getMessage();
+            try {
+                DBManager.cancelTransaction();
+            } catch (UltimateTicTacToeDbException ex) {
+                msg = ex.getMessage() + "\n" + msg;
+            } finally {
+                throw new UltimateTicTacToeDbException(58, "User not found \n" + msg);
+            }
+        }
+    }
+
 }
