@@ -30,7 +30,6 @@ public class UltimateTicTacToeView implements View {
     private final Dialog replayDialog;
     private final Dialog joinDialog;
 
-
     /**
      * Constructs this view with the specified game to represent.
      *
@@ -50,12 +49,18 @@ public class UltimateTicTacToeView implements View {
         game.addObserver(gameMenuWindow);
         game.addObserver(gameWindow);
         initializeStage();
+
+        gameWindow.prefWidthProperty().bind(stage.widthProperty());
+        gameWindow.prefHeightProperty().bind(stage.heightProperty());
+
     }
 
     private void initializeStage() {
         stage.setTitle(TITLE);
         stage.getIcons().add(new Image(ICON_PATH));
+        stage.setScene(new Scene(gameMenuWindow));
         stage.setResizable(true);
+        stage.show();
     }
 
     @Override
@@ -74,26 +79,27 @@ public class UltimateTicTacToeView implements View {
     @Override
     public boolean askReplay() {
         Optional<ButtonType> result = replayDialog.showAndWait();
-        System.out.println(result);
         return result.get().getText().equals("Replay");
     }
 
     @Override
     public void showGameMenuWindow() {
-        stage.setScene(new Scene(gameMenuWindow));
-        stage.show();
+        stage.getScene().setRoot(gameMenuWindow);
+        stage.sizeToScene();
         stage.centerOnScreen();
     }
 
     @Override
     public void showGameWindow() {
-        stage.setScene(new Scene(gameWindow));
+        stage.getScene().setRoot(gameWindow);
+        stage.sizeToScene();
         stage.centerOnScreen();
     }
 
     @Override
     public void showStatistics() {
-        stage.setScene(new Scene(statisticsWindow));
+        stage.getScene().setRoot(statisticsWindow);
+        stage.sizeToScene();
         stage.centerOnScreen();
     }
 

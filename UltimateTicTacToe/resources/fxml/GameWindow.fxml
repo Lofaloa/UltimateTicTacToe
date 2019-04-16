@@ -20,6 +20,7 @@
                     <items>
                         <MenuItem fx:id="withdraw" mnemonicParsing="false" onAction="#withdraw" text="Withdraw" />
                         <MenuItem fx:id="newgame" mnemonicParsing="false" onAction="#startNewGame" text="New game" />
+                        <MenuItem fx:id="menu" mnemonicParsing="false" onAction="#showMenu" text="Go to menu" />
                         <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quit" />
                     </items>
                 </Menu>

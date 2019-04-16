@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import static javafx.collections.FXCollections.observableArrayList;
+import javafx.event.ActionEvent;
 
 /**
  *
@@ -42,6 +43,16 @@ public class StatisticsWindowController implements Initializable {
     public StatisticsWindowController(Game game, View view) {
         this.game = game;
         this.view = view;
+    }
+
+    @FXML
+    private void showMenu(ActionEvent event) {
+        view.showGameMenuWindow();
+    }
+
+    @FXML
+    private void quit(ActionEvent event) {
+        System.exit(0);
     }
 
     private void setCellFactories() {

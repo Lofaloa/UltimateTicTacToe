@@ -87,6 +87,16 @@ public class GameWindowController implements Initializable {
     }
 
     @FXML
+    private void showMenu(ActionEvent event) {
+        String message = "You are about to go back to the menu, all the "
+                + "advancement will be lost!";
+        if (view.askConfirmation(message)) {
+            game.start();
+            view.showGameMenuWindow();
+        }
+    }
+
+    @FXML
     private void quit(ActionEvent event) {
         String message = "You are about to quit the game, all the "
                 + "advancement will be lost!";
@@ -119,6 +129,7 @@ public class GameWindowController implements Initializable {
                         game.start();
                     } else {
                         updateDataBase();
+                        System.exit(0);
                     }
                 }
             } catch (UltimateTicTacToeException e) {
