@@ -9,7 +9,7 @@ import java.sql.*;
 public class DBManager {
 
     private static Connection connection;
-    private static final String DATA_BASE_URL = "jdbc:derby://localhost:1527/ultimate";
+    private static final String DATA_BASE_URL = "jdbc:derby://localhost:1527/UltimateTicTacToe";
 
     /**
      * Gets the connection to the data base.

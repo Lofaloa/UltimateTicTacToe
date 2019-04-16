@@ -132,6 +132,11 @@ public class GameMenuWindowController implements Initializable {
     }
 
     @FXML
+    private void showStatistics(ActionEvent event) {
+        view.showStatistics();
+    }
+
+    @FXML
     private void quit(ActionEvent event) {
         System.exit(0);
     }
@@ -141,7 +146,6 @@ public class GameMenuWindowController implements Initializable {
         join.setTooltip(new Tooltip("Join and start a game!"));
         newgame.setDisable(true);
         loadgame.setDisable(true);
-        statistics.setDisable(true);
     }
 
 }

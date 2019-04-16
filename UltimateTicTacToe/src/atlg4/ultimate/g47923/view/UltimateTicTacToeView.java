@@ -26,6 +26,7 @@ public class UltimateTicTacToeView implements View {
     private final Stage stage;
     private final GameMenuWindow gameMenuWindow;
     private final GameWindow gameWindow;
+    private final StatisticsWindow statisticsWindow;
     private final Dialog replayDialog;
     private final Dialog joinDialog;
 
@@ -43,6 +44,7 @@ public class UltimateTicTacToeView implements View {
                 + "stage.");
         this.gameMenuWindow = new GameMenuWindow(game, this);
         this.gameWindow = new GameWindow(game, this);
+        this.statisticsWindow = new StatisticsWindow(game, this);
         this.replayDialog = new ReplayDialog();
         this.joinDialog = new JoinDialog();
         game.addObserver(gameWindow);
@@ -85,6 +87,12 @@ public class UltimateTicTacToeView implements View {
     @Override
     public void showGameWindow() {
         stage.setScene(new Scene(gameWindow));
+        stage.centerOnScreen();
+    }
+
+    @Override
+    public void showStatistics() {
+        stage.setScene(new Scene(statisticsWindow));
         stage.centerOnScreen();
     }
 

@@ -3,6 +3,7 @@ package atlg4.ultimate.g47923.persistence.business;
 import atlg4.ultimate.g47923.dto.UserDTO;
 import atlg4.ultimate.g47923.exception.UltimateTicTacToeDbException;
 import atlg4.ultimate.g47923.persistence.db.DBManager;
+import java.util.Collection;
 
 /**
  *
@@ -42,11 +43,29 @@ public class AdminFacade {
      */
     public static UserDTO findUserByPseudonym(String pseudonym)
             throws UltimateTicTacToeDbException {
-    try {
+        try {
             DBManager.startTransaction();
             UserDTO user = UserBl.findByPseudonym(pseudonym);
             DBManager.validateTransaction();
             return user;
+        } catch (UltimateTicTacToeDbException eDB) {
+            String msg = eDB.getMessage();
+            try {
+                DBManager.cancelTransaction();
+            } catch (UltimateTicTacToeDbException ex) {
+                msg = ex.getMessage() + "\n" + msg;
+            } finally {
+                throw new UltimateTicTacToeDbException(58, "User not found \n" + msg);
+            }
+        }
+    }
+
+    public static Collection<UserDTO> getUsers() throws UltimateTicTacToeDbException {
+        try {
+            DBManager.startTransaction();
+            Collection<UserDTO> users = UserBl.findAll();
+            DBManager.validateTransaction();
+            return users;
         } catch (UltimateTicTacToeDbException eDB) {
             String msg = eDB.getMessage();
             try {

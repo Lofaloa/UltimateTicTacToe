@@ -39,6 +39,11 @@ public interface View {
     void showGameWindow();
 
     /**
+     * Shows the statistics of the registered players.
+     */
+    void showStatistics();
+
+    /**
      * Shows a warning with the detailed header and message.
      *
      * @param header is the detailed header.

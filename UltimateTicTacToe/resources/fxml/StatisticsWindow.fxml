@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+
+<fx:root type="VBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <TableView fx:id="statistics">
+            <columns>
+                <TableColumn fx:id="pseudonymColumn" prefWidth="75.0" text="Pseudonyms" />
+                <TableColumn fx:id="victoriesColumn" prefWidth="75.0" text="Number of victories" />
+                <TableColumn fx:id="exaequosColumn" prefWidth="75.0" text="Number of ex aequos" />
+                <TableColumn fx:id="defeatsColumn" prefWidth="75.0" text="Number of defeats" />
+            </columns>
+        </TableView>
+    </children>
+</fx:root>

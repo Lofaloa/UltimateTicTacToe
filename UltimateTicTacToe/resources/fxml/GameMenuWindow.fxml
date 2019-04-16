@@ -25,7 +25,7 @@
       <Button fx:id="join" mnemonicParsing="false" onAction="#join" prefWidth="150.0" styleClass="available" text="Join" />
       <Button fx:id="newgame" mnemonicParsing="false" onAction="#startNewGame" prefWidth="150.0" styleClass="unavailable" text="New Game" />
       <Button fx:id="loadgame" mnemonicParsing="false" prefWidth="150.0" styleClass="unavailable" text="Load Game" />
-      <Button fx:id="statistics" mnemonicParsing="false" prefWidth="150.0" styleClass="unavailable" text="Statistics" />
+      <Button fx:id="statistics" mnemonicParsing="false" onAction="#showStatistics" prefWidth="150.0" styleClass="available" text="Statistics" />
       <Button fx:id="quit" mnemonicParsing="false" onAction="#quit" prefWidth="150.0" styleClass="available" text="Quit" />
    </children>
    <padding>
