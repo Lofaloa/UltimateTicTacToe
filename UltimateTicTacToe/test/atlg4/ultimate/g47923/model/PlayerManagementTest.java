@@ -45,13 +45,25 @@ public class PlayerManagementTest {
      * Setting a user during a game should cause an exception.
      */
     @Test(expected = IllegalStateException.class)
-    public void setUserOf() {
+    public void setUserOf_settingDuringAGame() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
         Move move = new Move(Player.X, new Position(), new Position(), game.getBoard());
         for (int m = 0; m < 5; m++) {
             game.getExecutedMoves().add(move);
         }
         game.setUserOf(Marker.O, new UserDTO("Cuaddu", 2, 3, 4));
+    }
+
+    /**
+     * Setting a user that has already been used should cause an exception.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void setUserOf_userIsAlreadySet() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.getX().setUser(null);
+        game.getO().setUser(null);
+        game.setUserOf(Marker.O, new UserDTO("User", 2, 3, 4));
+        game.setUserOf(Marker.O, new UserDTO("User", 2, 3, 4));
     }
 
     /**

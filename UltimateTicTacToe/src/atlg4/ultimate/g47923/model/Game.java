@@ -79,6 +79,7 @@ public interface Game {
      * @param marker is the specified marker.
      * @param user is the user of the specified marker.
      * @throws IllegalStateException when setting a using during the game.
+     * @throws IllegalArgumentException when the player is already set.
      */
     void setUserOf(Marker marker, UserDTO user);
 

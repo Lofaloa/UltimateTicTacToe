@@ -73,17 +73,14 @@ public class GameMenuWindowController implements Initializable {
         return game.hasUserFor(Marker.X) && game.hasUserFor(Marker.O);
     }
 
-    private UserDTO registerUser(String pseudonym) {
+    private UserDTO addNewUserInDataBase(String pseudonym) {
         UserDTO user = null;
         try {
             user = new UserDTO(pseudonym);
             AdminFacade.addUser(user);
-            view.showWarning("Welcome " + pseudonym + "!", "You are now registered as "
-                    + pseudonym + ", you can use this pseudonym in order"
-                    + "to join the game next time!");
-        } catch (UltimateTicTacToeDbException cannotAddException) {
-            view.showWarning("Error while joining", "Registering the new "
-                    + "user was unsucessful, please try again.");
+        } catch (UltimateTicTacToeDbException e) {
+            view.showWarning("Impossible to register!", "An error occured while "
+                    + "adding a new user to the data base, please try again.");
         }
         return user;
     }
@@ -93,14 +90,10 @@ public class GameMenuWindowController implements Initializable {
         try {
             user = AdminFacade.findUserByPseudonym(pseudonym);
             if (user == null) {
-                user = registerUser(pseudonym);
-            } else {
-                view.showWarning("Welcome back " + pseudonym + "!", "You are now "
-                        + "registered as " + pseudonym + ", you can check your"
-                        + "statistics now.");
+                user = addNewUserInDataBase(pseudonym);
             }
-        } catch (UltimateTicTacToeDbException notFoundException) {
-            notFoundException.printStackTrace();
+        } catch (UltimateTicTacToeDbException e) {
+            e.printStackTrace();
         }
         return user;
     }
@@ -108,21 +101,28 @@ public class GameMenuWindowController implements Initializable {
     @FXML
     private void join(ActionEvent event) {
         String pseudonym = view.askPseudonym();
-        if (pseudonym != null) {
-            Marker marker = getRandomMarker();
-            if (game.hasUserFor(marker)) {
-                marker = marker == Marker.X ? Marker.O : Marker.X;
+        try {
+            if (pseudonym != null) {
+                Marker marker = getRandomMarker();
+                if (game.hasUserFor(marker)) {
+                    marker = marker == Marker.X ? Marker.O : Marker.X;
+                }
+                game.setUserOf(marker, getUser(pseudonym));
+                view.showWarning("Welcome" + pseudonym + "!", "You are now "
+                        + "registered as " + pseudonym + ", your statistics will"
+                                + " be updated after each game you play.");
+                if (marker == Marker.X) {
+                    playerX.setText(pseudonym);
+                } else {
+                    playerO.setText(pseudonym);
+                }
             }
-            game.setUserOf(marker, getUser(pseudonym));
-            if (marker == Marker.X) {
-                playerX.setText(pseudonym);
-            } else {
-                playerO.setText(pseudonym);
+            if (haveUsersBothBeenSeet()) {
+                enable(newgame);
+                disable(join);
             }
-        }
-        if (haveUsersBothBeenSeet()) {
-            enable(newgame);
-            disable(join);
+        } catch (Exception e) {
+            view.showWarning("Impossible to join!", e.getMessage());
         }
     }
 

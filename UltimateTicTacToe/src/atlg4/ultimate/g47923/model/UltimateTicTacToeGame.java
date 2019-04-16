@@ -7,6 +7,7 @@ import atlg4.ultimate.g47923.dto.UserDTO;
 import atlg4.ultimate.g47923.exception.IllegalMoveException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -128,11 +129,20 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         notifyView();
     }
 
+    private boolean isSet(UserDTO user) {
+        return X.hasUser() && user.getPseudonym().equals(X.getUser().getPseudonym())
+                || O.hasUser() && user.getPseudonym().equals(O.getUser().getPseudonym());
+    }
+
     @Override
     public void setUserOf(Marker marker, UserDTO user) {
+        Objects.requireNonNull(user);
         if (!isFirstTurn()) {
             throw new IllegalStateException("Cannot set the users during the "
                     + "game.");
+        }
+        if (isSet(user)) {
+            throw new IllegalArgumentException("The given user has already been set!");
         }
         if (marker == Marker.X) {
             X.setUser(new User(user));
