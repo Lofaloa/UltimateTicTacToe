@@ -35,6 +35,36 @@ public class AdminFacade {
     }
 
     /**
+     * Gets an user for the given pseudonym. If no user matches the given
+     * pseudonym, a new user is added to the data base.
+     *
+     * @param pseudonym the given pseudonym.
+     * @return a player matching the given pseudonym.
+     */
+    public static UserDTO getUser(String pseudonym) {
+        UserDTO user = null;
+        try {
+            DBManager.startTransaction();
+            user = AdminFacade.findUserByPseudonym(pseudonym);
+            if (user == null) {
+                user = new UserDTO(pseudonym);
+                addUser(user);
+            }
+            DBManager.validateTransaction();
+        } catch (UltimateTicTacToeDbException e) {
+            String msg = e.getMessage();
+            try {
+                DBManager.cancelTransaction();
+            } catch (UltimateTicTacToeDbException ex) {
+                msg = ex.getMessage() + "\n" + msg;
+            } finally {
+                throw new UltimateTicTacToeDbException(58, "User not found \n" + msg);
+            }
+        }
+        return user;
+    }
+
+    /**
      * Finds the user matching the given pseudonym.
      *
      * @param pseudonym is the given pseudonym.

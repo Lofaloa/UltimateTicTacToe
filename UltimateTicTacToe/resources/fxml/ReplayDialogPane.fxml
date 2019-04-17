@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<DialogPane fx:id="dialog" stylesheets="@../css/UltimateTicTacToeTheme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <header>
+        <Label styleClass="header" text="Would you like to replay?">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </Label>
+    </header>
+    <content>
+        <VBox spacing="10.0">
+            <children>
+                <Label maxWidth="300.0" styleClass="information" text="You can change one of the users by typing the new user pseudonym in the corresponding field and clicking the Change button." wrapText="true" />
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label id="firstUserPseudonym" prefWidth="200.0" text="Label" />
+                        <Button mnemonicParsing="false" onAction="#setCrossesUser" text="Change" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <children>
+                        <Label id="secondUserPseudonym" prefWidth="200.0" text="Label" />
+                        <Button mnemonicParsing="false" onAction="#setCirclesUser" text="Change" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </content>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+    <buttonTypes>
+        <ButtonType fx:id="replay" text="Replay" />
+        <ButtonType fx:id="menu" text="Menu" />
+        <ButtonType fx:id="quit" text="Quit" />
+    </buttonTypes>
+</DialogPane>

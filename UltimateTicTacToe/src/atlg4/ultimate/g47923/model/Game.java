@@ -79,7 +79,8 @@ public interface Game {
      *
      * @param user is the given user.
      * @throws IllegalStateException when setting a using during the game.
-     * @throws IllegalArgumentException when the player is already set.
+     * @throws IllegalArgumentException when the user has already been set to
+     * one of the players.
      */
     void setUser(UserDTO user);
 

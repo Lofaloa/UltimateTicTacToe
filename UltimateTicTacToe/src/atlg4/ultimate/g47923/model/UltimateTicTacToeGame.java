@@ -142,7 +142,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     private Player getRandomPlayer() {
         int random = getRandomNumberInRange(0, 1);
         Player player = random == 1 ? X : O;
-        if (player.hasUser()) {
+        if (!isOver() && player.hasUser()) {
             player = player == X ? O : X;
         }
         return player;
@@ -151,7 +151,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     @Override
     public void setUser(UserDTO user) {
         Objects.requireNonNull(user);
-        if (!isFirstTurn()) {
+        if (!isFirstTurn() && !isOver()) {
             throw new IllegalStateException("Cannot set the users during the "
                     + "game.");
         }

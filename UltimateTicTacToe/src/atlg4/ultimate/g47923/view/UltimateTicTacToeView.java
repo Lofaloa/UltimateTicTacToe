@@ -44,7 +44,7 @@ public class UltimateTicTacToeView implements View {
         this.gameMenuWindow = new GameMenuWindow(game, this);
         this.gameWindow = new GameWindow(game, this);
         this.statisticsWindow = new StatisticsWindow(game, this);
-        this.replayDialog = new ReplayDialog();
+        this.replayDialog = new ReplayDialog(game, this);
         this.joinDialog = new JoinDialog();
         game.addObserver(gameMenuWindow);
         game.addObserver(gameWindow);

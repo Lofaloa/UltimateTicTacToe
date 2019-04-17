@@ -1,7 +1,5 @@
 package atlg4.ultimate.g47923.controller;
 
-import atlg4.ultimate.g47923.dto.UserDTO;
-import atlg4.ultimate.g47923.exception.UltimateTicTacToeDbException;
 import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.model.Marker;
 import atlg4.ultimate.g47923.persistence.business.AdminFacade;
@@ -63,37 +61,12 @@ public class GameMenuWindowController implements Initializable {
         return game.hasUserFor(Marker.X) && game.hasUserFor(Marker.O);
     }
 
-    private UserDTO addNewUserInDataBase(String pseudonym) {
-        UserDTO user = null;
-        try {
-            user = new UserDTO(pseudonym);
-            AdminFacade.addUser(user);
-        } catch (UltimateTicTacToeDbException e) {
-            view.showWarning("Impossible to register!", "An error occured while "
-                    + "adding a new user to the data base, please try again.");
-        }
-        return user;
-    }
-
-    private UserDTO getUser(String pseudonym) {
-        UserDTO user = null;
-        try {
-            user = AdminFacade.findUserByPseudonym(pseudonym);
-            if (user == null) {
-                user = addNewUserInDataBase(pseudonym);
-            }
-        } catch (UltimateTicTacToeDbException e) {
-            e.printStackTrace();
-        }
-        return user;
-    }
-
     @FXML
     private void join(ActionEvent event) {
         String pseudonym = view.askPseudonym();
         try {
             if (pseudonym != null) {
-                game.setUser(getUser(pseudonym));
+                game.setUser(AdminFacade.getUser(pseudonym));
                 view.showWarning("Welcome " + pseudonym + "!", "You are now "
                         + "registered as " + pseudonym + ", your statistics will"
                                 + " be updated after you are done playing!");
