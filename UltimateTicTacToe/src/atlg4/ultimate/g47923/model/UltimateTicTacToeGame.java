@@ -164,6 +164,9 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     
     @Override
     public void removeUserFor(Marker marker) {
+        if (!isFirstTurn() && !isOver()) {
+            throw new IllegalStateException("Cannot remove a user during a game.");
+        }
         if (marker == Marker.X) {
             X.setUser(null);
         } else {
