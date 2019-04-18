@@ -1,6 +1,7 @@
 package atlg4.ultimate.g47923.controller;
 
 import atlg4.ultimate.g47923.dto.UserDTO;
+import atlg4.ultimate.g47923.exception.DataBaseException;
 import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.persistence.business.UsersFacade;
 import atlg4.ultimate.g47923.view.View;
@@ -64,10 +65,14 @@ public class StatisticsWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setCellFactories();
-        Collection<UserDTO> usersCollection = UsersFacade.getUsers();
-        ObservableList<UserDTO> users = observableArrayList(usersCollection);
-        statistics.setItems(users);
+        try {
+            setCellFactories();
+            Collection<UserDTO> usersCollection = UsersFacade.getUsers();
+            ObservableList<UserDTO> users = observableArrayList(usersCollection);
+            statistics.setItems(users);
+        } catch (DataBaseException e) {
+            view.showWarning("Error while accessing the database!", e.getMessage());
+        }
     }
 
 }

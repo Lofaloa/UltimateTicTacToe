@@ -7,24 +7,24 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <MenuBar>
             <menus>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" text="Menu">
                     <items>
-                        <MenuItem onAction="#showMenu" mnemonicParsing="false" text="Go back to menu" />
-                        <MenuItem onAction="#quit" mnemonicParsing="false" text="Quit" />
+                        <MenuItem mnemonicParsing="false" onAction="#showMenu" text="Go back to menu" />
+                        <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
         <TableView fx:id="statistics">
             <columns>
-                <TableColumn fx:id="pseudonymColumn" prefWidth="75.0" text="Pseudonyms" />
-                <TableColumn fx:id="victoriesColumn" prefWidth="75.0" text="Number of victories" />
-                <TableColumn fx:id="exaequosColumn" prefWidth="75.0" text="Number of ex aequos" />
-                <TableColumn fx:id="defeatsColumn" prefWidth="75.0" text="Number of defeats" />
+                <TableColumn fx:id="pseudonymColumn" maxWidth="175.0" prefWidth="175.0" text="Pseudonym" />
+                <TableColumn fx:id="victoriesColumn" maxWidth="175.0" prefWidth="175.0" text="Number of victories" />
+                <TableColumn fx:id="exaequosColumn" maxWidth="175.0" prefWidth="175.0" text="Number of ex aequos" />
+                <TableColumn fx:id="defeatsColumn" maxWidth="175.0" prefWidth="175.0" text="Number of defeats" />
             </columns>
         </TableView>
     </children>
