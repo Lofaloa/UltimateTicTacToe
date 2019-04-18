@@ -1,7 +1,7 @@
 package atlg4.ultimate.g47923.persistence.business;
 
 import atlg4.ultimate.g47923.dto.UserDTO;
-import atlg4.ultimate.g47923.exception.UltimateTicTacToeDbException;
+import atlg4.ultimate.g47923.exception.DataBaseException;
 import atlg4.ultimate.g47923.persistence.db.UserDB;
 import atlg4.ultimate.g47923.persistence.seldto.UserSel;
 import java.util.Collection;
@@ -13,31 +13,31 @@ import java.util.Collection;
  */
 class UserBl {
 
-    static void add(UserDTO user) throws UltimateTicTacToeDbException {
+    static void add(UserDTO user) throws DataBaseException {
         UserDB.insertDb(user);
     }
 
     static void setNbOfVictories(String pseudonym, int nvictories)
-            throws UltimateTicTacToeDbException {
+            throws DataBaseException {
         UserDB.setNbOfVictories(pseudonym, nvictories);
     }
 
     static void setNbOfExaequos(String pseudonym, int nexaequos)
-            throws UltimateTicTacToeDbException {
+            throws DataBaseException {
         UserDB.setNbOfExaequos(pseudonym, nexaequos);
     }
 
     static void setNbOfDefeats(String pseudonym, int nvictories)
-            throws UltimateTicTacToeDbException {
+            throws DataBaseException {
         UserDB.setNbOfDefeats(pseudonym, nvictories);
     }
 
-    static void delete(String pseudonym) throws UltimateTicTacToeDbException {
+    static void delete(String pseudonym) throws DataBaseException {
         UserDB.deleteDb(pseudonym);
     }
 
     static UserDTO findByPseudonym(String pseudonym)
-            throws UltimateTicTacToeDbException {
+            throws DataBaseException {
         UserDTO user;
         UserSel sel = new UserSel(pseudonym);
         Collection<UserDTO> users = UserDB.getCollection(sel);
@@ -49,7 +49,7 @@ class UserBl {
         return user;
     }
 
-    static Collection<UserDTO> findAll() throws UltimateTicTacToeDbException {
+    static Collection<UserDTO> findAll() throws DataBaseException {
         UserSel sel = new UserSel(null);
         Collection<UserDTO> users = UserDB.getCollection(sel);
         return users;

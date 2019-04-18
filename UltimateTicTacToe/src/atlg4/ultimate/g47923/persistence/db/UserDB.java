@@ -1,7 +1,7 @@
 package atlg4.ultimate.g47923.persistence.db;
 
 import atlg4.ultimate.g47923.dto.UserDTO;
-import atlg4.ultimate.g47923.exception.UltimateTicTacToeDbException;
+import atlg4.ultimate.g47923.exception.DataBaseException;
 import atlg4.ultimate.g47923.persistence.seldto.UserSel;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +17,10 @@ public class UserDB {
      * Gets all the users of the Users table.
      *
      * @return all the users of the Users table.
-     * @throws UltimateTicTacToeDbException if it is not possible to get the
+     * @throws DataBaseException if it is not possible to get the
      * collection of users.
      */
-    public static List<UserDTO> getAllUsers() throws UltimateTicTacToeDbException {
+    public static List<UserDTO> getAllUsers() throws DataBaseException {
         List<UserDTO> users = getCollection(new UserSel(null));
         return users;
     }
@@ -30,9 +30,9 @@ public class UserDB {
      *
      * @param sel is the given selection.
      * @return all the users matching the given selection.
-     * @throws UltimateTicTacToeDbException
+     * @throws DataBaseException
      */
-    public static List<UserDTO> getCollection(UserSel sel) throws UltimateTicTacToeDbException {
+    public static List<UserDTO> getCollection(UserSel sel) throws DataBaseException {
         List<UserDTO> collection = new ArrayList<>();
         try {
             String query = "SELECT pseudonym, nvictories, nexaequos, ndefeats FROM Users ";
@@ -80,10 +80,10 @@ public class UserDB {
                         rs.getInt("ndefeats")
                 ));
             }
-        } catch (UltimateTicTacToeDbException ex) {
-            throw new UltimateTicTacToeDbException(54, "Instanciation de User impossible:\nDTOException: " + ex.getMessage());
+        } catch (DataBaseException ex) {
+            throw new DataBaseException(54, "Instanciation de User impossible:\nDTOException: " + ex.getMessage());
         } catch (java.sql.SQLException eSQL) {
-            throw new UltimateTicTacToeDbException(55, "Instanciation de User impossible:\nSQLException: " + eSQL.getMessage());
+            throw new DataBaseException(55, "Instanciation de User impossible:\nSQLException: " + eSQL.getMessage());
         }
         return collection;
     }
@@ -92,9 +92,9 @@ public class UserDB {
      * Inserts the given user in the Users table.
      *
      * @param user is the given user.
-     * @throws UltimateTicTacToeDbException
+     * @throws DataBaseException
      */
-    public static void insertDb(UserDTO user) throws UltimateTicTacToeDbException {
+    public static void insertDb(UserDTO user) throws DataBaseException {
         try {
             java.sql.Connection connexion = DBManager.getConnection();
             java.sql.PreparedStatement insert;
@@ -108,12 +108,12 @@ public class UserDB {
             insert.setInt(4, user.getNbOfDefeats());
             insert.executeUpdate();
         } catch (Exception ex) {
-            throw new UltimateTicTacToeDbException(56, "Users: cannot insert\n" + ex.getMessage());
+            throw new DataBaseException(56, "Users: cannot insert\n" + ex.getMessage());
         }
     }
 
     public static void setNbOfVictories(String pseudonym, int nvictories)
-            throws UltimateTicTacToeDbException {
+            throws DataBaseException {
         try {
             java.sql.Connection connexion = DBManager.getConnection();
             java.sql.PreparedStatement update;
@@ -124,12 +124,12 @@ public class UserDB {
             update.setString(2, pseudonym);
             update.executeUpdate();
         } catch (Exception ex) {
-            throw new UltimateTicTacToeDbException(57, "Cannot set the number of victories in Users:\n" + ex.getMessage());
+            throw new DataBaseException(57, "Cannot set the number of victories in Users:\n" + ex.getMessage());
         }
     }
 
     public static void setNbOfExaequos(String pseudonym, int nexaequos)
-            throws UltimateTicTacToeDbException {
+            throws DataBaseException {
         try {
             java.sql.Connection connexion = DBManager.getConnection();
             java.sql.PreparedStatement update;
@@ -140,12 +140,12 @@ public class UserDB {
             update.setString(2, pseudonym);
             update.executeUpdate();
         } catch (Exception ex) {
-            throw new UltimateTicTacToeDbException(57, "Cannot set the number of victories in Users:\n" + ex.getMessage());
+            throw new DataBaseException(57, "Cannot set the number of victories in Users:\n" + ex.getMessage());
         }
     }
 
     public static void setNbOfDefeats(String pseudonym, int ndefeats)
-            throws UltimateTicTacToeDbException {
+            throws DataBaseException {
         try {
             java.sql.Connection connexion = DBManager.getConnection();
             java.sql.PreparedStatement update;
@@ -156,7 +156,7 @@ public class UserDB {
             update.setString(2, pseudonym);
             update.executeUpdate();
         } catch (Exception ex) {
-            throw new UltimateTicTacToeDbException(57, "Cannot set the number of victories in Users:\n" + ex.getMessage());
+            throw new DataBaseException(57, "Cannot set the number of victories in Users:\n" + ex.getMessage());
         }
     }
 
@@ -164,14 +164,14 @@ public class UserDB {
      * Deletes the the user matching the given pseudonym.
      *
      * @param pseudonym is the given pseudonym.
-     * @throws UltimateTicTacToeDbException
+     * @throws DataBaseException
      */
-    public static void deleteDb(String pseudonym) throws UltimateTicTacToeDbException {
+    public static void deleteDb(String pseudonym) throws DataBaseException {
         try {
             java.sql.Statement stmt = DBManager.getConnection().createStatement();
             stmt.execute("DELETE FROM Users WHERE pseudonym=" + pseudonym);
         } catch (Exception ex) {
-            throw new UltimateTicTacToeDbException(56, "Client: suppression impossible\n" + ex.getMessage());
+            throw new DataBaseException(56, "Client: suppression impossible\n" + ex.getMessage());
         }
     }
 

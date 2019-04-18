@@ -1,7 +1,7 @@
 package atlg4.ultimate.g47923.persistence.business;
 
 import atlg4.ultimate.g47923.dto.UserDTO;
-import atlg4.ultimate.g47923.exception.UltimateTicTacToeDbException;
+import atlg4.ultimate.g47923.exception.DataBaseException;
 import atlg4.ultimate.g47923.persistence.db.DBManager;
 import java.util.Collection;
 
@@ -15,21 +15,21 @@ public class AdminFacade {
      * Adds the given user to the Users table.
      *
      * @param user the given user.
-     * @throws UltimateTicTacToeDbException
+     * @throws DataBaseException
      */
-    public static void addUser(UserDTO user) throws UltimateTicTacToeDbException {
+    public static void addUser(UserDTO user) throws DataBaseException {
         try {
             DBManager.startTransaction();
             UserBl.add(user);
             DBManager.validateTransaction();
-        } catch (UltimateTicTacToeDbException eDB) {
+        } catch (DataBaseException eDB) {
             String msg = eDB.getMessage();
             try {
                 DBManager.cancelTransaction();
-            } catch (UltimateTicTacToeDbException ex) {
+            } catch (DataBaseException ex) {
                 msg = ex.getMessage() + "\n" + msg;
             } finally {
-                throw new UltimateTicTacToeDbException(57, "User cannot be added\n" + msg);
+                throw new DataBaseException(57, "User cannot be added\n" + msg);
             }
         }
     }
@@ -51,14 +51,14 @@ public class AdminFacade {
                 addUser(user);
             }
             DBManager.validateTransaction();
-        } catch (UltimateTicTacToeDbException e) {
+        } catch (DataBaseException e) {
             String msg = e.getMessage();
             try {
                 DBManager.cancelTransaction();
-            } catch (UltimateTicTacToeDbException ex) {
+            } catch (DataBaseException ex) {
                 msg = ex.getMessage() + "\n" + msg;
             } finally {
-                throw new UltimateTicTacToeDbException(58, "User not found \n" + msg);
+                throw new DataBaseException(58, "User not found \n" + msg);
             }
         }
         return user;
@@ -69,41 +69,41 @@ public class AdminFacade {
      *
      * @param pseudonym is the given pseudonym.
      * @return the user matching the given pseudonym.
-     * @throws UltimateTicTacToeDbException
+     * @throws DataBaseException
      */
     public static UserDTO findUserByPseudonym(String pseudonym)
-            throws UltimateTicTacToeDbException {
+            throws DataBaseException {
         try {
             DBManager.startTransaction();
             UserDTO user = UserBl.findByPseudonym(pseudonym);
             DBManager.validateTransaction();
             return user;
-        } catch (UltimateTicTacToeDbException eDB) {
+        } catch (DataBaseException eDB) {
             String msg = eDB.getMessage();
             try {
                 DBManager.cancelTransaction();
-            } catch (UltimateTicTacToeDbException ex) {
+            } catch (DataBaseException ex) {
                 msg = ex.getMessage() + "\n" + msg;
             } finally {
-                throw new UltimateTicTacToeDbException(58, "User not found \n" + msg);
+                throw new DataBaseException(58, "User not found \n" + msg);
             }
         }
     }
 
-    public static Collection<UserDTO> getUsers() throws UltimateTicTacToeDbException {
+    public static Collection<UserDTO> getUsers() throws DataBaseException {
         try {
             DBManager.startTransaction();
             Collection<UserDTO> users = UserBl.findAll();
             DBManager.validateTransaction();
             return users;
-        } catch (UltimateTicTacToeDbException eDB) {
+        } catch (DataBaseException eDB) {
             String msg = eDB.getMessage();
             try {
                 DBManager.cancelTransaction();
-            } catch (UltimateTicTacToeDbException ex) {
+            } catch (DataBaseException ex) {
                 msg = ex.getMessage() + "\n" + msg;
             } finally {
-                throw new UltimateTicTacToeDbException(58, "User not found \n" + msg);
+                throw new DataBaseException(58, "User not found \n" + msg);
             }
         }
     }
@@ -115,14 +115,14 @@ public class AdminFacade {
             UserBl.setNbOfExaequos(user.getPseudonym(), user.getNbOfExaequos());
             UserBl.setNbOfDefeats(user.getPseudonym(), user.getNbOfDefeats());
             DBManager.validateTransaction();
-        } catch (UltimateTicTacToeDbException e) {
+        } catch (DataBaseException e) {
             String msg = e.getMessage();
             try {
                 DBManager.cancelTransaction();
-            } catch (UltimateTicTacToeDbException ex) {
+            } catch (DataBaseException ex) {
                 msg = ex.getMessage() + "\n" + msg;
             } finally {
-                throw new UltimateTicTacToeDbException(58, "User not found \n" + msg);
+                throw new DataBaseException(58, "User not found \n" + msg);
             }
         }
     }
