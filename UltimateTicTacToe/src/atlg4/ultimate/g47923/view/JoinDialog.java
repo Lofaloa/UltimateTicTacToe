@@ -33,6 +33,7 @@ public class JoinDialog extends TextInputDialog {
         setEventFilter();
         getDialogPane().setMinWidth(MIN_WIDTH);
         getDialogPane().setMinHeight(MIN_HEIGHT);
+        getDialogPane().getStylesheets().add("/css/UltimateTicTacToeTheme.css");
     }
 
     private void setContent() {

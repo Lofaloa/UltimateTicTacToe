@@ -17,7 +17,8 @@ public class UserDB {
      * Gets all the users of the Users table.
      *
      * @return all the users of the Users table.
-     * @throws UltimateTicTacToeDbException
+     * @throws UltimateTicTacToeDbException if it is not possible to get the
+     * collection of users.
      */
     public static List<UserDTO> getAllUsers() throws UltimateTicTacToeDbException {
         List<UserDTO> users = getCollection(new UserSel(null));
@@ -142,6 +143,7 @@ public class UserDB {
             throw new UltimateTicTacToeDbException(57, "Cannot set the number of victories in Users:\n" + ex.getMessage());
         }
     }
+
     public static void setNbOfDefeats(String pseudonym, int ndefeats)
             throws UltimateTicTacToeDbException {
         try {

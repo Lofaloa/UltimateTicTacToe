@@ -105,8 +105,14 @@ public class UltimateTicTacToeView implements View {
 
     @Override
     public void showWarning(String header, String message) {
-        Warning warning = new Warning(header, message);
+        WarningAlert warning = new WarningAlert(header, message);
         warning.show();
+    }
+
+    @Override
+    public void showInformation(String header, String message) {
+        InformationAlert information = new InformationAlert(header, message);
+        information.show();
     }
 
 }

@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 
 /**
  * Dialog asking the user if he/ she wants to replay a new game or quit the
+ * game. Besides, it is possible for the user to change the users for the next
  * game.
  *
  * @author Logan Farci (47923)
@@ -24,16 +25,10 @@ class ReplayDialog extends Dialog<ButtonType> implements Observer {
 
     private final Game game;
     private final View view;
-    private final ButtonType replay;
-    private final ButtonType menu;
-    private final ButtonType quit;
 
     ReplayDialog(Game game, View view) throws IOException {
         this.game = game;
         this.view = view;
-        this.replay = new ButtonType("Replay");
-        this.menu = new ButtonType("Menu");
-        this.quit = new ButtonType("Quit");
         load();
         game.addObserver(this);
     }

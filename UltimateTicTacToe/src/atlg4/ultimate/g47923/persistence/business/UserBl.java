@@ -11,7 +11,7 @@ import java.util.Collection;
  *
  * @author Logan Farci (47923)
  */
-public class UserBl {
+class UserBl {
 
     static void add(UserDTO user) throws UltimateTicTacToeDbException {
         UserDB.insertDb(user);

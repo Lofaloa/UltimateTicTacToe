@@ -1,6 +1,5 @@
 package atlg4.ultimate.g47923;
 
-import atlg4.ultimate.g47923.exception.UltimateTicTacToeException;
 import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.model.UltimateTicTacToeGame;
 import atlg4.ultimate.g47923.view.UltimateTicTacToeView;
@@ -21,8 +20,6 @@ public class Main extends Application {
             Game game = new UltimateTicTacToeGame();
             View view = new UltimateTicTacToeView(game, primaryStage);
             view.showGameMenuWindow();
-        } catch (UltimateTicTacToeException e) {
-            System.out.println(e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
         }

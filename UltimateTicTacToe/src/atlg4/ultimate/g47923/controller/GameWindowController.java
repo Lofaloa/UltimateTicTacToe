@@ -6,7 +6,6 @@ import atlg4.ultimate.g47923.exception.UltimateTicTacToeException;
 import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.model.Marker;
 import atlg4.ultimate.g47923.persistence.business.AdminFacade;
-import atlg4.ultimate.g47923.view.IllegalMoveAlert;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,7 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import static javafx.scene.layout.GridPane.getColumnIndex;
@@ -105,11 +103,6 @@ public class GameWindowController implements Initializable {
         }
     }
 
-    private void showIllegalMoveAlert(String msg) {
-        Alert warning = new IllegalMoveAlert(msg);
-        warning.show();
-    }
-
     private void updateDataBase() {
         AdminFacade.updateUser(game.getPlayer(Marker.X).getUser());
         AdminFacade.updateUser(game.getPlayer(Marker.O).getUser());
@@ -133,7 +126,7 @@ public class GameWindowController implements Initializable {
                     }
                 }
             } catch (UltimateTicTacToeException e) {
-                showIllegalMoveAlert(e.getMessage());
+                view.showWarning("You made an illegal move!", e.getMessage());
             }
         });
     }

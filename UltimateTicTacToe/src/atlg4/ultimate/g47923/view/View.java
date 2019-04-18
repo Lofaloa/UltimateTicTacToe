@@ -51,4 +51,12 @@ public interface View {
      */
     void showWarning(String header, String message);
 
+    /**
+     * Shows an information with the detailed header and message.
+     *
+     * @param header is the detailed header.
+     * @param message is the detailed message.
+     */
+    void showInformation(String header, String message);
+
 }

@@ -3,31 +3,32 @@ package atlg4.ultimate.g47923.view;
 import javafx.scene.control.Alert;
 
 /**
- * Alert that tells the user that the user is trying to make an illegal move.
- * The cause is explained and the solution to the issue exposed.
+ * Is a general warning.
  *
  * @author Logan Farci (47923)
  */
-public class IllegalMoveAlert extends Alert {
+class WarningAlert extends Alert {
 
-    static private final String TITLE = "Illegal move";
-    static private final String HEADER = "You made an illegal move!";
+    static private final String TITLE = "Warning";
     static private final int MIN_WIDTH = 300;
     static private final int MIN_HEIGHT = 200;
 
+    private final String header;
     private final String message;
 
-    public IllegalMoveAlert(String message) {
+    WarningAlert(String header, String message) {
         super(AlertType.WARNING);
+        this.header = header;
         this.message = message;
         getDialogPane().setMinWidth(MIN_WIDTH);
         getDialogPane().setMinHeight(MIN_HEIGHT);
+        getDialogPane().getStylesheets().add("/css/UltimateTicTacToeTheme.css");
         setText();
     }
 
     private void setText() {
         setTitle(TITLE);
-        setHeaderText(HEADER);
+        setHeaderText(header);
         setContentText(message);
     }
 

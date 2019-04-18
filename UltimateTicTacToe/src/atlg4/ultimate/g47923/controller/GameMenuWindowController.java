@@ -67,7 +67,7 @@ public class GameMenuWindowController implements Initializable {
         try {
             if (pseudonym != null) {
                 game.setUser(AdminFacade.getUser(pseudonym));
-                view.showWarning("Welcome " + pseudonym + "!", "You are now "
+                view.showInformation("Welcome " + pseudonym + "!", "You are now "
                         + "registered as " + pseudonym + ", your statistics will"
                                 + " be updated after you are done playing!");
             }
