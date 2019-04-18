@@ -2,7 +2,7 @@ package atlg4.ultimate.g47923.controller;
 
 import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.model.Marker;
-import atlg4.ultimate.g47923.persistence.business.AdminFacade;
+import atlg4.ultimate.g47923.persistence.business.UsersFacade;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -66,7 +66,7 @@ public class GameMenuWindowController implements Initializable {
         String pseudonym = view.askPseudonym();
         try {
             if (pseudonym != null) {
-                game.setUser(AdminFacade.getUser(pseudonym));
+                game.setUser(UsersFacade.getUser(pseudonym));
                 view.showInformation("Welcome " + pseudonym + "!", "You are now "
                         + "registered as " + pseudonym + ", your statistics will"
                                 + " be updated after you are done playing!");

@@ -5,7 +5,7 @@ import atlg4.ultimate.g47923.dto.PositionDTO;
 import atlg4.ultimate.g47923.exception.UltimateTicTacToeException;
 import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.model.Marker;
-import atlg4.ultimate.g47923.persistence.business.AdminFacade;
+import atlg4.ultimate.g47923.persistence.business.UsersFacade;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -104,8 +104,8 @@ public class GameWindowController implements Initializable {
     }
 
     private void updateDataBase() {
-        AdminFacade.updateUser(game.getPlayer(Marker.X).getUser());
-        AdminFacade.updateUser(game.getPlayer(Marker.O).getUser());
+        UsersFacade.updateUser(game.getPlayer(Marker.X).getUser());
+        UsersFacade.updateUser(game.getPlayer(Marker.O).getUser());
     }
 
     private void addHandlerAt(MyTicTacToe t, final int row, final int column) {

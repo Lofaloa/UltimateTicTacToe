@@ -1,7 +1,9 @@
 package atlg4.ultimate.g47923.persistence.db;
 
 import atlg4.ultimate.g47923.exception.DataBaseException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * Manages the data base connection and transactions.
@@ -12,7 +14,7 @@ public class DBManager {
     private static final String DATABASE_URL = "jdbc:derby://localhost:1527/ultimate";
 
     /**
-     * Gets the connection to the data base.
+     * Gets the connection to the ultimate data base.
      *
      * @return the connection to the data base.
      * @throws DataBaseException if a database access error occurs.
@@ -22,7 +24,7 @@ public class DBManager {
             try {
                 CONNECTION = DriverManager.getConnection(DATABASE_URL, "app", "app");
             } catch (SQLException ex) {
-                throw new DataBaseException(50, "Cannot acces the database: "
+                throw new DataBaseException("Cannot access the database: "
                         + ex.getMessage());
             }
         }
@@ -40,7 +42,7 @@ public class DBManager {
         try {
             getConnection().setAutoCommit(false);
         } catch (SQLException ex) {
-            throw new DataBaseException(51, "Cannot start the transaction: "
+            throw new DataBaseException("Cannot start the transaction: "
                     + ex.getMessage());
         }
     }
@@ -58,7 +60,7 @@ public class DBManager {
             getConnection().commit();
             getConnection().setAutoCommit(true);
         } catch (SQLException ex) {
-            throw new DataBaseException(52, "Cannot validate the transaction: "
+            throw new DataBaseException("Cannot validate the transaction: "
                     + ex.getMessage());
         }
     }
@@ -76,7 +78,7 @@ public class DBManager {
             getConnection().rollback();
             getConnection().setAutoCommit(true);
         } catch (SQLException ex) {
-            throw new DataBaseException(53, "Cannot cancel the transaction: "
+            throw new DataBaseException("Cannot cancel the transaction: "
                     + ex.getMessage());
         }
     }

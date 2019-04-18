@@ -7,8 +7,8 @@ package atlg4.ultimate.g47923.exception;
  */
 public class DataBaseException extends UltimateTicTacToeException {
 
-    public DataBaseException(int id, String message) {
-        super(id, message);
+    public DataBaseException(String message) {
+        super(0 , message);
     }
 
 }

@@ -2,7 +2,7 @@ package atlg4.ultimate.g47923.controller;
 
 import atlg4.ultimate.g47923.exception.DataBaseException;
 import atlg4.ultimate.g47923.model.Game;
-import atlg4.ultimate.g47923.persistence.business.AdminFacade;
+import atlg4.ultimate.g47923.persistence.business.UsersFacade;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,7 +43,7 @@ public class ReplayDialogController implements Initializable {
     private void setUser(String pseudonym) {
         try {
             if (pseudonym != null) {
-                game.setUser(AdminFacade.getUser(pseudonym));
+                game.setUser(UsersFacade.getUser(pseudonym));
             }
         } catch (DataBaseException e) {
             view.showWarning("Impossible to set the user!", e.getMessage());

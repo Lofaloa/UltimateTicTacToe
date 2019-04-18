@@ -3,41 +3,36 @@ package atlg4.ultimate.g47923.persistence.db;
 import atlg4.ultimate.g47923.dto.UserDTO;
 import atlg4.ultimate.g47923.exception.DataBaseException;
 import atlg4.ultimate.g47923.persistence.seldto.UserSel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
- *
+ * Manages operations made in the USERS table of the ultimate database.
  *
  * @author Logan Farci (47923)
  */
 public class UserDB {
 
     /**
-     * Gets all the users of the Users table.
-     *
-     * @return all the users of the Users table.
-     * @throws DataBaseException if it is not possible to get the
-     * collection of users.
-     */
-    public static List<UserDTO> getAllUsers() throws DataBaseException {
-        List<UserDTO> users = getCollection(new UserSel(null));
-        return users;
-    }
-
-    /**
      * Gets all the users matching the given selection.
      *
      * @param sel is the given selection.
      * @return all the users matching the given selection.
-     * @throws DataBaseException
+     * @throws DataBaseException if a database access error occurs or if the
+     * selection cannot be executed.
      */
-    public static List<UserDTO> getCollection(UserSel sel) throws DataBaseException {
+    public static Collection<UserDTO> getCollection(UserSel sel) throws DataBaseException {
         List<UserDTO> collection = new ArrayList<>();
         try {
-            String query = "SELECT pseudonym, nvictories, nexaequos, ndefeats FROM Users ";
-            java.sql.Connection connexion = DBManager.getConnection();
-            java.sql.PreparedStatement stmt;
+            String query = "SELECT pseudonym, nvictories, nexaequos, ndefeats "
+                    + "FROM Users ";
+            Connection connection = DBManager.getConnection();
+            PreparedStatement stmt;
             String where = "";
             if (sel.getPseudonym() != null) {
                 if (!where.equals("")) {
@@ -45,11 +40,10 @@ public class UserDB {
                 }
                 where = where + " pseudonym = ? ";
             }
-
             if (where.length() != 0) {
                 where = " WHERE " + where + " ORDER BY pseudonym";
                 query = query + where;
-                stmt = connexion.prepareStatement(query);
+                stmt = connection.prepareStatement(query);
                 int i = 1;
                 if (sel.getPseudonym() != null) {
                     stmt.setString(i, sel.getPseudonym());
@@ -69,9 +63,9 @@ public class UserDB {
                 }
             } else {
                 query = query + " ORDER BY pseudonym";
-                stmt = connexion.prepareStatement(query);
+                stmt = connection.prepareStatement(query);
             }
-            java.sql.ResultSet rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 collection.add(new UserDTO(
                         rs.getString("pseudonym"),
@@ -80,24 +74,39 @@ public class UserDB {
                         rs.getInt("ndefeats")
                 ));
             }
-        } catch (DataBaseException ex) {
-            throw new DataBaseException(54, "Instanciation de User impossible:\nDTOException: " + ex.getMessage());
-        } catch (java.sql.SQLException eSQL) {
-            throw new DataBaseException(55, "Instanciation de User impossible:\nSQLException: " + eSQL.getMessage());
+        } catch (DataBaseException e) {
+            throw new DataBaseException("Cannot access the table because of "
+                    + "DataBaseException: " + e.getMessage());
+        } catch (SQLException eSQL) {
+            throw new DataBaseException("Cannot get the collection of "
+                    + "users: " + eSQL.getMessage());
         }
         return collection;
     }
 
     /**
-     * Inserts the given user in the Users table.
+     * Gets all the users registered in the USERS table.
      *
-     * @param user is the given user.
-     * @throws DataBaseException
+     * @return all the users of the USERS table.
+     * @throws DataBaseException if a database access error occurs or if the
+     * selection cannot be executed.
+     */
+    public static Collection<UserDTO> getAllUsers() throws DataBaseException {
+        Collection<UserDTO> users = getCollection(new UserSel(null));
+        return users;
+    }
+
+    /**
+     * Inserts the given user in the USERS table.
+     *
+     * @param user is the given user data transfer object.
+     * @throws DataBaseException if a database access error occurs or if the
+     * insertion cannot be executed.
      */
     public static void insertDb(UserDTO user) throws DataBaseException {
         try {
-            java.sql.Connection connexion = DBManager.getConnection();
-            java.sql.PreparedStatement insert;
+            Connection connexion = DBManager.getConnection();
+            PreparedStatement insert;
             insert = connexion.prepareStatement(
                     "INSERT INTO Users(pseudonym, nvictories, nexaequos, ndefeats) "
                     + "VALUES(?, ?, ?, ?)"
@@ -107,11 +116,24 @@ public class UserDB {
             insert.setInt(3, user.getNbOfExaequos());
             insert.setInt(4, user.getNbOfDefeats());
             insert.executeUpdate();
-        } catch (Exception ex) {
-            throw new DataBaseException(56, "Users: cannot insert\n" + ex.getMessage());
+        } catch (DataBaseException e) {
+            throw new DataBaseException("Cannot access the table because of "
+                    + "DataBaseException: " + e.getMessage());
+        } catch (SQLException eSQL) {
+            throw new DataBaseException("Cannot execute the insertion of user "
+                    + user.getPseudonym() + " in USERS table.");
         }
     }
 
+    /**
+     * Sets the number of victories for the user corresponding to the given
+     * pseudonym.
+     *
+     * @param pseudonym the pseudonym of the user to update.
+     * @param nvictories the number of victories of the user to update.
+     * @throws DataBaseException if a database access error occurs or if the
+     * update cannot be executed.
+     */
     public static void setNbOfVictories(String pseudonym, int nvictories)
             throws DataBaseException {
         try {
@@ -123,11 +145,24 @@ public class UserDB {
             update.setInt(1, nvictories);
             update.setString(2, pseudonym);
             update.executeUpdate();
-        } catch (Exception ex) {
-            throw new DataBaseException(57, "Cannot set the number of victories in Users:\n" + ex.getMessage());
+        } catch (DataBaseException e) {
+            throw new DataBaseException("Cannot access the table because of "
+                    + "DataBaseException: " + e.getMessage());
+        } catch (SQLException eSQL) {
+            throw new DataBaseException("Cannot execute the update of user "
+                    + pseudonym + " in USERS table.");
         }
     }
 
+    /**
+     * Sets the number of ex aequos for the user corresponding to the given
+     * pseudonym.
+     *
+     * @param pseudonym the pseudonym of the user to update.
+     * @param nexaequos the number of ex aequos of the user to update.
+     * @throws DataBaseException if a database access error occurs or if the
+     * update cannot be executed.
+     */
     public static void setNbOfExaequos(String pseudonym, int nexaequos)
             throws DataBaseException {
         try {
@@ -139,11 +174,24 @@ public class UserDB {
             update.setInt(1, nexaequos);
             update.setString(2, pseudonym);
             update.executeUpdate();
-        } catch (Exception ex) {
-            throw new DataBaseException(57, "Cannot set the number of victories in Users:\n" + ex.getMessage());
+        } catch (DataBaseException e) {
+            throw new DataBaseException("Cannot access the table because of "
+                    + "DataBaseException: " + e.getMessage());
+        } catch (SQLException eSQL) {
+            throw new DataBaseException("Cannot execute the update of user "
+                    + pseudonym + " in USERS table.");
         }
     }
 
+    /**
+     * Sets the number of ndefeats for the user corresponding to the given
+     * pseudonym.
+     *
+     * @param pseudonym the pseudonym of the user to update.
+     * @param ndefeats the number of defeats of the user to update.
+     * @throws DataBaseException if a database access error occurs or if the
+     * update cannot be executed.
+     */
     public static void setNbOfDefeats(String pseudonym, int ndefeats)
             throws DataBaseException {
         try {
@@ -155,8 +203,12 @@ public class UserDB {
             update.setInt(1, ndefeats);
             update.setString(2, pseudonym);
             update.executeUpdate();
-        } catch (Exception ex) {
-            throw new DataBaseException(57, "Cannot set the number of victories in Users:\n" + ex.getMessage());
+        } catch (DataBaseException e) {
+            throw new DataBaseException("Cannot access the table because of "
+                    + "DataBaseException: " + e.getMessage());
+        } catch (SQLException eSQL) {
+            throw new DataBaseException("Cannot execute the update of user "
+                    + pseudonym + " in USERS table.");
         }
     }
 
@@ -170,8 +222,12 @@ public class UserDB {
         try {
             java.sql.Statement stmt = DBManager.getConnection().createStatement();
             stmt.execute("DELETE FROM Users WHERE pseudonym=" + pseudonym);
-        } catch (Exception ex) {
-            throw new DataBaseException(56, "Client: suppression impossible\n" + ex.getMessage());
+        }  catch (DataBaseException e) {
+            throw new DataBaseException("Cannot access the table because of "
+                    + "DataBaseException: " + e.getMessage());
+        } catch (SQLException eSQL) {
+            throw new DataBaseException("Cannot execute the deletion of user "
+                    + pseudonym + " in USERS table.");
         }
     }
 

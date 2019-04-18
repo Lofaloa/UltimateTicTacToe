@@ -2,7 +2,7 @@ package atlg4.ultimate.g47923.controller;
 
 import atlg4.ultimate.g47923.dto.UserDTO;
 import atlg4.ultimate.g47923.model.Game;
-import atlg4.ultimate.g47923.persistence.business.AdminFacade;
+import atlg4.ultimate.g47923.persistence.business.UsersFacade;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
 import java.util.Collection;
@@ -65,7 +65,7 @@ public class StatisticsWindowController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setCellFactories();
-        Collection<UserDTO> usersCollection = AdminFacade.getUsers();
+        Collection<UserDTO> usersCollection = UsersFacade.getUsers();
         ObservableList<UserDTO> users = observableArrayList(usersCollection);
         statistics.setItems(users);
     }
