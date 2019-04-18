@@ -83,6 +83,13 @@ public interface Game {
      * one of the players.
      */
     void setUser(UserDTO user);
+    
+    /**
+     * Removes the user for the given marker.
+     * 
+     * @param marker is the marker to remove the user for. 
+     */
+    void removeUserFor(Marker marker);
 
     /**
      * Selects the position where the next move will take place.

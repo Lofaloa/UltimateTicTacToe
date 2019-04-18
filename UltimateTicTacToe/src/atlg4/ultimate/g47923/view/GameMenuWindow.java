@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import static java.util.Objects.requireNonNull;
 import java.util.Observable;
 import java.util.Observer;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 /**
@@ -51,9 +52,17 @@ public class GameMenuWindow extends VBox implements Observer {
 
     private Label getPlayerLabel(Marker marker) {
         if (marker == Marker.X) {
-            return (Label) lookup("#playerXPseudonym");
+            return (Label) lookup("#firstUserPseudonym");
         } else {
-            return (Label) lookup("#playerOPseudonym");
+            return (Label) lookup("#secondUserPseudonym");
+        }
+    }
+
+    private void showPlayerDeleteButton(Marker marker) {
+        if (marker == Marker.X) {
+            ((Button) lookup("#firstUserDelete")).setVisible(true);
+        } else {
+            ((Button) lookup("#secondUserDelete")).setVisible(true);
         }
     }
 
@@ -65,8 +74,18 @@ public class GameMenuWindow extends VBox implements Observer {
     }
 
     private void updateUsers() {
-        setPseudonymLabelFor(Marker.X);
-        setPseudonymLabelFor(Marker.O);
+        if (game.hasUserFor(Marker.X)) {
+            setPseudonymLabelFor(Marker.X);
+            showPlayerDeleteButton(Marker.X);
+        } else {
+            getPlayerLabel(Marker.X).setText("no user");
+        }
+        if (game.hasUserFor(Marker.O)) {
+            setPseudonymLabelFor(Marker.O);
+            showPlayerDeleteButton(Marker.O);
+        } else {
+            getPlayerLabel(Marker.O).setText("no user");
+        }
     }
 
     @Override

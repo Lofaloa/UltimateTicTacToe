@@ -161,6 +161,16 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         getRandomPlayer().setUser(new User(user));
         notifyView();
     }
+    
+    @Override
+    public void removeUserFor(Marker marker) {
+        if (marker == Marker.X) {
+            X.setUser(null);
+        } else {
+            O.setUser(null);
+        }
+        notifyView();
+    }
 
     @Override
     public MoveDTO getLastMove() {

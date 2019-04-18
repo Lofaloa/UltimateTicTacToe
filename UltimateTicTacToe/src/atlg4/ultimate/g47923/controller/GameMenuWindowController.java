@@ -23,10 +23,16 @@ public class GameMenuWindowController implements Initializable {
     private final View view;
 
     @FXML
-    private Label playerX;
+    private Label firstUserPseudonym;
 
     @FXML
-    private Label playerO;
+    private Label secondUserPseudonym;
+
+    @FXML
+    private Button firstUserDelete;
+
+    @FXML
+    private Button secondUserDelete;
 
     @FXML
     private Button join;
@@ -69,7 +75,7 @@ public class GameMenuWindowController implements Initializable {
                 game.setUser(UsersFacade.getUser(pseudonym));
                 view.showInformation("Welcome " + pseudonym + "!", "You are now "
                         + "registered as " + pseudonym + ", your statistics will"
-                                + " be updated after you are done playing!");
+                        + " be updated after you are done playing!");
             }
             if (haveUsersBothBeenSet()) {
                 enable(newgame);
@@ -93,6 +99,20 @@ public class GameMenuWindowController implements Initializable {
     @FXML
     private void quit(ActionEvent event) {
         System.exit(0);
+    }
+
+    @FXML
+    private void deleteFirst(ActionEvent event) {
+        game.removeUserFor(Marker.X);
+        disable(newgame);
+        enable(join);
+    }
+
+    @FXML
+    private void deleteSecond(ActionEvent event) {
+        game.removeUserFor(Marker.O);
+        disable(newgame);
+        enable(join);
     }
 
     @Override

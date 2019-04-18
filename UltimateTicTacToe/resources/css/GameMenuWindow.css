@@ -11,12 +11,25 @@
     -fx-font-size: 20px;
 }
 
-.playerLabel {
+.pseudonym {
+    -fx-font-style: italic;
+}
+
+#users {
+    -fx-padding: 5px;
+}
+
+.quit {
+    -fx-background-color: transparent;
+}
+
+#usersHeader {
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 
-.pseudonym {
-    -fx-font-style: italic;
+.playerLabel {
+    -fx-font-weight: bold;
 }
 
 .available {
