@@ -87,7 +87,7 @@ public interface Game {
     /**
      * Removes the user for the given marker.
      * 
-     * @param marker is the marker to remove the user for. 
+     * @param marker is the marker to remove the user for.
      */
     void removeUserFor(Marker marker);
 

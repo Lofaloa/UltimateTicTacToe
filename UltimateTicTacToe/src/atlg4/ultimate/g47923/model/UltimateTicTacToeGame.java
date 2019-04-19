@@ -64,15 +64,10 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         return executedMoves.isEmpty();
     }
 
-    @Override
-    public PlayerDTO getCurrentPlayer() {
-        return isXCurrentPlayer ? X.toDTO() : O.toDTO();
-    }
-
     boolean hasAPlayerWithdrawn() {
         return X.isWithdrawn() || O.isWithdrawn();
     }
-
+    
     private Player getRemainingPlayer() {
         if (!hasAPlayerWithdrawn()) {
             throw new IllegalStateException("No player has withdrawn.");
@@ -82,6 +77,41 @@ public class UltimateTicTacToeGame extends Observable implements Game {
 
     void setIsXCurrentPlayer(boolean value) {
         isXCurrentPlayer = value;
+    }
+    
+    private boolean isSet(UserDTO user) {
+        return X.hasUser() && user.getPseudonym().equals(X.getUser().getPseudonym())
+                || O.hasUser() && user.getPseudonym().equals(O.getUser().getPseudonym());
+    }
+
+    private int getRandomNumberInRange(int min, int max) {
+        return new Random().nextInt((max - min) + 1) + min;
+    }
+
+    private Player getRandomPlayer() {
+        int random = getRandomNumberInRange(0, 1);
+        Player player = random == 1 ? X : O;
+        if (!isOver() && player.hasUser()) {
+            player = player == X ? O : X;
+        }
+        return player;
+    }
+    
+    private boolean haveUsersBeenSet() {
+        return X.hasUser() && O.hasUser();
+    }
+    
+    boolean isInExpectedMiniTicTacToe(Move move) {
+        if (isFirstTurn()) {
+            throw new IllegalStateException("No executed moves yet.");
+        }
+        Position lastCellPosition = new Position(getLastMove().getCellPosition());
+        return lastCellPosition.equals(move.getMiniTicTacToePosition());
+    }
+    
+    @Override
+    public PlayerDTO getCurrentPlayer() {
+        return isXCurrentPlayer ? X.toDTO() : O.toDTO();
     }
 
     @Override
@@ -130,24 +160,6 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         notifyView();
     }
 
-    private boolean isSet(UserDTO user) {
-        return X.hasUser() && user.getPseudonym().equals(X.getUser().getPseudonym())
-                || O.hasUser() && user.getPseudonym().equals(O.getUser().getPseudonym());
-    }
-
-    private int getRandomNumberInRange(int min, int max) {
-        return new Random().nextInt((max - min) + 1) + min;
-    }
-
-    private Player getRandomPlayer() {
-        int random = getRandomNumberInRange(0, 1);
-        Player player = random == 1 ? X : O;
-        if (!isOver() && player.hasUser()) {
-            player = player == X ? O : X;
-        }
-        return player;
-    }
-
     @Override
     public void setUser(UserDTO user) {
         Objects.requireNonNull(user);
@@ -183,14 +195,6 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         return executedMoves.get(executedMoves.size() - 1).toDTO();
     }
 
-    boolean isInExpectedMiniTicTacToe(Move move) {
-        if (isFirstTurn()) {
-            throw new IllegalStateException("No executed moves yet.");
-        }
-        Position lastCellPosition = new Position(getLastMove().getCellPosition());
-        return lastCellPosition.equals(move.getMiniTicTacToePosition());
-    }
-
     private Move requireValidMove(Move move) {
         Grid selected = board.getCellAt(move.getMiniTicTacToePosition());
         if (!selected.isPlayable()) {
@@ -209,10 +213,6 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         return move;
     }
 
-    private boolean haveUsersBeenSet() {
-        return X.hasUser() && O.hasUser();
-    }
-
     @Override
     public void select(PositionDTO miniTicTacToe, PositionDTO cell) {
         if (!haveUsersBeenSet()) {
@@ -225,7 +225,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         this.currentMove = requireValidMove(move);
     }
 
-    private boolean currentPlayerHasSelected() {
+    private boolean hasCurrentPlayerSelectedAPosition() {
         if (currentMove == null) {
             throw new IllegalStateException("Select a position before playing!");
         }
@@ -235,7 +235,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
 
     @Override
     public void play() {
-        if (!currentPlayerHasSelected()) {
+        if (!hasCurrentPlayerSelectedAPosition()) {
             throw new IllegalStateException("Select a position before playing!");
         }
         currentMove.execute();
@@ -270,7 +270,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         this.isXCurrentPlayer = !isXCurrentPlayer;
     }
 
-    private boolean isExaequo() {
+    private boolean isTie() {
         return isOver() && board.isFull();
     }
 
@@ -279,9 +279,9 @@ public class UltimateTicTacToeGame extends Observable implements Game {
         if (!isOver()) {
             throw new IllegalStateException("The game is not over yet.");
         }
-        if (isExaequo()) {
-            X.getUser().addAnExaequo();
-            O.getUser().addAnExaequo();
+        if (isTie()) {
+            X.getUser().addATie();
+            O.getUser().addATie();
         } else {
             if (getWinner().getMarker() == Marker.X) {
                 X.getUser().addAVictory();

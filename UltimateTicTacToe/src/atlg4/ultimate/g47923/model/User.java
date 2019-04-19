@@ -56,7 +56,7 @@ class User {
         nbOfVictories++;
     }
 
-    void addAnExaequo() {
+    void addATie() {
         nbOfExaequos++;
     }
 

@@ -56,7 +56,7 @@ public class UserTest {
     public void addAnExaequo() {
         int nexaequos = 2;
         User user = new User("Bob", 2, nexaequos, 3);
-        user.addAnExaequo();
+        user.addATie();
         assertEquals(nexaequos + 1, user.getNbOfExaequos());
     }
 
