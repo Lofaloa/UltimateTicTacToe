@@ -53,9 +53,9 @@ class UltimateTicTacToe extends Grid<MiniTicTacToe> {
                 + "UltimateTicTacToe at a null Cell position");
         MiniTicTacToe mini = (MiniTicTacToe) getCellAt(miniTicTacToe);
         if (mini.hasOwner()) {
-            throw new GridException(12, "This MiniTicTacToe is already owned!");
+            throw new GridException("This MiniTicTacToe is already owned!");
         } else if (mini.isFull()) {
-            throw new GridException(12, "This MiniTicTacToe is full!");
+            throw new GridException("This MiniTicTacToe is full!");
         } else {
             mini.setOwnerAt(owner, cell);
         }

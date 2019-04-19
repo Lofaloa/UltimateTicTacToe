@@ -25,14 +25,15 @@ public class UsersFacade {
             UserBl.add(user);
             DBManager.validateTransaction();
         } catch (DataBaseException eDB) {
-            String msg = eDB.getMessage();
             try {
                 DBManager.cancelTransaction();
-            } catch (DataBaseException ex) {
-                msg = ex.getMessage() + "\n" + msg;
-            } finally {
-                throw new DataBaseException("User cannot be added\n" + msg);
+            } catch (DataBaseException eCancel) {
+                throw new DataBaseException("addUser(user), error while "
+                        + "canceling the transaction because of: "
+                        + eCancel.getMessage());
             }
+            throw new DataBaseException("User with pseudonym " + user.getPseudonym()
+                    + " cannot be found.");
         }
     }
 

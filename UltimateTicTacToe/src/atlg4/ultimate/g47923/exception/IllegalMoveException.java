@@ -11,11 +11,10 @@ public class IllegalMoveException extends UltimateTicTacToeException {
      * Constructs an instance of <code>IllegalMoveException</code> with the
      * specified detail message.
      *
-     * @param id the specified id.
      * @param message the detail message.
      */
-    public IllegalMoveException(int id, String message) {
-        super(id, message);
+    public IllegalMoveException(String message) {
+        super(message);
     }
 
 }

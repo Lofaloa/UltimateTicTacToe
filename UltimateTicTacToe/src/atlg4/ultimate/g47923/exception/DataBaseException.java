@@ -7,8 +7,13 @@ package atlg4.ultimate.g47923.exception;
  */
 public class DataBaseException extends UltimateTicTacToeException {
 
+    /**
+     * Constructs an instance of DataBaseException with the detailed message.
+     * 
+     * @param message is the detailed message. 
+     */
     public DataBaseException(String message) {
-        super(0 , message);
+        super(message);
     }
 
 }

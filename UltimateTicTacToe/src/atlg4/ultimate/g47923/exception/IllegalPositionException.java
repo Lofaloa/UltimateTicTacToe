@@ -11,11 +11,10 @@ public class IllegalPositionException extends UltimateTicTacToeException {
      * Constructs an instance of <code>UltimateTicTacToeException</code> with
      * the specified id and detail message.
      *
-     * @param id the id.
      * @param message the detail message.
      */
-    public IllegalPositionException(int id, String message) {
-        super(id, message);
+    public IllegalPositionException(String message) {
+        super(message);
     }
 
 }

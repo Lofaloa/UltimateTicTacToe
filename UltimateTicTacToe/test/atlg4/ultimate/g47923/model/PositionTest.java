@@ -29,7 +29,7 @@ public class PositionTest {
      */
     @Test(expected = IllegalPositionException.class)
     public void construction_with_negative_row() {
-        Position position = new Position(-1, 0);
+        new Position(-1, 0);
     }
 
     /**
@@ -37,7 +37,7 @@ public class PositionTest {
      */
     @Test(expected = IllegalPositionException.class)
     public void construction_with_greater_row() {
-        Position position = new Position(3, 0);
+        new Position(3, 0);
     }
 
     /**
@@ -45,7 +45,7 @@ public class PositionTest {
      */
     @Test(expected = IllegalPositionException.class)
     public void construction_with_negative_column() {
-        Position position = new Position(0, -1);
+        new Position(0, -1);
     }
 
     /**
@@ -53,7 +53,7 @@ public class PositionTest {
      */
     @Test(expected = IllegalPositionException.class)
     public void construction_with_greater_column() {
-        Position position = new Position(0, 3);
+        new Position(0, 3);
     }
 
     /**

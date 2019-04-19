@@ -11,30 +11,20 @@ class Cell extends Grid<Grid> {
 
     static final int SIZE = 1;
 
-    /**
-     * Constructs an instance of an empty <code>Cell</code> with the specified
-     * position.
-     *
-     * @param position the specified position.
-     */
-    public Cell(Position position) {
+    Cell(Position position) {
         super(position, SIZE);
     }
 
     @Override
     void initialize() {
-        throw new GridException(7, "A cell is not initializable as it has no"
+        throw new GridException("A cell is not initializable as it has no"
                 + "sub grids.");
     }
 
-    /**
-     * Sets this cell owner.
-     *
-     * @param owner is this cell owner.
-     */
+    @Override
     void setOwner(Player owner) {
         if (hasOwner()) {
-            throw new GridException(6, "trying to override this cell owner.");
+            throw new GridException("trying to override this cell owner.");
         }
         this.owner = owner;
     }

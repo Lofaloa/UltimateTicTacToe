@@ -23,9 +23,9 @@ class Position {
      * @param column is the column of this position.
      */
     Position(int row, int column) {
-        this.row = requireValidCoordinate(row, 1, row + " is not a valid position "
+        this.row = requireValidCoordinate(row, row + " is not a valid position "
                 + "row.");
-        this.column = requireValidCoordinate(column, 2, column + " is not a valid "
+        this.column = requireValidCoordinate(column, column + " is not a valid "
                 + "position column.");
     }
 
@@ -51,9 +51,9 @@ class Position {
      * @param dto is the specified data transfer object.
      */
     Position(PositionDTO dto) {
-        this.row = requireValidCoordinate(dto.getRow(), 9, dto.getRow() + " is "
+        this.row = requireValidCoordinate(dto.getRow(), dto.getRow() + " is "
                 + "not a valid position row.");
-        this.column = requireValidCoordinate(dto.getColumn(), 10, dto.getColumn()
+        this.column = requireValidCoordinate(dto.getColumn(), dto.getColumn()
                 + " is not a valid position column.");
     }
 
@@ -75,9 +75,9 @@ class Position {
         return column;
     }
 
-    static int requireValidCoordinate(int coo, int id, String msg) {
+    static int requireValidCoordinate(int coo, String msg) {
         if (coo < 0 || MAX_COORDINATE < coo) {
-            throw new IllegalPositionException(id, msg);
+            throw new IllegalPositionException(msg);
         }
         return coo;
     }

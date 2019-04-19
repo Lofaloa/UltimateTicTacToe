@@ -58,7 +58,7 @@ abstract class Grid<CellType extends Grid> {
      */
     static int requireValidSize(int size) {
         if (size < 0) {
-            throw new GridException(5, size + " is not valid grid size, it "
+            throw new GridException(size + " is not valid grid size, it "
                     + "should be positive.");
         }
         return size;
@@ -173,7 +173,7 @@ abstract class Grid<CellType extends Grid> {
     private boolean isARowOf(int row, Player owner) {
         requireNonNull(owner, "Impossible to tell if row " + row + " is a row of "
                 + "null.");
-        requireValidCoordinate(row, 3, row + " is not a valid row.");
+        requireValidCoordinate(row, row + " is not a valid row.");
         return cells.isEmpty() ? false : cells.stream()
                 .filter(cell -> row == cell.getPosition().getRow())
                 .allMatch(cell -> cell.getOwner() == owner);
@@ -182,7 +182,7 @@ abstract class Grid<CellType extends Grid> {
     private boolean isAColumnOf(int column, Player owner) {
         requireNonNull(owner, "Impossible to tell if column " + column + " is a "
                 + "column of null.");
-        requireValidCoordinate(column, 4, column + " is not a valid column.");
+        requireValidCoordinate(column, column + " is not a valid column.");
         return cells.isEmpty() ? false : cells.stream()
                 .filter(cell -> column == cell.getPosition().getColumn())
                 .allMatch(cell -> cell.getOwner() == owner);

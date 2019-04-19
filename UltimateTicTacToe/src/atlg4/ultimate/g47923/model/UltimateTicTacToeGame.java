@@ -198,14 +198,14 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     private Move requireValidMove(Move move) {
         Grid selected = board.getCellAt(move.getMiniTicTacToePosition());
         if (!selected.isPlayable()) {
-            throw new IllegalMoveException(14, "The selected MiniTicTacToe is"
+            throw new IllegalMoveException("The selected MiniTicTacToe is"
                     + "not playable!");
         }
         if (!isFirstTurn()) {
             Position expectedMiniPos = new Position(getLastMove().getCellPosition());
             Grid expected = board.getCellAt(expectedMiniPos);
             if (expected.isPlayable() && !isInExpectedMiniTicTacToe(move)) {
-                throw new IllegalMoveException(12, "The MiniTicTacToe should be "
+                throw new IllegalMoveException("The MiniTicTacToe should be "
                         + "at the same position than the Cell the last player "
                         + "selected");
             }

@@ -51,7 +51,7 @@ class MiniTicTacToe extends Grid<Cell> {
                 + " null position");
         Cell cell = (Cell) getCellAt(position);
         if (cell.hasOwner()) {
-            throw new IllegalMoveException(11, "Trying to override a cell owner at ("
+            throw new IllegalMoveException("Trying to override a cell owner at ("
                     + position.getRow() + "; " + position.getColumn() + ").");
         } else {
             cell.setOwner(owner);

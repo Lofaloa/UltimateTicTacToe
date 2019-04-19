@@ -12,6 +12,8 @@ public class DBManager {
 
     private static Connection CONNECTION;
     private static final String DATABASE_URL = "jdbc:derby://localhost:1527/ultimate";
+    private static final String DATABASE_USER = "app";
+    private static final String DATABASE_PASSWORD = "app";
 
     /**
      * Gets the connection to the ultimate data base.
@@ -22,7 +24,11 @@ public class DBManager {
     public static Connection getConnection() throws DataBaseException {
         if (CONNECTION == null) {
             try {
-                CONNECTION = DriverManager.getConnection(DATABASE_URL, "app", "app");
+                CONNECTION = DriverManager.getConnection(
+                        DATABASE_URL,
+                        DATABASE_USER,
+                        DATABASE_PASSWORD
+                );
             } catch (SQLException ex) {
                 throw new DataBaseException("Cannot access the database: "
                         + ex.getMessage());

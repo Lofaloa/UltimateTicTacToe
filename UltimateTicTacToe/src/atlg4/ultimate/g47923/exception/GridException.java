@@ -11,10 +11,9 @@ public class GridException extends UltimateTicTacToeException {
      * Constructs an instance of <code>GridException</code> with the specified
      * detail message.
      *
-     * @param id the specified id.
      * @param message the detail message.
      */
-    public GridException(int id, String message) {
-        super(id, message);
+    public GridException(String message) {
+        super(message);
     }
 }
