@@ -1,3 +1,6 @@
+/**
+ * doc du package principal
+ */
 package atlg4.ultimate.g47923;
 
 import atlg4.ultimate.g47923.model.Game;

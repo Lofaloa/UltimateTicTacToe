@@ -8,7 +8,7 @@ import javafx.scene.control.Alert.AlertType;
  *
  * @author Logan Farci (47923)
  */
-public class InformationAlert extends Alert {
+class InformationAlert extends Alert {
 
     static private final String TITLE = "Information";
     static private final int MIN_WIDTH = 300;

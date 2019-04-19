@@ -7,25 +7,22 @@ import static java.util.Objects.requireNonNull;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 
-/**
+/*
  * Presents the number of victories, ex aequos and defeats for each players.
  *
  * @author Logan Farci (47923)
  */
-public final class StatisticsWindow extends VBox {
+final class StatisticsWindow extends VBox {
 
     private static final String FXML_PATH = "/fxml/StatisticsWindow.fxml";
 
     private final Game game;
     private final View view;
 
-    /**
+    /*
      * Constructs an instance of this StatisticsWindow with the specified game
-     * and a new stage.
-     *
-     * @param game is the game to represent.
-     * @param view is the specified view.
-     * @throws IOException if this window FXML file cannot be loaded.
+     * and a new stage. A IOException is thrown when this window FXML file 
+     * cannot be loaded.
      */
     StatisticsWindow(Game game, View view) throws IOException {
         this.game = requireNonNull(game, "Constructing a StatisticsWindow with a null "

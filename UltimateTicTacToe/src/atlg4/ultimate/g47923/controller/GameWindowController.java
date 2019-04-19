@@ -20,7 +20,8 @@ import static javafx.scene.layout.GridPane.getColumnIndex;
 import static javafx.scene.layout.GridPane.getRowIndex;
 
 /**
- *
+ * Controls the logic of the game window.
+ * 
  * @author Logan Farci (47923)
  */
 public class GameWindowController implements Initializable {

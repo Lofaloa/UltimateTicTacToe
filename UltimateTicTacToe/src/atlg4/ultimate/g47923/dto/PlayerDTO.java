@@ -3,7 +3,7 @@ package atlg4.ultimate.g47923.dto;
 import atlg4.ultimate.g47923.model.*;
 
 /**
- * Represents a tic tac toe player.
+ * Data transfer object for a Player.
  *
  * @author Logan Farci (47923)
  */

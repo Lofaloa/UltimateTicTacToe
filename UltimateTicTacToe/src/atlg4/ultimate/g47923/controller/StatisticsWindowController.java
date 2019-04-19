@@ -7,6 +7,7 @@ import atlg4.ultimate.g47923.persistence.business.UsersFacade;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
 import java.util.Collection;
+import static java.util.Objects.requireNonNull;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,7 +19,8 @@ import static javafx.collections.FXCollections.observableArrayList;
 import javafx.event.ActionEvent;
 
 /**
- *
+ * Controls the logic of the statistics window.
+ * 
  * @author Logan Farci (47923)
  */
 public class StatisticsWindowController implements Initializable {
@@ -41,9 +43,18 @@ public class StatisticsWindowController implements Initializable {
     @FXML
     private TableColumn<UserDTO, Integer> defeatsColumn;
 
+    /**
+     * Constructs an instance of StatisticsWindowController with the given game
+     * and view.
+     *
+     * @param game is the given game.
+     * @param view is the given view.
+     */
     public StatisticsWindowController(Game game, View view) {
-        this.game = game;
-        this.view = view;
+        this.game = requireNonNull(game, "Trying to construct a "
+                + "StatisticsWindowController with a null game");
+        this.view = requireNonNull(view, "Trying to construct a "
+                + "StatisticsWindowController with a null view");
     }
 
     @FXML

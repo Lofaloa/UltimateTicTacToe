@@ -26,7 +26,7 @@ public interface Game {
      *
      * @return the winner.
      * @throws IllegalStateException if the game is not over or when the game is
-     * over but even.
+     * over but tied.
      */
     PlayerDTO getWinner();
 
@@ -88,6 +88,7 @@ public interface Game {
      * Removes the user for the given marker.
      * 
      * @param marker is the marker to remove the user for.
+     * @throws IllegalStateException when this method is called during a game.
      */
     void removeUserFor(Marker marker);
 

@@ -53,8 +53,8 @@ public class UserDB {
                     stmt.setInt(i, sel.getNbOfVictories());
                     i++;
                 }
-                if (sel.getNbOfExaequos() >= 0) {
-                    stmt.setInt(i, sel.getNbOfExaequos());
+                if (sel.getNbOfTies() >= 0) {
+                    stmt.setInt(i, sel.getNbOfTies());
                     i++;
                 }
                 if (sel.getNbOfDefeats() >= 0) {
@@ -216,13 +216,14 @@ public class UserDB {
      * Deletes the the user matching the given pseudonym.
      *
      * @param pseudonym is the given pseudonym.
-     * @throws DataBaseException
+     * @throws DataBaseException is a database access error occurs or if the
+     * specified user cannot be deleted.
      */
     public static void deleteDb(String pseudonym) throws DataBaseException {
         try {
             java.sql.Statement stmt = DBManager.getConnection().createStatement();
             stmt.execute("DELETE FROM Users WHERE pseudonym=" + pseudonym);
-        }  catch (DataBaseException e) {
+        } catch (DataBaseException e) {
             throw new DataBaseException("Cannot access the table because of "
                     + "DataBaseException: " + e.getMessage());
         } catch (SQLException eSQL) {

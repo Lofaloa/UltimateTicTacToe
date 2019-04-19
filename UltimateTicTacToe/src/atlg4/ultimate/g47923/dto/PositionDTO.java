@@ -1,7 +1,7 @@
 package atlg4.ultimate.g47923.dto;
 
 /**
- * Represents a position.
+ * Data transfer object for a Position.
  *
  * @author Logan Farci (47923)
  */

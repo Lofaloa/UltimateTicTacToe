@@ -10,7 +10,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
 /**
- *
+ * Error alert that displays its exception stack trace in the dialog details.
+ * 
  * @author Logan Farci (47923)
  */
 public class ErrorAlert extends Alert {

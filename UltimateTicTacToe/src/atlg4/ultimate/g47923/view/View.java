@@ -1,6 +1,9 @@
 package atlg4.ultimate.g47923.view;
 
 /**
+ * The user of this interface can control the display of the <i>Ultimate Tic Tac
+ * Toe</i> game. This interface is intended to be implemented as a graphical
+ * user interface.
  *
  * @author Logan Farci (47923)
  */

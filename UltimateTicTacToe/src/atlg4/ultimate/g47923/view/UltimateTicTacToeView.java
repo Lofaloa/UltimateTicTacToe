@@ -12,7 +12,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- * Manages the view of this application.
+ * Manages the view of the <i>Ultimate Tic Tac Toe</i> game.
  *
  * @author Logan Farci (47923)
  */

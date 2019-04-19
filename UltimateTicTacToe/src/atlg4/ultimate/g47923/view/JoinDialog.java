@@ -9,11 +9,11 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 
 /**
- * Asks the user a pseudonym.
+ * Dialog used to ask a user an alphanumerical pseudonym and register her/ him.
  *
  * @author Logan Farci (47923)
  */
-public class JoinDialog extends TextInputDialog {
+class JoinDialog extends TextInputDialog {
 
     static final String TITLE = "Join";
     static final String HEADER = "Please provide a pseudonym with to join the game";

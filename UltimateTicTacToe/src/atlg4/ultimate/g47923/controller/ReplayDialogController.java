@@ -15,7 +15,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 
 /**
- *
+ * Controls the logic of the replay dialog.
  *
  * @author Logan Farci (47923)
  */

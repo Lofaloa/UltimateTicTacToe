@@ -1,7 +1,7 @@
 package atlg4.ultimate.g47923.dto;
 
 /**
- * Represents a person that has played the game once.
+ * Data transfer object for a User.
  *
  * @author Logan Farci (47923)
  */

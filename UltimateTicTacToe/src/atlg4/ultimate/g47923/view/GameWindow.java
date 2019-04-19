@@ -19,12 +19,10 @@ import javafx.scene.control.Label;
 import static javafx.scene.layout.GridPane.getRowIndex;
 import static javafx.scene.layout.GridPane.getColumnIndex;
 
-/**
+/*
  * Is the main window of the game. The game is played in this window.
- *
- * @author Logan Farci (47923)
  */
-public final class GameWindow extends VBox implements Observer {
+final class GameWindow extends VBox implements Observer {
 
     private static final String CROSS_IMG_PATH = "/images/cross.png";
     private static final String CIRCLE_IMG_PATH = "/images/circle.png";
@@ -35,13 +33,10 @@ public final class GameWindow extends VBox implements Observer {
 
     private final GridPane board;
 
-    /**
+    /*
      * Constructs an instance of this GameWindow with the specified game to
-     * represent and the managing view.
-     *
-     * @param game is the specified game.
-     * @param view is the specified view.
-     * @throws IOException if this window FXML file cannot be loaded.
+     * represent and the managing view. A IOException is thrown when this window 
+     * FXML file cannot be loaded.
      */
     GameWindow(Game game, View view) throws IOException {
         this.game = requireNonNull(game, "Constructing a GameWindow with a null "

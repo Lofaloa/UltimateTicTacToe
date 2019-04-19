@@ -13,7 +13,7 @@ import java.util.Observer;
 import java.util.Random;
 
 /**
- * Represents a game of <code>UltimateTicTacToe</code>.
+ * Represents a game of <i>UltimateTicTacToe</i>.
  *
  * @author Logan Farci (47923)
  */
