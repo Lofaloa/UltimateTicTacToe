@@ -8,6 +8,7 @@ import atlg4.ultimate.g47923.model.Marker;
 import atlg4.ultimate.g47923.persistence.business.UsersFacade;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
+import static java.util.Objects.requireNonNull;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,9 +37,17 @@ public class GameWindowController implements Initializable {
     @FXML
     private Label playerXPseudonym;
 
+    /**
+     * Constructs an instance of GameWindowController with the given game and view.
+     * 
+     * @param game is the given game.
+     * @param view is the given view.
+     */
     public GameWindowController(Game game, View view) {
-        this.game = game;
-        this.view = view;
+        this.game = requireNonNull(game, "Trying to construct a "
+                + "GameWindowController with a null game");
+        this.view = requireNonNull(view, "Trying to construct a "
+                + "GameWindowController with a null view");
     }
 
     private MyTicTacToe getTicTacToeAt(int row, int column) {

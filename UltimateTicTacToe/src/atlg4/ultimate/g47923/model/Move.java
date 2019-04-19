@@ -16,18 +16,6 @@ class Move {
     private final UltimateTicTacToe board;
     private boolean isWinning;
 
-    /**
-     * Constructs this move with the given player, the specified
-     * <code>MiniTicTacToe</code> position and <code>Cell</code> position.
-     *
-     * @param author is the player that makes this move.
-     * @param mini is the position of the <code>MiniTicTacToe</code> where this
-     * move is made.
-     * @param cell is the position of the <code>Cell</code> in the given
-     * <code>MiniTicTacToe</code> where this move is made.
-     * @param board is the board where to execute this move.
-     * @throws NullPointerException if one of the arguments is null.
-     */
     Move(Player author, Position mini, Position cell,
             UltimateTicTacToe board) {
         this.author = requireNonNull(author, "This move author is null.");
@@ -62,10 +50,6 @@ class Move {
                 == miniTicTacToe.getOwner().getMarker();
     }
 
-
-    /**
-     * Executes this move.
-     */
     void execute() {
         board.setOwnerAt(author, miniTicTacToePosition, cellPosition);
         if (hasAuthorWon()) {
@@ -73,11 +57,6 @@ class Move {
         }
     }
 
-    /**
-     * Converts this move to a data transfer object.
-     *
-     * @return a data transfer object for this move.
-     */
     MoveDTO toDTO() {
         return new MoveDTO(author.toDTO(), miniTicTacToePosition.toDTO(),
                 cellPosition.toDTO(), isWinning);

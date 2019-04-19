@@ -50,7 +50,7 @@ public class PlayerDTO {
      *
      * @return true if this player is withdrawn.
      */
-    public boolean isWithDrawn() {
+    public boolean isWithdrawn() {
         return isWithdrawn;
     }
 

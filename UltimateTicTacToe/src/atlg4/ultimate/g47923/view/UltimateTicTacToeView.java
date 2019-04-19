@@ -22,7 +22,6 @@ public class UltimateTicTacToeView implements View {
     private static final String ICON_PATH = "/images/icon.png";
     private static final String FXML_PATH = "/fxml/GameMenuWindow.fxml";
 
-    private final Game game;
     private final Stage stage;
     private final GameMenuWindow gameMenuWindow;
     private final GameWindow gameWindow;
@@ -38,7 +37,6 @@ public class UltimateTicTacToeView implements View {
      * @throws java.io.IOException if one of the FXML files cannot be loaded.
      */
     public UltimateTicTacToeView(Game game, Stage stage) throws IOException {
-        this.game = requireNonNull(game, "Constructing a view with a null game!");
         this.stage = requireNonNull(stage, "Constructing a view with a null "
                 + "stage.");
         this.gameMenuWindow = new GameMenuWindow(game, this);

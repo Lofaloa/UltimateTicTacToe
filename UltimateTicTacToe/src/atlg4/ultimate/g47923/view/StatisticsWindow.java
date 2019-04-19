@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
  *
  * @author Logan Farci (47923)
  */
-public class StatisticsWindow extends VBox {
+public final class StatisticsWindow extends VBox {
 
     private static final String FXML_PATH = "/fxml/StatisticsWindow.fxml";
 
@@ -24,6 +24,8 @@ public class StatisticsWindow extends VBox {
      * and a new stage.
      *
      * @param game is the game to represent.
+     * @param view is the specified view.
+     * @throws IOException if this window FXML file cannot be loaded.
      */
     StatisticsWindow(Game game, View view) throws IOException {
         this.game = requireNonNull(game, "Constructing a StatisticsWindow with a null "

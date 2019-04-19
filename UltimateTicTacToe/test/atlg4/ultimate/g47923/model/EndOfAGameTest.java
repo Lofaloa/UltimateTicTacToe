@@ -118,7 +118,7 @@ public class EndOfAGameTest {
     public void withdraw() {
         UltimateTicTacToeGame game = new UltimateTicTacToeGame();
         game.withdraw();
-        assertTrue(game.getCurrentPlayer().isWithDrawn());
+        assertTrue(game.getCurrentPlayer().isWithdrawn());
     }
 
     /**

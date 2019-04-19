@@ -20,14 +20,14 @@ import static javafx.scene.layout.GridPane.getRowIndex;
 import static javafx.scene.layout.GridPane.getColumnIndex;
 
 /**
- * Is the game window.
+ * Is the main window of the game. The game is played in this window.
  *
  * @author Logan Farci (47923)
  */
-public class GameWindow extends VBox implements Observer {
+public final class GameWindow extends VBox implements Observer {
 
-    private final String CROSS_IMG_PATH = "/images/cross.png";
-    private final String CIRCLE_IMG_PATH = "/images/circle.png";
+    private static final String CROSS_IMG_PATH = "/images/cross.png";
+    private static final String CIRCLE_IMG_PATH = "/images/circle.png";
     private static final String FXML_PATH = "/fxml/GameWindow.fxml";
 
     private final Game game;
@@ -40,7 +40,8 @@ public class GameWindow extends VBox implements Observer {
      * represent and the managing view.
      *
      * @param game is the specified game.
-     * @param view is the managing view.
+     * @param view is the specified view.
+     * @throws IOException if this window FXML file cannot be loaded.
      */
     GameWindow(Game game, View view) throws IOException {
         this.game = requireNonNull(game, "Constructing a GameWindow with a null "
@@ -73,10 +74,6 @@ public class GameWindow extends VBox implements Observer {
         } else {
             return (Label) lookup("#playerLabelO");
         }
-    }
-
-    private Label getPlayerLabelO() {
-        return (Label) lookup("#playerLabelO");
     }
 
     private MyTicTacToe getTicTacToeAt(int row, int column) {

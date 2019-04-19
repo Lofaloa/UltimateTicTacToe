@@ -5,6 +5,7 @@ import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.persistence.business.UsersFacade;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
+import static java.util.Objects.requireNonNull;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,9 +36,17 @@ public class ReplayDialogController implements Initializable {
     @FXML
     private ButtonType quit;
 
+    /**
+     * Constructs an instance of ReplayDialogController with the given game and view.
+     * 
+     * @param game is the given game.
+     * @param view is the given view.
+     */
     public ReplayDialogController(Game game, View view) {
-        this.game = game;
-        this.view = view;
+        this.game = requireNonNull(game, "Trying to construct a "
+                + "ReplayDialogController with a null game");
+        this.view = requireNonNull(view, "Trying to construct a "
+                + "ReplayDialogController with a null view");
     }
 
     private void setUser(String pseudonym) {

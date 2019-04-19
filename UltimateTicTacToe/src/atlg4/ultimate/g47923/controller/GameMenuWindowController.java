@@ -12,9 +12,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import static java.util.Objects.requireNonNull;
 
 /**
- *
+ * Controls the logic of the game menu window.
+ * 
  * @author Logan Farci (47923)
  */
 public class GameMenuWindowController implements Initializable {
@@ -46,9 +48,17 @@ public class GameMenuWindowController implements Initializable {
     @FXML
     private Button statistics;
 
+    /**
+     * Constructs an instance of GameMenuWindowController with the given game and view.
+     * 
+     * @param game is the given game.
+     * @param view is the given view.
+     */
     public GameMenuWindowController(Game game, View view) {
-        this.game = game;
-        this.view = view;
+        this.game = requireNonNull(game, "Trying to construct a "
+                + "GameMenuWindowController with a null game");
+        this.view = requireNonNull(view, "Trying to construct a "
+                + "GameMenuWindowController with a null view");
     }
 
     private void enable(Button button) {

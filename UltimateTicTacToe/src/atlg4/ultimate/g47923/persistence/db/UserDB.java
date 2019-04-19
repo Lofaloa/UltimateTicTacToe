@@ -113,7 +113,7 @@ public class UserDB {
             );
             insert.setString(1, user.getPseudonym());
             insert.setInt(2, user.getNbOfVictories());
-            insert.setInt(3, user.getNbOfExaequos());
+            insert.setInt(3, user.getNbOfTies());
             insert.setInt(4, user.getNbOfDefeats());
             insert.executeUpdate();
         } catch (DataBaseException e) {

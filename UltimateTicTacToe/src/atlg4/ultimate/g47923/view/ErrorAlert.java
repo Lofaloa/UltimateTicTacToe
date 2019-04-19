@@ -1,6 +1,5 @@
 package atlg4.ultimate.g47923.view;
 
-import static atlg4.ultimate.g47923.view.ConfirmationAlert.TITLE;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import javafx.scene.control.Alert;

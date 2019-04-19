@@ -21,17 +21,11 @@ class User {
         this.nbOfDefeats = nbOfDefeats;
     }
 
-    /**
-     * Constructs an instance of player with the specified user data transfer
-     * object.
-     *
-     * @param user is the specified user.
-     */
     User(UserDTO user) {
         this(
                 user.getPseudonym(),
                 user.getNbOfVictories(),
-                user.getNbOfExaequos(),
+                user.getNbOfTies(),
                 user.getNbOfDefeats()
         );
     }

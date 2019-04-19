@@ -134,7 +134,7 @@ public class UsersFacade {
         try {
             DBManager.startTransaction();
             UserBl.setNbOfVictories(user.getPseudonym(), user.getNbOfVictories());
-            UserBl.setNbOfExaequos(user.getPseudonym(), user.getNbOfExaequos());
+            UserBl.setNbOfExaequos(user.getPseudonym(), user.getNbOfTies());
             UserBl.setNbOfDefeats(user.getPseudonym(), user.getNbOfDefeats());
             DBManager.validateTransaction();
         } catch (DataBaseException e) {

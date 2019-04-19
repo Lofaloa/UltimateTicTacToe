@@ -13,11 +13,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 /**
- * Is the game menu.
+ * Is the menu of the game. A user can join a game, start a new game, check his/
+ * her statistics or quit the game from this window.
  *
  * @author Logan Farci (47923)
  */
-public class GameMenuWindow extends VBox implements Observer {
+public final class GameMenuWindow extends VBox implements Observer {
 
     private static final String FXML_PATH = "/fxml/GameMenuWindow.fxml";
 
@@ -28,7 +29,9 @@ public class GameMenuWindow extends VBox implements Observer {
      * Constructs an instance of this GameWindow with the specified game and a
      * new stage.
      *
-     * @param game is the game to represent.
+     * @param game is the specified game.
+     * @param view is the specified view.
+     * @throws IOException if this window FXML file cannot be loaded.
      */
     GameMenuWindow(Game game, View view) throws IOException {
         this.game = requireNonNull(game, "Constructing a GameMenuWindow with a null "
