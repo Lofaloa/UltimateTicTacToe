@@ -141,6 +141,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
 
     @Override
     public boolean isOver() {
+        System.out.println("in game, is board full: " + board.isFull());
         return board.hasOwner() || board.isFull() || hasAPlayerWithdrawn();
     }
 

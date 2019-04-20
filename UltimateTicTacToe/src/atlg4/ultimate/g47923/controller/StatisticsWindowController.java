@@ -72,7 +72,7 @@ public class StatisticsWindowController implements Initializable {
     private void setCellFactories() {
         pseudonymColumn.setCellValueFactory(new PropertyValueFactory<>("pseudonym"));
         victoriesColumn.setCellValueFactory(new PropertyValueFactory<>("nbOfVictories"));
-        exaequosColumn.setCellValueFactory(new PropertyValueFactory<>("nbOfExaequos"));
+        exaequosColumn.setCellValueFactory(new PropertyValueFactory<>("nbOfTies"));
         defeatsColumn.setCellValueFactory(new PropertyValueFactory<>("nbOfDefeats"));
     }
 
