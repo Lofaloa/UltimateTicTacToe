@@ -6,27 +6,17 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root alignment="CENTER" stylesheets="@../css/GameWindow.css" type="VBox" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <MenuBar>
-            <menus>
-                <Menu mnemonicParsing="false" text="Game">
-                    <items>
-                        <MenuItem fx:id="withdraw" mnemonicParsing="false" onAction="#withdraw" text="Withdraw" />
-                        <MenuItem fx:id="newgame" mnemonicParsing="false" onAction="#startNewGame" text="New game" />
-                        <MenuItem fx:id="menu" mnemonicParsing="false" onAction="#showMenu" text="Go to menu" />
-                        <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quit" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-        <GridPane id="board" fx:id="board" alignment="CENTER" hgap="5.0" stylesheets="@../css/GameWindow.css" vgap="5.0">
+
+<fx:root stylesheets="@../css/GameWindow.css" type="BorderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+        <GridPane id="board" fx:id="board" alignment="CENTER" hgap="5.0" stylesheets="@../css/GameWindow.css" vgap="5.0" BorderPane.alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" />
                 <ColumnConstraints hgrow="SOMETIMES" />
@@ -52,23 +42,40 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
         </GridPane>
-      <HBox fx:id="playerX" id="playerX" alignment="CENTER">
+   </center>
+   <bottom>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label styleClass="playerLabel" text="Player X: " />
-            <Label id="playerLabelX" fx:id="playerXPseudonym" styleClass="pseudonym" />
+            <HBox id="playerO" fx:id="playerO" alignment="CENTER">
+               <children>
+                  <Label styleClass="playerLabel" text="Player O: " />
+                  <Label id="playerLabelO" fx:id="playerOPseudonym" styleClass="pseudonym" />
+               </children>
+            </HBox>
+            <HBox id="playerX" fx:id="playerX" alignment="CENTER">
+               <children>
+                  <Label styleClass="playerLabel" text="Player X: " />
+                  <Label id="playerLabelX" fx:id="playerXPseudonym" styleClass="pseudonym" />
+               </children>
+            </HBox>
          </children>
-      </HBox>
-      <HBox fx:id="playerO" id="playerO" alignment="CENTER">
-         <children>
-            <Label styleClass="playerLabel" text="Player O: " />
-            <Label id="playerLabelO" fx:id="playerOPseudonym" styleClass="pseudonym" />
-         </children>
-      </HBox>
-    </children>
-    <opaqueInsets>
-        <Insets />
-    </opaqueInsets>
-   <padding>
-      <Insets bottom="20.0" />
-   </padding>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </bottom>
+   <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="Game">
+                    <items>
+                        <MenuItem fx:id="withdraw" mnemonicParsing="false" onAction="#withdraw" text="Withdraw" />
+                        <MenuItem fx:id="newgame" mnemonicParsing="false" onAction="#startNewGame" text="New game" />
+                        <MenuItem fx:id="menu" mnemonicParsing="false" onAction="#showMenu" text="Go to menu" />
+                        <MenuItem fx:id="quit" mnemonicParsing="false" onAction="#quit" text="Quit" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+   </top>
 </fx:root>

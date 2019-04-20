@@ -13,16 +13,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import static java.util.Objects.requireNonNull;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import static javafx.scene.layout.GridPane.getRowIndex;
 import static javafx.scene.layout.GridPane.getColumnIndex;
 
 /*
  * Is the main window of the game. The game is played in this window.
  */
-final class GameWindow extends VBox implements Observer {
+final class GameWindow extends BorderPane implements Observer {
 
     private static final String CROSS_IMG_PATH = "/images/cross.png";
     private static final String CIRCLE_IMG_PATH = "/images/circle.png";

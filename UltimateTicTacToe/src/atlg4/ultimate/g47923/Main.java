@@ -29,7 +29,7 @@ public class Main extends Application {
         try {
             Game game = new UltimateTicTacToeGame();
             View view = new UltimateTicTacToeView(game, primaryStage);
-            view.showGameMenuWindow();
+            view.show();
         } catch (IllegalStateException | IOException e) {
             Alert error = new ErrorAlert(e);
             error.show();

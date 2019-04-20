@@ -20,6 +20,8 @@ public class UltimateTicTacToeView implements View {
 
     private static final String TITLE = "Ultimate Tic Tac Toe Menu";
     private static final String ICON_PATH = "/images/icon.png";
+    private static final int MIN_WIDTH = 500;
+    private static final int MIN_HEIGHT = 600;
 
     private final Stage stage;
     private final Game game;
@@ -48,18 +50,23 @@ public class UltimateTicTacToeView implements View {
         this.joinDialog = new JoinDialog();
         game.addObserver(gameMenuWindow);
         game.addObserver(gameWindow);
+        gameMenuWindow.prefHeightProperty().bind(stage.minHeightProperty());
+        gameMenuWindow.prefWidthProperty().bind(stage.minWidthProperty());
         initializeStage();
-
-        gameWindow.prefWidthProperty().bind(stage.widthProperty());
-        gameWindow.prefHeightProperty().bind(stage.heightProperty());
 
     }
 
     private void initializeStage() {
         stage.setTitle(TITLE);
         stage.getIcons().add(new Image(ICON_PATH));
-        stage.setScene(new Scene(gameMenuWindow));
         stage.setResizable(true);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setScene(new Scene(gameMenuWindow));
+    }
+
+    @Override
+    public void show() {
         stage.show();
     }
 

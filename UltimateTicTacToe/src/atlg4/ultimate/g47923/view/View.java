@@ -32,6 +32,11 @@ public interface View {
     boolean askReplay();
 
     /**
+     * Shows the current stage of this view.
+     */
+    void show();
+    
+    /**
      * Shows the menu window. It allows the users the browse all the features.
      */
     void showGameMenuWindow();
