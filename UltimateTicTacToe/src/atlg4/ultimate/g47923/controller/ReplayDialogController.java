@@ -1,6 +1,6 @@
 package atlg4.ultimate.g47923.controller;
 
-import atlg4.ultimate.g47923.exception.DataBaseException;
+import atlg4.ultimate.g47923.exception.UltimateTicTacToeException;
 import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.persistence.business.UsersFacade;
 import atlg4.ultimate.g47923.view.View;
@@ -54,7 +54,9 @@ public class ReplayDialogController implements Initializable {
             if (pseudonym != null) {
                 game.setUser(UsersFacade.getUser(pseudonym));
             }
-        } catch (DataBaseException e) {
+        } catch (IllegalStateException
+                |  IllegalArgumentException 
+                | UltimateTicTacToeException e) {
             view.showWarning("Impossible to set the user!", e.getMessage());
         }
     }

@@ -128,6 +128,15 @@ public class GameWindowController implements Initializable {
                 game.select(mini, cell);
                 game.play();
                 game.nextPlayer();
+                if (game.isOver()) {
+                    System.out.println("=== THE GAME IS OVER ===");
+                    game.updateUsersStatistics();
+                    updateDataBase();
+                    if (view.askReplay()) {
+                        System.out.println("STARTING A NEW GAME");
+                        game.start();
+                    }
+                }
             } catch (UltimateTicTacToeException e) {
                 view.showWarning("You made an illegal move!", e.getMessage());
             }
@@ -153,17 +162,7 @@ public class GameWindowController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         addBoardHandlers();
         board.setOnMouseClicked(e -> {
-            
-            System.out.println("Is the game over?");
-            if (game.isOver()) {
-                System.out.println("=== THE GAME IS OVER ===");
-                game.updateUsersStatistics();
-                updateDataBase();
-                if (view.askReplay()) {
-                    System.out.println("STARTING A NEW GAME");
-                    game.start();
-                }
-            }
+
         });
     }
 
