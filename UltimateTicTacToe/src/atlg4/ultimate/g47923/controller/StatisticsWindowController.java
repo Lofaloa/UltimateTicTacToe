@@ -4,19 +4,21 @@ import atlg4.ultimate.g47923.dto.UserDTO;
 import atlg4.ultimate.g47923.exception.DataBaseException;
 import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.persistence.business.UsersFacade;
+import atlg4.ultimate.g47923.view.ErrorAlert;
 import atlg4.ultimate.g47923.view.View;
 import java.net.URL;
 import java.util.Collection;
 import static java.util.Objects.requireNonNull;
 import java.util.ResourceBundle;
+import static javafx.collections.FXCollections.observableArrayList;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import static javafx.collections.FXCollections.observableArrayList;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 
 /**
  * Controls the logic of the statistics window.
@@ -82,7 +84,8 @@ public class StatisticsWindowController implements Initializable {
             ObservableList<UserDTO> users = observableArrayList(usersCollection);
             statistics.setItems(users);
         } catch (DataBaseException e) {
-            view.showWarning("Error while accessing the database!", e.getMessage());
+            Alert error = new ErrorAlert(e);
+            error.show();
         }
     }
 

@@ -9,12 +9,12 @@ create table USERS (
 -- A pseudonym should be composed of 8 to 20 characters.
 ALTER TABLE USERS
 ADD CONSTRAINT checkPseudonymLength 
-CHECK (LEN(password) >= 8);
+CHECK (LENGTH(pseudonym) >= 8);
 
 -- A pseudonym should be composed of laphabetical characters only.
 ALTER TABLE USERS 
 ADD CONSTRAINT checkPseudonymNoSpecialCharacters 
-       CHECK (Column_Name NOT LIKE '%[^a-zA-Z0-9]%') 
+CHECK (pseudonym NOT LIKE '%[^a-zA-Z0-9]%');
 
 -- The number of victories should be positive
 ALTER TABLE USERS

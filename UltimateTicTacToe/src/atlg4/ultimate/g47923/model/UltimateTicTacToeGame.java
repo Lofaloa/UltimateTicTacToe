@@ -291,6 +291,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
                 O.getUser().addAVictory();
             }
         }
+        notifyView();
     }
 
     @Override

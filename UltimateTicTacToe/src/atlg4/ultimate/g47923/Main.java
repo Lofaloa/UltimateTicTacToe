@@ -16,16 +16,16 @@ import javafx.stage.Stage;
 
 /**
  * Is the entry point of the <i>Ultimate Tic Tac Toe</i> game.
- * 
+ *
  * @author Logan Farci (47923)
  */
 public class Main extends Application {
-
+    
     static final String TITLE = "Ultimate TicTacToe";
     static final String FXML_PATH = "/fxml/GameScreen.fxml";
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         try {
             Game game = new UltimateTicTacToeGame();
             View view = new UltimateTicTacToeView(game, primaryStage);

@@ -20,7 +20,6 @@ public class UltimateTicTacToeView implements View {
 
     private static final String TITLE = "Ultimate Tic Tac Toe Menu";
     private static final String ICON_PATH = "/images/icon.png";
-    private static final String FXML_PATH = "/fxml/GameMenuWindow.fxml";
 
     private final Stage stage;
     private final GameMenuWindow gameMenuWindow;

@@ -21,7 +21,7 @@ import static javafx.scene.layout.GridPane.getRowIndex;
 
 /**
  * Controls the logic of the game window.
- * 
+ *
  * @author Logan Farci (47923)
  */
 public class GameWindowController implements Initializable {
@@ -39,8 +39,9 @@ public class GameWindowController implements Initializable {
     private Label playerXPseudonym;
 
     /**
-     * Constructs an instance of GameWindowController with the given game and view.
-     * 
+     * Constructs an instance of GameWindowController with the given game and
+     * view.
+     *
      * @param game is the given game.
      * @param view is the given view.
      */
@@ -114,6 +115,7 @@ public class GameWindowController implements Initializable {
     }
 
     private void updateDataBase() {
+        System.out.println("UPDATING THE DATA BASE");
         UsersFacade.updateUser(game.getPlayer(Marker.X).getUser());
         UsersFacade.updateUser(game.getPlayer(Marker.O).getUser());
     }
@@ -127,13 +129,14 @@ public class GameWindowController implements Initializable {
                 game.play();
                 game.nextPlayer();
                 if (game.isOver()) {
+                    System.out.println("=== DEBUGGING SCORES ===");
                     game.updateUsersStatistics();
+                    updateDataBase();
                     if (view.askReplay()) {
+                        System.out.println("STARTING A NEW GAME");
                         game.start();
-                    } else {
-                        updateDataBase();
-                        System.exit(0);
                     }
+                    System.out.println("=== DEBUGGING SCORES ===");
                 }
             } catch (UltimateTicTacToeException e) {
                 view.showWarning("You made an illegal move!", e.getMessage());
