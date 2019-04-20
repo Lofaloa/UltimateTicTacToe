@@ -124,11 +124,9 @@ public class GameWindowController implements Initializable {
                 game.play();
                 game.nextPlayer();
                 if (game.isOver()) {
-                    System.out.println("=== THE GAME IS OVER ===");
                     game.updateUsersStatistics();
                     updateDataBase();
                     if (view.askReplay()) {
-                        System.out.println("STARTING A NEW GAME");
                         game.start();
                     }
                 }

@@ -95,7 +95,7 @@ abstract class Grid<CellType extends Grid> {
      */
     boolean isFull() {
         return cells.isEmpty() ? hasOwner()
-                : cells.stream().allMatch(cell -> cell.isFull());
+                : cells.stream().allMatch(cell -> cell.isFull() || cell.hasOwner());
     }
     
     boolean isEmpty() {

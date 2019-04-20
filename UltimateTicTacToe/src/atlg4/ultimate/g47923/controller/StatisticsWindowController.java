@@ -71,7 +71,7 @@ public class StatisticsWindowController implements Initializable {
             System.exit(0);
         }
     }
-
+    
     private void setCellFactories() {
         pseudonymColumn.setCellValueFactory(new PropertyValueFactory<>("pseudonym"));
         victoriesColumn.setCellValueFactory(new PropertyValueFactory<>("nbOfVictories"));
@@ -79,8 +79,8 @@ public class StatisticsWindowController implements Initializable {
         defeatsColumn.setCellValueFactory(new PropertyValueFactory<>("nbOfDefeats"));
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    private void update() {
         try {
             setCellFactories();
             Collection<UserDTO> usersCollection = UsersFacade.getUsers();
@@ -90,6 +90,11 @@ public class StatisticsWindowController implements Initializable {
             Alert error = new ErrorAlert(e);
             error.show();
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        update();
     }
 
 }

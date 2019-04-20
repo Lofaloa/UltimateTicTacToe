@@ -24,14 +24,11 @@ public class DBManager {
     public static Connection getConnection() throws DataBaseException {
         if (CONNECTION == null) {
             try {
-                                System.out.println("i want the connection");
-
                 CONNECTION = DriverManager.getConnection(
                         DATABASE_URL,
                         DATABASE_USER,
                         DATABASE_PASSWORD
                 );
-                System.out.println("i got the connection");
             } catch (SQLException ex) {
                 throw new DataBaseException("Cannot access the database: "
                         + ex.getMessage());

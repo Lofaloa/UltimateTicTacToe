@@ -5,14 +5,14 @@ import atlg4.ultimate.g47923.model.Game;
 import java.io.IOException;
 import static java.util.Objects.requireNonNull;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 
 /*
  * Presents the number of victories, ex aequos and defeats for each players.
  *
  * @author Logan Farci (47923)
  */
-final class StatisticsWindow extends VBox {
+final class StatisticsWindow extends BorderPane {
 
     private static final String FXML_PATH = "/fxml/StatisticsWindow.fxml";
 
