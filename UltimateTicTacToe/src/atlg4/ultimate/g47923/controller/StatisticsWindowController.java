@@ -22,7 +22,7 @@ import javafx.scene.control.Alert;
 
 /**
  * Controls the logic of the statistics window.
- * 
+ *
  * @author Logan Farci (47923)
  */
 public class StatisticsWindowController implements Initializable {
@@ -66,7 +66,10 @@ public class StatisticsWindowController implements Initializable {
 
     @FXML
     private void quit(ActionEvent event) {
-        System.exit(0);
+        String message = "Do you really want to quit?";
+        if (!game.isOver() && view.askConfirmation(message)) {
+            System.exit(0);
+        }
     }
 
     private void setCellFactories() {

@@ -22,6 +22,7 @@ public class UltimateTicTacToeView implements View {
     private static final String ICON_PATH = "/images/icon.png";
 
     private final Stage stage;
+    private final Game game;
     private final GameMenuWindow gameMenuWindow;
     private final GameWindow gameWindow;
     private final StatisticsWindow statisticsWindow;
@@ -38,6 +39,8 @@ public class UltimateTicTacToeView implements View {
     public UltimateTicTacToeView(Game game, Stage stage) throws IOException {
         this.stage = requireNonNull(stage, "Constructing a view with a null "
                 + "stage.");
+        this.game = requireNonNull(game, "Constructing a view with a null "
+                + "game.");
         this.gameMenuWindow = new GameMenuWindow(game, this);
         this.gameWindow = new GameWindow(game, this);
         this.statisticsWindow = new StatisticsWindow(game, this);

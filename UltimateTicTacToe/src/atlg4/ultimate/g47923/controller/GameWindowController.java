@@ -97,12 +97,7 @@ public class GameWindowController implements Initializable {
 
     @FXML
     private void showMenu(ActionEvent event) {
-        String message = "You are about to go back to the menu, all the "
-                + "advancement will be lost!";
-        if (view.askConfirmation(message)) {
-            game.start();
-            view.showGameMenuWindow();
-        }
+        view.showGameMenuWindow();
     }
 
     @FXML
@@ -161,9 +156,6 @@ public class GameWindowController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         addBoardHandlers();
-        board.setOnMouseClicked(e -> {
-
-        });
     }
 
 }

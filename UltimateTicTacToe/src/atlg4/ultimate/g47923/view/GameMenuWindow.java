@@ -88,9 +88,36 @@ final class GameMenuWindow extends VBox implements Observer {
         }
     }
 
+    private void enable(Button button) {
+        button.setDisable(false);
+        button.getStyleClass().clear();
+        button.getStyleClass().add("available");
+        button.getStyleClass().add("button");
+    }
+
+    private void disable(Button button) {
+        button.setDisable(true);
+        button.getStyleClass().clear();
+        button.getStyleClass().add("unavailable");
+        button.getStyleClass().add("button");
+    }
+
     @Override
     public void update(Observable o, Object o1) {
         updateUsers();
+        if (game.hasUserFor(Marker.O) && game.hasUserFor(Marker.X)) {
+            disable((Button) lookup("#join"));
+            if (game.hasMoves() && !game.isOver()) {
+                enable((Button) lookup("#resume"));
+                disable((Button) lookup("#newgame"));
+            } else {
+                enable((Button) lookup("#newgame"));
+                disable((Button) lookup("#resume"));
+            }
+        } else {
+            enable((Button) lookup("#join"));
+            disable((Button) lookup("#newgame"));
+        }
     }
 
 }

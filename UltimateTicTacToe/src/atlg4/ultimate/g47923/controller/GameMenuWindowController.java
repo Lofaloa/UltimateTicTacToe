@@ -16,7 +16,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * Controls the logic of the game menu window.
- * 
+ *
  * @author Logan Farci (47923)
  */
 public class GameMenuWindowController implements Initializable {
@@ -43,14 +43,15 @@ public class GameMenuWindowController implements Initializable {
     private Button newgame;
 
     @FXML
-    private Button loadgame;
+    private Button resume;
 
     @FXML
     private Button statistics;
 
     /**
-     * Constructs an instance of GameMenuWindowController with the given game and view.
-     * 
+     * Constructs an instance of GameMenuWindowController with the given game
+     * and view.
+     *
      * @param game is the given game.
      * @param view is the given view.
      */
@@ -59,22 +60,6 @@ public class GameMenuWindowController implements Initializable {
                 + "GameMenuWindowController with a null game");
         this.view = requireNonNull(view, "Trying to construct a "
                 + "GameMenuWindowController with a null view");
-    }
-
-    private void enable(Button button) {
-        button.setDisable(false);
-        button.getStyleClass().remove("unavailable");
-        button.getStyleClass().add("available");
-    }
-
-    private void disable(Button button) {
-        button.setDisable(true);
-        button.getStyleClass().remove("available");
-        button.getStyleClass().add("unavailable");
-    }
-
-    private boolean haveUsersBothBeenSet() {
-        return game.hasUserFor(Marker.X) && game.hasUserFor(Marker.O);
     }
 
     @FXML
@@ -87,11 +72,8 @@ public class GameMenuWindowController implements Initializable {
                         + "registered as " + pseudonym + ", your statistics will"
                         + " be updated after you are done playing!");
             }
-            if (haveUsersBothBeenSet()) {
-                enable(newgame);
-                disable(join);
-            }
         } catch (Exception e) {
+            e.printStackTrace();
             view.showWarning("Impossible to join!", e.getMessage());
         }
     }
@@ -102,34 +84,46 @@ public class GameMenuWindowController implements Initializable {
     }
 
     @FXML
+    private void resumeGame(ActionEvent event) {
+        view.showGameWindow();
+    }
+
+    @FXML
     private void showStatistics(ActionEvent event) {
         view.showStatistics();
     }
 
     @FXML
     private void quit(ActionEvent event) {
-        System.exit(0);
+        String message = "Do you really want to quit?";
+        if (!game.isOver() && view.askConfirmation(message)) {
+            System.exit(0);
+        }
     }
 
     @FXML
     private void deleteFirst(ActionEvent event) {
-        game.removeUserFor(Marker.X);
-        disable(newgame);
-        enable(join);
+        try {
+            game.removeUserFor(Marker.X);
+        } catch (IllegalStateException e) {
+            view.showWarning("You cannot do that.", e.getMessage());
+        }
     }
 
     @FXML
     private void deleteSecond(ActionEvent event) {
-        game.removeUserFor(Marker.O);
-        disable(newgame);
-        enable(join);
+        try {
+            game.removeUserFor(Marker.O);
+        } catch (IllegalStateException e) {
+            view.showWarning("You cannot do that.", e.getMessage());
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         join.setTooltip(new Tooltip("Join and start a game!"));
         newgame.setDisable(true);
-        loadgame.setDisable(true);
+        resume.setDisable(true);
     }
 
 }
