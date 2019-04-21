@@ -38,13 +38,8 @@ public class ErrorAlert extends Alert {
         setStackTrace();
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
         stage.setAlwaysOnTop(true);
-        
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
-        
-//        getDialogPane().minWidthProperty().bind(stage.widthProperty());
-//        getDialogPane().minHeightProperty().bind(stage.heightProperty());
-//        
     }
 
     private void setText() {

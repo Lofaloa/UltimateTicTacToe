@@ -3,7 +3,17 @@
 ## Lancement du jeu
 Pour le lancement du jeu, l'outil d'automatisation de la compilation ```ant``` est utilisé et doit être installé sur la machine de l'utilisateur.
 
-### Compilation et exécution
+### Démarrer le serveur
+```
+// Commandes fonctionnelles sur Linux
+export DERBY_HOME=/opt/derby
+export JAVA_HOME=/usr/j2se
+export PATH="$DERBY_HOME/bin:$PATH"
+startNetworkServer
+```
+[Documentation détailée d'Apache](http://db.apache.org/derby/docs/10.7/adminguide/tadmincbdjhhfd.html)
+
+### Compilation et exécution du jeu
 ```
 cd <chemin vers le dossier d'installation>/UltimateTicTacToe
 
