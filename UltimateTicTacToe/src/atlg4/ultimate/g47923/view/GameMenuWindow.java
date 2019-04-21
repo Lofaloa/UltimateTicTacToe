@@ -107,7 +107,7 @@ final class GameMenuWindow extends VBox implements Observer {
         updateUsers();
         if (game.hasUserFor(Marker.O) && game.hasUserFor(Marker.X)) {
             disable((Button) lookup("#join"));
-            if (game.hasMoves() && !game.isOver()) {
+            if (game.isStarted() && !game.isOver()) {
                 enable((Button) lookup("#resume"));
                 disable((Button) lookup("#newgame"));
             } else {

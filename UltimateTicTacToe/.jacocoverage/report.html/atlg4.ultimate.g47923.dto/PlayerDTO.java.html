@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PlayerDTO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UltimateTicTacToe&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">atlg4.ultimate.g47923.dto</a> &gt; <span class="el_source">PlayerDTO.java</span></div><h1>PlayerDTO.java</h1><pre class="source lang-java linenums">package atlg4.ultimate.g47923.dto;
+
+import atlg4.ultimate.g47923.model.*;
+
+/**
+ * Data transfer object for a Player.
+ *
+ * @author Logan Farci (47923)
+ */
+public class PlayerDTO {
+
+    private final Marker marker;
+    private final UserDTO user;
+    private final boolean isWithdrawn;
+
+    /**
+     * Constructs a player with the given marker. Initially a player is not
+     * withdrawn.
+     *
+     * @param marker the marker of this player.
+     * @param user is this player user.
+     * @param isWithdrawn tells if this player is withdrawn.
+     */
+<span class="fc" id="L24">    public PlayerDTO(Marker marker, UserDTO user, boolean isWithdrawn) {</span>
+<span class="fc" id="L25">        this.marker = marker;</span>
+<span class="fc" id="L26">        this.user = user;</span>
+<span class="fc" id="L27">        this.isWithdrawn = isWithdrawn;</span>
+<span class="fc" id="L28">    }</span>
+
+    /**
+     * Gets this player marker.
+     *
+     * @return this player marker.
+     */
+    public Marker getMarker() {
+<span class="fc" id="L36">        return marker;</span>
+    }
+
+    /**
+     * Gets this player user.
+     *
+     * @return this player user.
+     */
+    public UserDTO getUser() {
+<span class="nc" id="L45">        return user;</span>
+    }
+
+    /**
+     * Tells if this player is withdrawn.
+     *
+     * @return true if this player is withdrawn.
+     */
+    public boolean isWithdrawn() {
+<span class="fc" id="L54">        return isWithdrawn;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

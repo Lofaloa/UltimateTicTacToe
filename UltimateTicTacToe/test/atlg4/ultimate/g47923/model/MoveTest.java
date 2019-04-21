@@ -26,5 +26,24 @@ public class MoveTest {
         assertEquals(cell, move.getCellPosition());
         assertEquals(board, move.getBoard());
     }
+    
+    /**
+     * A move should be winning when it lead to the winning of a MiniTicTacToe.
+     */
+    @Test
+    public void execute_isWinning() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        Position ownedMini = new Position(0, 0);
+        Move move = new Move(
+                Player.X,
+                ownedMini,
+                new Position(1, 1),
+                game.getBoard()
+        );
+        ((MiniTicTacToe) game.getBoard().getCellAt(ownedMini)).setOwnerAt(Player.X, new Position(0, 0));
+        ((MiniTicTacToe) game.getBoard().getCellAt(ownedMini)).setOwnerAt(Player.X, new Position(2, 2));
+        move.execute();
+        assertTrue(move.isWinning());
+    }
 
 }

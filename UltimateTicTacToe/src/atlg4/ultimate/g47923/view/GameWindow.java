@@ -106,7 +106,7 @@ final class GameWindow extends BorderPane implements Observer {
     }
 
     private void updateBoard() {
-        if (game.hasMoves()) {
+        if (game.isStarted()) {
             showLastMove();
         } else {
             clearBoard();

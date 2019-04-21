@@ -217,4 +217,24 @@ public class EndOfAGameTest {
         game.updateUsersStatistics();
     }
 
+    /**
+     * When the board of game is full and has no owner, the game should be tied.
+     */
+    @Test
+    public void isTied_fullWithoutOwner() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.getBoard().fillWith(Player.O);
+        assertTrue(game.isTied());
+    }
+
+    /**
+     * Calling the isTied method should cause an exception if the game is not
+     * over.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void isTied_theGameIsNotOver() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.isTied();
+    }
+
 }

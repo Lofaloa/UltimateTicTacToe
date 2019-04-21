@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>UltimateTicTacToeGame.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UltimateTicTacToe&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">atlg4.ultimate.g47923.model</a> &gt; <span class="el_source">UltimateTicTacToeGame.java</span></div><h1>UltimateTicTacToeGame.java</h1><pre class="source lang-java linenums">package atlg4.ultimate.g47923.model;
+
+import atlg4.ultimate.g47923.dto.MoveDTO;
+import atlg4.ultimate.g47923.dto.PlayerDTO;
+import atlg4.ultimate.g47923.dto.PositionDTO;
+import atlg4.ultimate.g47923.dto.UserDTO;
+import atlg4.ultimate.g47923.exception.IllegalMoveException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Random;
+
+/**
+ * Represents a game of &lt;i&gt;UltimateTicTacToe&lt;/i&gt;.
+ *
+ * @author Logan Farci (47923)
+ */
+public class UltimateTicTacToeGame extends Observable implements Game {
+
+    private final Player X;
+    private final Player O;
+    private final UltimateTicTacToe board;
+    private boolean isXCurrentPlayer;
+    private Move currentMove;
+    private final List&lt;Move&gt; executedMoves;
+
+    /**
+     * Constructs a game Ultimate TicTacToe.
+     */
+<span class="fc" id="L32">    public UltimateTicTacToeGame() {</span>
+<span class="fc" id="L33">        this.X = Player.X;</span>
+<span class="fc" id="L34">        this.O = Player.O;</span>
+<span class="fc" id="L35">        this.board = new UltimateTicTacToe();</span>
+<span class="fc" id="L36">        this.isXCurrentPlayer = true;</span>
+<span class="fc" id="L37">        this.currentMove = null;</span>
+<span class="fc" id="L38">        this.executedMoves = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L39">        getX().setWithDrawn(false);</span>
+<span class="fc" id="L40">        getO().setWithDrawn(false);</span>
+<span class="fc" id="L41">    }</span>
+
+    UltimateTicTacToe getBoard() {
+<span class="fc" id="L44">        return board;</span>
+    }
+
+    final Player getX() {
+<span class="fc" id="L48">        return X;</span>
+    }
+
+    final Player getO() {
+<span class="fc" id="L52">        return O;</span>
+    }
+
+    Move getCurrentMove() {
+<span class="fc" id="L56">        return currentMove;</span>
+    }
+
+    List&lt;Move&gt; getExecutedMoves() {
+<span class="fc" id="L60">        return executedMoves;</span>
+    }
+
+    boolean isFirstTurn() {
+<span class="fc" id="L64">        return executedMoves.isEmpty();</span>
+    }
+
+    boolean hasAPlayerWithdrawn() {
+<span class="fc bfc" id="L68" title="All 4 branches covered.">        return X.isWithdrawn() || O.isWithdrawn();</span>
+    }
+    
+    private Player getRemainingPlayer() {
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (!hasAPlayerWithdrawn()) {</span>
+<span class="nc" id="L73">            throw new IllegalStateException(&quot;No player has withdrawn.&quot;);</span>
+        }
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        return X.isWithdrawn() ? O : X;</span>
+    }
+
+    void setIsXCurrentPlayer(boolean value) {
+<span class="fc" id="L79">        isXCurrentPlayer = value;</span>
+<span class="fc" id="L80">    }</span>
+    
+    private boolean isSet(UserDTO user) {
+<span class="pc bpc" id="L83" title="1 of 4 branches missed.">        return X.hasUser() &amp;&amp; user.getPseudonym().equals(X.getUser().getPseudonym())</span>
+<span class="pc bpc" id="L84" title="2 of 4 branches missed.">                || O.hasUser() &amp;&amp; user.getPseudonym().equals(O.getUser().getPseudonym());</span>
+    }
+
+    private int getRandomNumberInRange(int min, int max) {
+<span class="fc" id="L88">        return new Random().nextInt((max - min) + 1) + min;</span>
+    }
+
+    private Player getRandomPlayer() {
+<span class="fc" id="L92">        int random = getRandomNumberInRange(0, 1);</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">        Player player = random == 1 ? X : O;</span>
+<span class="pc bpc" id="L94" title="2 of 4 branches missed.">        if (!isOver() &amp;&amp; player.hasUser()) {</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            player = player == X ? O : X;</span>
+        }
+<span class="fc" id="L97">        return player;</span>
+    }
+    
+    private boolean haveUsersBeenSet() {
+<span class="fc bfc" id="L101" title="All 4 branches covered.">        return X.hasUser() &amp;&amp; O.hasUser();</span>
+    }
+    
+    boolean isInExpectedMiniTicTacToe(Move move) {
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (isFirstTurn()) {</span>
+<span class="fc" id="L106">            throw new IllegalStateException(&quot;No executed moves yet.&quot;);</span>
+        }
+<span class="fc" id="L108">        Position lastCellPosition = new Position(getLastMove().getCellPosition());</span>
+<span class="fc" id="L109">        return lastCellPosition.equals(move.getMiniTicTacToePosition());</span>
+    }
+    
+    @Override
+    public PlayerDTO getCurrentPlayer() {
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        return isXCurrentPlayer ? X.toDTO() : O.toDTO();</span>
+    }
+
+    @Override
+    public PlayerDTO getWinner() {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        if (!isOver()) {</span>
+<span class="fc" id="L120">            throw new IllegalStateException(&quot;No winner yet as the game is not &quot;</span>
+                    + &quot;over or the board is full.&quot;);
+        }
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        if (hasAPlayerWithdrawn()) {</span>
+<span class="fc" id="L124">            return getRemainingPlayer().toDTO();</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        } else if (board.hasOwner()) {</span>
+<span class="fc" id="L126">            return board.getOwner().toDTO();</span>
+        } else {
+<span class="fc" id="L128">            throw new IllegalStateException(&quot;The game is even and has no winner&quot;);</span>
+        }
+    }
+
+    @Override
+    public boolean hasUserFor(Marker marker) {
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        return marker == Marker.X ? X.hasUser() : O.hasUser();</span>
+    }
+
+    @Override
+    public PlayerDTO getPlayer(Marker marker) {
+<span class="fc bfc" id="L139" title="All 2 branches covered.">        return marker == Marker.X ? X.toDTO() : O.toDTO();</span>
+    }
+
+    @Override
+    public boolean isOver() {
+<span class="fc bfc" id="L144" title="All 6 branches covered.">        return board.hasOwner() || board.isFull() || hasAPlayerWithdrawn();</span>
+    }
+    
+    @Override
+    public boolean isTied() {
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        if (!isOver()) {</span>
+<span class="fc" id="L150">            throw new IllegalStateException(&quot;The game is not over yet&quot;);</span>
+        }
+<span class="pc bpc" id="L152" title="2 of 4 branches missed.">        return board.isFull() &amp;&amp; !board.hasOwner();</span>
+    }
+
+    @Override
+    public boolean isStarted() {
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">        return !isFirstTurn();</span>
+    }
+
+    @Override
+    public void start() {
+<span class="fc" id="L162">        this.board.initialize();</span>
+<span class="fc" id="L163">        this.isXCurrentPlayer = true;</span>
+<span class="fc" id="L164">        this.currentMove = null;</span>
+<span class="fc" id="L165">        this.X.setWithDrawn(false);</span>
+<span class="fc" id="L166">        this.O.setWithDrawn(false);</span>
+<span class="fc" id="L167">        this.executedMoves.clear();</span>
+<span class="fc" id="L168">        notifyView();</span>
+<span class="fc" id="L169">    }</span>
+
+    @Override
+    public void setUser(UserDTO user) {
+<span class="fc" id="L173">        Objects.requireNonNull(user);</span>
+<span class="pc bpc" id="L174" title="1 of 4 branches missed.">        if (!isFirstTurn() &amp;&amp; !isOver()) {</span>
+<span class="fc" id="L175">            throw new IllegalStateException(&quot;Cannot set the users during the &quot;</span>
+                    + &quot;game.&quot;);
+        }
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        if (isSet(user)) {</span>
+<span class="fc" id="L179">            throw new IllegalArgumentException(&quot;The given user has already been set!&quot;);</span>
+        }
+<span class="fc" id="L181">        getRandomPlayer().setUser(new User(user));</span>
+<span class="fc" id="L182">        notifyView();</span>
+<span class="fc" id="L183">    }</span>
+    
+    @Override
+    public void removeUserFor(Marker marker) {
+<span class="pc bpc" id="L187" title="1 of 4 branches missed.">        if (!isFirstTurn() &amp;&amp; !isOver()) {</span>
+<span class="fc" id="L188">            throw new IllegalStateException(&quot;Cannot remove a user during a game.&quot;);</span>
+        }
+<span class="fc bfc" id="L190" title="All 2 branches covered.">        if (marker == Marker.X) {</span>
+<span class="fc" id="L191">            X.setUser(null);</span>
+        } else {
+<span class="fc" id="L193">            O.setUser(null);</span>
+        }
+<span class="fc" id="L195">        notifyView();</span>
+<span class="fc" id="L196">    }</span>
+
+    @Override
+    public MoveDTO getLastMove() {
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (isFirstTurn()) {</span>
+<span class="fc" id="L201">            throw new IllegalStateException(&quot;No executed moves yet.&quot;);</span>
+        }
+<span class="fc" id="L203">        return executedMoves.get(executedMoves.size() - 1).toDTO();</span>
+    }
+
+    private Move requireValidMove(Move move) {
+<span class="fc" id="L207">        Grid selected = board.getCellAt(move.getMiniTicTacToePosition());</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">        if (!selected.isPlayable()) {</span>
+<span class="fc" id="L209">            throw new IllegalMoveException(&quot;The selected MiniTicTacToe is&quot;</span>
+                    + &quot;not playable!&quot;);
+        }
+<span class="fc bfc" id="L212" title="All 2 branches covered.">        if (!isFirstTurn()) {</span>
+<span class="fc" id="L213">            Position expectedMiniPos = new Position(getLastMove().getCellPosition());</span>
+<span class="fc" id="L214">            Grid expected = board.getCellAt(expectedMiniPos);</span>
+<span class="pc bpc" id="L215" title="1 of 4 branches missed.">            if (expected.isPlayable() &amp;&amp; !isInExpectedMiniTicTacToe(move)) {</span>
+<span class="fc" id="L216">                throw new IllegalMoveException(&quot;The MiniTicTacToe should be &quot;</span>
+                        + &quot;at the same position than the Cell the last player &quot;
+                        + &quot;selected&quot;);
+            }
+        }
+<span class="fc" id="L221">        return move;</span>
+    }
+
+    @Override
+    public void select(PositionDTO miniTicTacToe, PositionDTO cell) {
+<span class="fc bfc" id="L226" title="All 2 branches covered.">        if (!haveUsersBeenSet()) {</span>
+<span class="fc" id="L227">            throw new IllegalStateException(&quot;No users have been set.&quot;);</span>
+        }
+<span class="fc" id="L229">        Position miniPosition = new Position(miniTicTacToe);</span>
+<span class="fc" id="L230">        Position cellPosition = new Position(cell);</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">        Player current = isXCurrentPlayer ? X : O;</span>
+<span class="fc" id="L232">        Move move = new Move(current, miniPosition, cellPosition, board);</span>
+<span class="fc" id="L233">        this.currentMove = requireValidMove(move);</span>
+<span class="fc" id="L234">    }</span>
+
+    private boolean hasCurrentPlayerSelectedAPosition() {
+<span class="fc bfc" id="L237" title="All 2 branches covered.">        return currentMove != null &amp;&amp; currentMove.getAuthor().getMarker()</span>
+<span class="pc bpc" id="L238" title="1 of 2 branches missed.">                == getCurrentPlayer().getMarker();</span>
+    }
+
+    @Override
+    public void play() {
+<span class="fc bfc" id="L243" title="All 2 branches covered.">        if (!hasCurrentPlayerSelectedAPosition()) {</span>
+<span class="fc" id="L244">            throw new IllegalStateException(&quot;Select a position before playing!&quot;);</span>
+        }
+<span class="fc" id="L246">        currentMove.execute();</span>
+<span class="fc" id="L247">        executedMoves.add(currentMove);</span>
+<span class="fc" id="L248">        notifyView();</span>
+<span class="fc" id="L249">    }</span>
+
+    @Override
+    public void withdraw() {
+<span class="fc bfc" id="L253" title="All 2 branches covered.">        if (isXCurrentPlayer) {</span>
+<span class="fc" id="L254">            X.setWithDrawn(true);</span>
+        } else {
+<span class="fc" id="L256">            O.setWithDrawn(true);</span>
+        }
+<span class="fc" id="L258">    }</span>
+
+    private boolean hasCurrentPlayerPlayed() {
+<span class="fc bfc" id="L261" title="All 2 branches covered.">        if (isFirstTurn()) {</span>
+<span class="fc" id="L262">            throw new IllegalStateException(&quot;The first player has not even &quot;</span>
+                    + &quot;selected nor played yet!&quot;);
+        }
+<span class="fc" id="L265">        return getLastMove().getAuthor().getMarker()</span>
+<span class="pc bpc" id="L266" title="1 of 2 branches missed.">                == getCurrentPlayer().getMarker();</span>
+    }
+
+    @Override
+    public void nextPlayer() {
+<span class="pc bpc" id="L271" title="1 of 2 branches missed.">        if (!hasCurrentPlayerPlayed()) {</span>
+<span class="nc" id="L272">            throw new IllegalStateException(&quot;The current player has not played &quot;</span>
+                    + &quot;yet!&quot;);
+        }
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">        this.isXCurrentPlayer = !isXCurrentPlayer;</span>
+<span class="fc" id="L276">    }</span>
+
+    private boolean isTie() {
+<span class="pc bpc" id="L279" title="1 of 4 branches missed.">        return isOver() &amp;&amp; board.isFull();</span>
+    }
+
+    @Override
+    public void updateUsersStatistics() {
+<span class="fc bfc" id="L284" title="All 2 branches covered.">        if (!isOver()) {</span>
+<span class="fc" id="L285">            throw new IllegalStateException(&quot;The game is not over yet.&quot;);</span>
+        }
+<span class="fc bfc" id="L287" title="All 2 branches covered.">        if (isTie()) {</span>
+<span class="fc" id="L288">            X.getUser().addATie();</span>
+<span class="fc" id="L289">            O.getUser().addATie();</span>
+        } else {
+<span class="fc bfc" id="L291" title="All 2 branches covered.">            if (getWinner().getMarker() == Marker.X) {</span>
+<span class="fc" id="L292">                X.getUser().addAVictory();</span>
+<span class="fc" id="L293">                O.getUser().addADefeat();</span>
+            } else {
+<span class="fc" id="L295">                X.getUser().addADefeat();</span>
+<span class="fc" id="L296">                O.getUser().addAVictory();</span>
+            }
+        }
+<span class="fc" id="L299">        notifyView();</span>
+<span class="fc" id="L300">    }</span>
+
+    @Override
+    public void addObserver(Observer obsrvr) {
+<span class="nc" id="L304">        super.addObserver(obsrvr);</span>
+<span class="nc" id="L305">    }</span>
+
+    private void notifyView() {
+<span class="fc" id="L308">        setChanged();</span>
+<span class="fc" id="L309">        notifyObservers();</span>
+<span class="fc" id="L310">    }</span>
+
+    void clearUsers() {
+<span class="fc" id="L313">        X.setUser(null);</span>
+<span class="fc" id="L314">        O.setUser(null);</span>
+<span class="fc" id="L315">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

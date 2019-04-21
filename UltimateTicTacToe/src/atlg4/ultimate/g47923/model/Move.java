@@ -43,6 +43,10 @@ class Move {
     UltimateTicTacToe getBoard() {
         return board;
     }
+    
+    boolean isWinning() {
+        return isWinning;
+    }
 
     private boolean hasAuthorWon() {
         Grid miniTicTacToe = board.getCellAt(miniTicTacToePosition);

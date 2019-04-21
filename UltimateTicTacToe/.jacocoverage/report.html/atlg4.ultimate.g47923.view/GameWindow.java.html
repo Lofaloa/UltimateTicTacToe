@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GameWindow.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UltimateTicTacToe&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">atlg4.ultimate.g47923.view</a> &gt; <span class="el_source">GameWindow.java</span></div><h1>GameWindow.java</h1><pre class="source lang-java linenums">package atlg4.ultimate.g47923.view;
+
+import atlg4.composant.g47923.MyTicTacToe;
+import atlg4.ultimate.g47923.controller.GameWindowController;
+import atlg4.ultimate.g47923.dto.MoveDTO;
+import atlg4.ultimate.g47923.dto.PositionDTO;
+import atlg4.ultimate.g47923.model.Game;
+import atlg4.ultimate.g47923.model.Marker;
+import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.layout.GridPane;
+import static java.util.Objects.requireNonNull;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import static javafx.scene.layout.GridPane.getRowIndex;
+import static javafx.scene.layout.GridPane.getColumnIndex;
+
+/*
+ * Is the main window of the game. The game is played in this window.
+ */
+final class GameWindow extends BorderPane implements Observer {
+
+    private static final String CROSS_IMG_PATH = &quot;/images/cross.png&quot;;
+    private static final String CIRCLE_IMG_PATH = &quot;/images/circle.png&quot;;
+    private static final String FXML_PATH = &quot;/fxml/GameWindow.fxml&quot;;
+
+    private final Game game;
+    private final View view;
+
+    private final GridPane board;
+
+    /*
+     * Constructs an instance of this GameWindow with the specified game to
+     * represent and the managing view. A IOException is thrown when this window 
+     * FXML file cannot be loaded.
+     */
+<span class="nc" id="L41">    GameWindow(Game game, View view) throws IOException {</span>
+<span class="nc" id="L42">        this.game = requireNonNull(game, &quot;Constructing a GameWindow with a null &quot;</span>
+                + &quot;game.&quot;);
+<span class="nc" id="L44">        this.view = requireNonNull(view, &quot;Constructing a GameWindow with a null &quot;</span>
+                + &quot;view.&quot;);
+<span class="nc" id="L46">        load();</span>
+<span class="nc" id="L47">        this.board = requireNonNull(getBoard(), &quot;No board has been found&quot;);</span>
+<span class="nc" id="L48">    }</span>
+
+    private void load() throws IOException {
+        try {
+<span class="nc" id="L52">            FXMLLoader loader = new FXMLLoader();</span>
+<span class="nc" id="L53">            loader.setLocation(getClass().getResource(FXML_PATH));</span>
+<span class="nc" id="L54">            loader.setRoot(this);</span>
+<span class="nc" id="L55">            loader.setController(new GameWindowController(game, view));</span>
+<span class="nc" id="L56">            loader.load();</span>
+<span class="nc" id="L57">        } catch (IOException exception) {</span>
+<span class="nc" id="L58">            throw new IOException(FXML_PATH + &quot; cannot be loaded!&quot;, exception);</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">    }</span>
+
+    private GridPane getBoard() {
+<span class="nc" id="L63">        return (GridPane) lookup(&quot;#board&quot;);</span>
+    }
+
+    private Label getPlayerLabel(Marker marker) {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (marker == Marker.X) {</span>
+<span class="nc" id="L68">            return (Label) lookup(&quot;#playerLabelX&quot;);</span>
+        } else {
+<span class="nc" id="L70">            return (Label) lookup(&quot;#playerLabelO&quot;);</span>
+        }
+    }
+
+    private MyTicTacToe getTicTacToeAt(int row, int column) {
+<span class="nc" id="L75">        MyTicTacToe target = null;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        for (Node node : board.getChildren()) {</span>
+<span class="nc" id="L77">            MyTicTacToe t = (MyTicTacToe) node;</span>
+<span class="nc bnc" id="L78" title="All 4 branches missed.">            if (getRowIndex(node) == row &amp;&amp; getColumnIndex(node) == column) {</span>
+<span class="nc" id="L79">                target = t;</span>
+            }
+<span class="nc" id="L81">        }</span>
+<span class="nc" id="L82">        return target;</span>
+    }
+
+    private void showLastMove() {
+<span class="nc" id="L86">        MoveDTO move = game.getLastMove();</span>
+<span class="nc" id="L87">        PositionDTO mini = move.getMiniTicTacToePosition();</span>
+<span class="nc" id="L88">        PositionDTO cell = move.getCellPosition();</span>
+<span class="nc" id="L89">        Marker marker = move.getAuthor().getMarker();</span>
+<span class="nc" id="L90">        MyTicTacToe tictactoe = getTicTacToeAt(mini.getRow(), mini.getColumn());</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        Image img = new Image(marker == Marker.X ? CROSS_IMG_PATH : CIRCLE_IMG_PATH);</span>
+<span class="nc" id="L92">        tictactoe.setMarker(cell.getRow(), cell.getColumn(), img);</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if (move.isWinning()) {</span>
+<span class="nc" id="L94">            tictactoe.displayWinner(img);</span>
+        }
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        updatePlayable(cell, marker == Marker.X ? Marker.O : Marker.X);</span>
+<span class="nc" id="L97">    }</span>
+
+    void clearBoard() {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        for (Node node : board.getChildren()) {</span>
+<span class="nc" id="L101">            MyTicTacToe tictactoe = (MyTicTacToe) node;</span>
+<span class="nc" id="L102">            tictactoe.initialize(null);</span>
+<span class="nc" id="L103">            tictactoe.displayWinner(null);</span>
+<span class="nc" id="L104">            tictactoe.getStyleClass().clear();</span>
+<span class="nc" id="L105">        }</span>
+<span class="nc" id="L106">    }</span>
+
+    private void updateBoard() {
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        if (game.isStarted()) {</span>
+<span class="nc" id="L110">            showLastMove();</span>
+        } else {
+<span class="nc" id="L112">            clearBoard();</span>
+        }
+<span class="nc" id="L114">    }</span>
+
+    private void setTicTacToeStyleClass(String styleClass) {
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        for (int row = 0; row &lt; MyTicTacToe.SIZE; row++) {</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">            for (int column = 0; column &lt; MyTicTacToe.SIZE; column++) {</span>
+<span class="nc" id="L119">                getTicTacToeAt(row, column).getStyleClass().clear();</span>
+<span class="nc" id="L120">                getTicTacToeAt(row, column).getStyleClass().add(styleClass);</span>
+            }
+        }
+<span class="nc" id="L123">    }</span>
+
+    private void updatePlayable(PositionDTO playable, Marker nextPlayer) {
+<span class="nc" id="L126">        MyTicTacToe t = getTicTacToeAt(playable.getRow(), playable.getColumn());</span>
+<span class="nc" id="L127">        setTicTacToeStyleClass(&quot;tictactoe&quot;);</span>
+<span class="nc" id="L128">        t.getStyleClass().clear();</span>
+<span class="nc" id="L129">        t.getStyleClass().add(&quot;playableBy&quot; + nextPlayer);</span>
+<span class="nc" id="L130">    }</span>
+
+    private void updateUsers() {
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if (game.hasUserFor(Marker.X)) {</span>
+<span class="nc" id="L134">            String XUserPseudonym = game.getPlayer(Marker.X).getUser().getPseudonym();</span>
+<span class="nc" id="L135">            getPlayerLabel(Marker.X).setText(XUserPseudonym);</span>
+        }
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (game.hasUserFor(Marker.O)) {</span>
+<span class="nc" id="L138">            String OUserPseudonym = game.getPlayer(Marker.O).getUser().getPseudonym();</span>
+<span class="nc" id="L139">            getPlayerLabel(Marker.O).setText(OUserPseudonym);</span>
+        }
+<span class="nc" id="L141">    }</span>
+
+    @Override
+    public void update(Observable o, Object o1) {
+<span class="nc" id="L145">        updateBoard();</span>
+<span class="nc" id="L146">        updateUsers();</span>
+<span class="nc" id="L147">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

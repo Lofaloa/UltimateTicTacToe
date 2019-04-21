@@ -33,7 +33,8 @@ public class PositionTest {
     }
 
     /**
-     * A position is not constructed when the row is greater than MAX_COORDINATE.
+     * A position is not constructed when the row is greater than
+     * MAX_COORDINATE.
      */
     @Test(expected = IllegalPositionException.class)
     public void construction_with_greater_row() {
@@ -49,7 +50,8 @@ public class PositionTest {
     }
 
     /**
-     * A position is not constructed when the column is greater than MAX_COORDINATE.
+     * A position is not constructed when the column is greater than
+     * MAX_COORDINATE.
      */
     @Test(expected = IllegalPositionException.class)
     public void construction_with_greater_column() {
@@ -87,6 +89,35 @@ public class PositionTest {
         assertTrue(positionA.equals(positionB));
         assertTrue(positionB.equals(positionC));
         assertTrue(positionA.equals(positionC));
+    }
+
+    /**
+     * The position equals method return false when the given object is not of
+     * the same type.
+     */
+    @Test
+    public void equals_falseWithDifferentClass() {
+        Position position = new Position(0, 0);
+        assertFalse(position.equals("position"));
+    }
+    
+    /**
+     * The position equals method return false when the given object is null.
+     */
+    @Test
+    public void equals_falseWithNullObject() {
+        Position position = new Position(0, 0);
+        assertFalse(position.equals(null));
+    }
+    
+    /**
+     * Two position that are equal should have the same hash code.
+     */
+    @Test
+    public void hashCode_equalPositionHaveTheSameHashCode() {
+        Position positionA = new Position(0, 0);
+        Position positionB = new Position(0, 0);
+        assertEquals(positionA.hashCode(), positionB.hashCode());
     }
 
 }

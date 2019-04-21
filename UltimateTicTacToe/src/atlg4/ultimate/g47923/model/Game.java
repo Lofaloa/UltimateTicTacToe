@@ -54,11 +54,11 @@ public interface Game {
     PlayerDTO getPlayer(Marker marker);
 
     /**
-     * Tells if this game has moves.
+     * Tells if this game is started.
      *
-     * @return true if this game has moves.
+     * @return true if this game is started.
      */
-    boolean hasMoves();
+    boolean isStarted();
 
     /**
      * Tells if this game is over. A game is over when its board is full or one

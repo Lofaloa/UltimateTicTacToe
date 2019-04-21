@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MiniTicTacToe.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UltimateTicTacToe&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">atlg4.ultimate.g47923.model</a> &gt; <span class="el_source">MiniTicTacToe.java</span></div><h1>MiniTicTacToe.java</h1><pre class="source lang-java linenums">package atlg4.ultimate.g47923.model;
+
+import atlg4.ultimate.g47923.exception.GridException;
+import atlg4.ultimate.g47923.exception.IllegalMoveException;
+import static java.util.Objects.requireNonNull;
+
+/**
+ * Represents a &lt;i&gt;MiniTicTacToe&lt;/i&gt;.
+ *
+ * @author Logan Farci (47923)
+ */
+class MiniTicTacToe extends Grid&lt;Cell&gt; {
+
+    static final int SIZE = 3;
+
+    /**
+     * Constructs an empty &lt;i&gt;MiniTicTacToe&lt;/i&gt;.
+     */
+    MiniTicTacToe(Position position) {
+<span class="fc" id="L20">        super(position, SIZE);</span>
+<span class="fc" id="L21">        initialize();</span>
+<span class="fc" id="L22">    }</span>
+
+    /**
+     * Initializes this &lt;i&gt;MiniTicTacToe&lt;/i&gt; as empty.
+     */
+    @Override
+    final void initialize() {
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        for (int row = 0; row &lt; SIZE; row++) {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">            for (int column = 0; column &lt; SIZE; column++) {</span>
+<span class="fc" id="L31">                cells.add(new Cell(new Position(row, column)));</span>
+            }
+        }
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * Sets the given owner of the &lt;code&gt;Cell&lt;/code&gt; at the given position in
+     * this &lt;code&gt;MiniTicTacToe&lt;/code&gt;. If the given owner owns a row, a column
+     * or a diagonal in this &lt;code&gt;MiniTicTacToe&lt;/code&gt;, this
+     * &lt;code&gt;MiniTicTacToe&lt;/code&gt; is set to the given owner.
+     *
+     * @param owner is the owner of the cell to set.
+     * @param position is the position of the cell to set.
+     * @throws NullPointerException if one of the arguments is null.
+     * @throws GridException if the cell to set the owner for has not been
+     * found.
+     */
+    void setOwnerAt(Player owner, Position position) {
+<span class="fc" id="L49">        requireNonNull(owner, &quot;Trying to set a null player in a MiniTicTacToe.&quot;);</span>
+<span class="fc" id="L50">        requireNonNull(position, &quot;Trying to set a player in a MiniTicTacToe at a&quot;</span>
+                + &quot; null position&quot;);
+<span class="fc" id="L52">        Cell cell = (Cell) getCellAt(position);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (cell.hasOwner()) {</span>
+<span class="fc" id="L54">            throw new IllegalMoveException(&quot;Trying to override a cell owner at (&quot;</span>
+<span class="fc" id="L55">                    + position.getRow() + &quot;; &quot; + position.getColumn() + &quot;).&quot;);</span>
+        } else {
+<span class="fc" id="L57">            cell.setOwner(owner);</span>
+        }
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (isOwnedBy(owner)) {</span>
+<span class="fc" id="L60">            this.owner = owner;</span>
+        }
+<span class="fc" id="L62">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

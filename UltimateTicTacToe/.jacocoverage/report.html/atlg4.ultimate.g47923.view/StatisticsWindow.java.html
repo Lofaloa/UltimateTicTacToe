@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>StatisticsWindow.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UltimateTicTacToe&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">atlg4.ultimate.g47923.view</a> &gt; <span class="el_source">StatisticsWindow.java</span></div><h1>StatisticsWindow.java</h1><pre class="source lang-java linenums">package atlg4.ultimate.g47923.view;
+
+import atlg4.ultimate.g47923.controller.StatisticsWindowController;
+import atlg4.ultimate.g47923.model.Game;
+import java.io.IOException;
+import static java.util.Objects.requireNonNull;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.BorderPane;
+
+/*
+ * Presents the number of victories, ex aequos and defeats for each players.
+ *
+ * @author Logan Farci (47923)
+ */
+final class StatisticsWindow extends BorderPane {
+
+    private static final String FXML_PATH = &quot;/fxml/StatisticsWindow.fxml&quot;;
+
+    private final Game game;
+    private final View view;
+
+    /*
+     * Constructs an instance of this StatisticsWindow with the specified game
+     * and a new stage. A IOException is thrown when this window FXML file 
+     * cannot be loaded.
+     */
+<span class="nc" id="L27">    StatisticsWindow(Game game, View view) throws IOException {</span>
+<span class="nc" id="L28">        this.game = requireNonNull(game, &quot;Constructing a StatisticsWindow with a null &quot;</span>
+                + &quot;game.&quot;);
+<span class="nc" id="L30">        this.view = requireNonNull(view, &quot;Constructing a StatisticsWindow with a null &quot;</span>
+                + &quot;view.&quot;);
+<span class="nc" id="L32">        load();</span>
+<span class="nc" id="L33">    }</span>
+
+    private void load() throws IOException {
+        try {
+<span class="nc" id="L37">            FXMLLoader loader = new FXMLLoader();</span>
+<span class="nc" id="L38">            loader.setLocation(getClass().getResource(FXML_PATH));</span>
+<span class="nc" id="L39">            loader.setRoot(this);</span>
+<span class="nc" id="L40">            loader.setController(new StatisticsWindowController(game, view));</span>
+<span class="nc" id="L41">            loader.load();</span>
+<span class="nc" id="L42">        } catch (IOException exception) {</span>
+<span class="nc" id="L43">            throw new IOException(FXML_PATH + &quot; cannot be loaded!&quot;, exception);</span>
+<span class="nc" id="L44">        }</span>
+<span class="nc" id="L45">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

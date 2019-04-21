@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Position.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UltimateTicTacToe&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">atlg4.ultimate.g47923.model</a> &gt; <span class="el_source">Position.java</span></div><h1>Position.java</h1><pre class="source lang-java linenums">package atlg4.ultimate.g47923.model;
+
+import atlg4.ultimate.g47923.dto.PositionDTO;
+import atlg4.ultimate.g47923.exception.IllegalPositionException;
+import java.util.Objects;
+
+/**
+ * Represents a position.
+ *
+ * @author Logan Farci (47923)
+ */
+class Position {
+
+    static final int MAX_COORDINATE = 2;
+
+    private final int row;
+    private final int column;
+
+    /**
+     * Constructs a position.
+     *
+     * @param row is the row of this position.
+     * @param column is the column of this position.
+     */
+<span class="fc" id="L25">    Position(int row, int column) {</span>
+<span class="fc" id="L26">        this.row = requireValidCoordinate(row, row + &quot; is not a valid position &quot;</span>
+                + &quot;row.&quot;);
+<span class="fc" id="L28">        this.column = requireValidCoordinate(column, column + &quot; is not a valid &quot;</span>
+                + &quot;position column.&quot;);
+<span class="fc" id="L30">    }</span>
+
+    /**
+     * Constructs a copy of the given position.
+     *
+     * @param other is the position to copy.
+     */
+    Position(Position other) {
+<span class="fc" id="L38">        this(other.getRow(), other.getColumn());</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * Constructs a default position.
+     */
+    Position() {
+<span class="fc" id="L45">        this(0, 0);</span>
+<span class="fc" id="L46">    }</span>
+
+    /**
+     * Constructs a position with the specified data transfer object.
+     *
+     * @param dto is the specified data transfer object.
+     */
+<span class="fc" id="L53">    Position(PositionDTO dto) {</span>
+<span class="fc" id="L54">        this.row = requireValidCoordinate(dto.getRow(), dto.getRow() + &quot; is &quot;</span>
+                + &quot;not a valid position row.&quot;);
+<span class="fc" id="L56">        this.column = requireValidCoordinate(dto.getColumn(), dto.getColumn()</span>
+                + &quot; is not a valid position column.&quot;);
+<span class="fc" id="L58">    }</span>
+
+    /**
+     * Gets this position row.
+     *
+     * @return this position row.
+     */
+    int getRow() {
+<span class="fc" id="L66">        return row;</span>
+    }
+
+    /**
+     * Gets this position column.
+     *
+     * @return this position column.
+     */
+    int getColumn() {
+<span class="fc" id="L75">        return column;</span>
+    }
+
+    static int requireValidCoordinate(int coo, String msg) {
+<span class="fc bfc" id="L79" title="All 4 branches covered.">        if (coo &lt; 0 || MAX_COORDINATE &lt; coo) {</span>
+<span class="fc" id="L80">            throw new IllegalPositionException(msg);</span>
+        }
+<span class="fc" id="L82">        return coo;</span>
+    }
+
+    /**
+     * Tells if this cell is equal to the given object.
+     *
+     * @param obj is the object equal to this cell.
+     * @return true if this cell is equal to the given object.
+     */
+    @Override
+    public boolean equals(Object obj) {
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (obj == null) {</span>
+<span class="fc" id="L94">            return false;</span>
+        }
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (!Position.class.isAssignableFrom(obj.getClass())) {</span>
+<span class="fc" id="L97">            return false;</span>
+        }
+<span class="fc" id="L99">        final Position other = (Position) obj;</span>
+<span class="fc bfc" id="L100" title="All 4 branches covered.">        return this.row == other.row &amp;&amp; this.column == other.column;</span>
+    }
+
+    /**
+     * Gets a hash code based on this cell row and column.
+     *
+     * @return a hash code based on this cell row and column.
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L110">        return Objects.hash(this.row, this.column);</span>
+    }
+
+    /**
+     * Converts this position to a data transfer object;
+     *
+     * @return a data transfer object.
+     */
+    PositionDTO toDTO() {
+<span class="fc" id="L119">        return new PositionDTO(row, column);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

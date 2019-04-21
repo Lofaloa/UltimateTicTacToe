@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>JoinDialog.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UltimateTicTacToe&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">atlg4.ultimate.g47923.view</a> &gt; <span class="el_source">JoinDialog.java</span></div><h1>JoinDialog.java</h1><pre class="source lang-java linenums">package atlg4.ultimate.g47923.view;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Tooltip;
+
+/**
+ * Dialog used to ask a user an alphanumerical pseudonym and register her/ him.
+ *
+ * @author Logan Farci (47923)
+ */
+class JoinDialog extends TextInputDialog {
+
+    static final String TITLE = &quot;Join&quot;;
+    static final String HEADER = &quot;Please provide a pseudonym with to join the game&quot;;
+    static final String CONTENT = &quot;Your pseudonym...&quot;;
+    static final String TIP = &quot;Your pseudonym should be composed of \n&quot;
+            + &quot;8 to 20 alphanumeric characters.\n&quot;;
+    static final String PSEUDONYM_PATTERN = &quot;^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})&quot;
+            + &quot;[a-zA-Z0-9]+(?&lt;![_.])$&quot;;
+    static private final int MIN_WIDTH = 300;
+    static private final int MIN_HEIGHT = 200;
+
+    private final Tooltip tip;
+
+<span class="nc" id="L30">    JoinDialog() {</span>
+<span class="nc" id="L31">        this.tip = new Tooltip();</span>
+<span class="nc" id="L32">        setContent();</span>
+<span class="nc" id="L33">        setEventFilter();</span>
+<span class="nc" id="L34">        getDialogPane().setMinWidth(MIN_WIDTH);</span>
+<span class="nc" id="L35">        getDialogPane().setMinHeight(MIN_HEIGHT);</span>
+<span class="nc" id="L36">        getDialogPane().getStylesheets().add(&quot;/css/UltimateTicTacToeTheme.css&quot;);</span>
+<span class="nc" id="L37">    }</span>
+
+    private void setContent() {
+<span class="nc" id="L40">        setTitle(TITLE);</span>
+<span class="nc" id="L41">        setHeaderText(HEADER);</span>
+<span class="nc" id="L42">        setContentText(CONTENT);</span>
+<span class="nc" id="L43">        tip.setText(TIP);</span>
+<span class="nc" id="L44">        getEditor().setTooltip(new Tooltip(TIP));</span>
+<span class="nc" id="L45">    }</span>
+
+    private boolean isValidPseudonym() {
+<span class="nc" id="L48">        String pseudonym = getEditor().getText();</span>
+<span class="nc" id="L49">        Pattern validPseudonym = Pattern.compile(PSEUDONYM_PATTERN);</span>
+<span class="nc" id="L50">        Matcher matcher = validPseudonym.matcher(pseudonym);</span>
+<span class="nc" id="L51">        return matcher.matches();</span>
+    }
+
+    private void setEventFilter() {
+<span class="nc" id="L55">        Button okButton = (Button) getDialogPane().lookupButton(ButtonType.OK);</span>
+<span class="nc" id="L56">        okButton.addEventFilter(ActionEvent.ACTION, e -&gt; {</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">            if (!isValidPseudonym()) {</span>
+<span class="nc" id="L58">                e.consume();</span>
+            }
+<span class="nc" id="L60">        });</span>
+<span class="nc" id="L61">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

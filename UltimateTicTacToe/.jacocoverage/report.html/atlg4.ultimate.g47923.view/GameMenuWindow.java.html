@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GameMenuWindow.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UltimateTicTacToe&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">atlg4.ultimate.g47923.view</a> &gt; <span class="el_source">GameMenuWindow.java</span></div><h1>GameMenuWindow.java</h1><pre class="source lang-java linenums">package atlg4.ultimate.g47923.view;
+
+import atlg4.ultimate.g47923.controller.GameMenuWindowController;
+import atlg4.ultimate.g47923.model.Game;
+import atlg4.ultimate.g47923.model.Marker;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.VBox;
+import static java.util.Objects.requireNonNull;
+import java.util.Observable;
+import java.util.Observer;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+
+/*
+ * Is the menu of the game. A user can join a game, start a new game, check his/
+ * her statistics or quit the game from this window.
+ *
+ * @author Logan Farci (47923)
+ */
+final class GameMenuWindow extends VBox implements Observer {
+
+    private static final String FXML_PATH = &quot;/fxml/GameMenuWindow.fxml&quot;;
+
+    private final Game game;
+    private final View view;
+
+    /*
+     * Constructs an instance of this GameWindow with the specified game and a
+     * new stage. A IOException is thrown when this window FXML file cannot be 
+     * loaded.
+     */
+<span class="nc" id="L33">    GameMenuWindow(Game game, View view) throws IOException {</span>
+<span class="nc" id="L34">        this.game = requireNonNull(game, &quot;Constructing a GameMenuWindow with a null &quot;</span>
+                + &quot;game.&quot;);
+<span class="nc" id="L36">        this.view = requireNonNull(view, &quot;Constructing a GameMenuWindow with a null &quot;</span>
+                + &quot;view.&quot;);
+<span class="nc" id="L38">        load();</span>
+<span class="nc" id="L39">    }</span>
+
+    private void load() throws IOException {
+        try {
+<span class="nc" id="L43">            FXMLLoader loader = new FXMLLoader();</span>
+<span class="nc" id="L44">            loader.setLocation(getClass().getResource(FXML_PATH));</span>
+<span class="nc" id="L45">            loader.setRoot(this);</span>
+<span class="nc" id="L46">            loader.setController(new GameMenuWindowController(game, view));</span>
+<span class="nc" id="L47">            loader.load();</span>
+<span class="nc" id="L48">        } catch (IOException exception) {</span>
+<span class="nc" id="L49">            throw new IOException(FXML_PATH + &quot; cannot be loaded!&quot;, exception);</span>
+<span class="nc" id="L50">        }</span>
+<span class="nc" id="L51">    }</span>
+
+    private Label getPlayerLabel(Marker marker) {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (marker == Marker.X) {</span>
+<span class="nc" id="L55">            return (Label) lookup(&quot;#firstUserPseudonym&quot;);</span>
+        } else {
+<span class="nc" id="L57">            return (Label) lookup(&quot;#secondUserPseudonym&quot;);</span>
+        }
+    }
+
+    private void showPlayerDeleteButton(Marker marker) {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (marker == Marker.X) {</span>
+<span class="nc" id="L63">            ((Button) lookup(&quot;#firstUserDelete&quot;)).setVisible(true);</span>
+        } else {
+<span class="nc" id="L65">            ((Button) lookup(&quot;#secondUserDelete&quot;)).setVisible(true);</span>
+        }
+<span class="nc" id="L67">    }</span>
+
+    private void setPseudonymLabelFor(Marker marker) {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (game.hasUserFor(marker)) {</span>
+<span class="nc" id="L71">            String pseudonym = game.getPlayer(marker).getUser().getPseudonym();</span>
+<span class="nc" id="L72">            getPlayerLabel(marker).setText(pseudonym);</span>
+        }
+<span class="nc" id="L74">    }</span>
+
+    private void updateUsers() {
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (game.hasUserFor(Marker.X)) {</span>
+<span class="nc" id="L78">            setPseudonymLabelFor(Marker.X);</span>
+<span class="nc" id="L79">            showPlayerDeleteButton(Marker.X);</span>
+        } else {
+<span class="nc" id="L81">            getPlayerLabel(Marker.X).setText(&quot;no user&quot;);</span>
+        }
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (game.hasUserFor(Marker.O)) {</span>
+<span class="nc" id="L84">            setPseudonymLabelFor(Marker.O);</span>
+<span class="nc" id="L85">            showPlayerDeleteButton(Marker.O);</span>
+        } else {
+<span class="nc" id="L87">            getPlayerLabel(Marker.O).setText(&quot;no user&quot;);</span>
+        }
+<span class="nc" id="L89">    }</span>
+
+    private void enable(Button button) {
+<span class="nc" id="L92">        button.setDisable(false);</span>
+<span class="nc" id="L93">        button.getStyleClass().clear();</span>
+<span class="nc" id="L94">        button.getStyleClass().add(&quot;available&quot;);</span>
+<span class="nc" id="L95">        button.getStyleClass().add(&quot;button&quot;);</span>
+<span class="nc" id="L96">    }</span>
+
+    private void disable(Button button) {
+<span class="nc" id="L99">        button.setDisable(true);</span>
+<span class="nc" id="L100">        button.getStyleClass().clear();</span>
+<span class="nc" id="L101">        button.getStyleClass().add(&quot;unavailable&quot;);</span>
+<span class="nc" id="L102">        button.getStyleClass().add(&quot;button&quot;);</span>
+<span class="nc" id="L103">    }</span>
+
+    @Override
+    public void update(Observable o, Object o1) {
+<span class="nc" id="L107">        updateUsers();</span>
+<span class="nc bnc" id="L108" title="All 4 branches missed.">        if (game.hasUserFor(Marker.O) &amp;&amp; game.hasUserFor(Marker.X)) {</span>
+<span class="nc" id="L109">            disable((Button) lookup(&quot;#join&quot;));</span>
+<span class="nc bnc" id="L110" title="All 4 branches missed.">            if (game.isStarted() &amp;&amp; !game.isOver()) {</span>
+<span class="nc" id="L111">                enable((Button) lookup(&quot;#resume&quot;));</span>
+<span class="nc" id="L112">                disable((Button) lookup(&quot;#newgame&quot;));</span>
+            } else {
+<span class="nc" id="L114">                enable((Button) lookup(&quot;#newgame&quot;));</span>
+<span class="nc" id="L115">                disable((Button) lookup(&quot;#resume&quot;));</span>
+            }
+        } else {
+<span class="nc" id="L118">            enable((Button) lookup(&quot;#join&quot;));</span>
+<span class="nc" id="L119">            disable((Button) lookup(&quot;#newgame&quot;));</span>
+        }
+<span class="nc" id="L121">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

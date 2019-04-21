@@ -132,4 +132,23 @@ public class StartOfAGameTest {
         assertFalse(game.isFirstTurn());
     }
 
+    /**
+     * When the first player has made a move the game should be started.
+     */
+   @Test
+   public void isStarted() {
+       UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+       
+       setPlayersUsers(game);
+       
+       game.select(new PositionDTO(0, 0), new PositionDTO(0, 0));
+       game.play();
+       
+       game.clearUsers();
+       
+       assertTrue(game.isStarted());
+   }
+   
+    
+    
 }

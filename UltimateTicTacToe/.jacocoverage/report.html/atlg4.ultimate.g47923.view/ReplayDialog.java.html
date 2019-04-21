@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ReplayDialog.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UltimateTicTacToe&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">atlg4.ultimate.g47923.view</a> &gt; <span class="el_source">ReplayDialog.java</span></div><h1>ReplayDialog.java</h1><pre class="source lang-java linenums">package atlg4.ultimate.g47923.view;
+
+import atlg4.ultimate.g47923.controller.ReplayDialogController;
+import atlg4.ultimate.g47923.model.Game;
+import atlg4.ultimate.g47923.model.Marker;
+import java.io.IOException;
+import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+
+/**
+ * Dialog asking the user if he/ she wants to replay a new game or quit the
+ * game. Besides, it is possible for the user to change the users for the next
+ * game.
+ *
+ * @author Logan Farci (47923)
+ */
+class ReplayDialog extends Dialog&lt;ButtonType&gt; implements Observer {
+
+    private static final String FXML_PATH = &quot;/fxml/ReplayDialogPane.fxml&quot;;
+
+    private final Game game;
+    private final View view;
+
+<span class="nc" id="L30">    ReplayDialog(Game game, View view) throws IOException {</span>
+<span class="nc" id="L31">        this.game = game;</span>
+<span class="nc" id="L32">        this.view = view;</span>
+<span class="nc" id="L33">        load();</span>
+<span class="nc" id="L34">        game.addObserver(this);</span>
+<span class="nc" id="L35">    }</span>
+
+    private void load() throws IOException {
+        try {
+<span class="nc" id="L39">            FXMLLoader loader = new FXMLLoader();</span>
+<span class="nc" id="L40">            loader.setLocation(getClass().getResource(FXML_PATH));</span>
+<span class="nc" id="L41">            loader.setController(new ReplayDialogController(game, view));</span>
+<span class="nc" id="L42">            DialogPane root = (DialogPane) loader.load();</span>
+<span class="nc" id="L43">            setDialogPane(root);</span>
+<span class="nc" id="L44">        } catch (IOException e) {</span>
+<span class="nc" id="L45">            throw new IOException(FXML_PATH + &quot; cannot be loaded&quot;, e);</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">    }</span>
+
+    private Label getPlayerLabel(Marker marker) {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (marker == Marker.X) {</span>
+<span class="nc" id="L51">            return (Label) getDialogPane().lookup(&quot;#firstUserPseudonym&quot;);</span>
+        } else {
+<span class="nc" id="L53">            return (Label) getDialogPane().lookup(&quot;#secondUserPseudonym&quot;);</span>
+        }
+    }
+
+    private void setPseudonymLabelFor(Marker marker) {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (game.hasUserFor(marker)) {</span>
+<span class="nc" id="L59">            String pseudonym = game.getPlayer(marker).getUser().getPseudonym();</span>
+<span class="nc" id="L60">            getPlayerLabel(marker).setText(pseudonym);</span>
+        }
+<span class="nc" id="L62">    }</span>
+    
+    private void updateHeader(String header) {
+<span class="nc" id="L65">        ((Label) getDialogPane().lookup(&quot;#headerText&quot;)).setText(header);</span>
+<span class="nc" id="L66">    }</span>
+
+    @Override
+    public void update(Observable o, Object o1) {
+<span class="nc" id="L70">        setPseudonymLabelFor(Marker.X);</span>
+<span class="nc" id="L71">        setPseudonymLabelFor(Marker.O);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (game.isOver()) {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            if (game.isTied()) {</span>
+<span class="nc" id="L74">                updateHeader(&quot;The game is over with a tied!&quot;);</span>
+            } else {
+<span class="nc" id="L76">                String pseudonym = game.getWinner().getUser().getPseudonym();</span>
+<span class="nc" id="L77">                updateHeader(&quot;Congratulations &quot; + pseudonym + &quot;, you win!&quot;);</span>
+            }
+        }
+<span class="nc" id="L80">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

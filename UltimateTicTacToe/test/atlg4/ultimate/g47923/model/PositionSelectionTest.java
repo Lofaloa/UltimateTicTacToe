@@ -163,4 +163,14 @@ public class PositionSelectionTest {
         game.select(new Position().toDTO(), new Position().toDTO());
     }
 
+    /**
+     * Getting the last move should cause an exception if the game is at first
+     * turn.
+     */
+    @Test(expected = IllegalStateException.class)
+    public void getLastMove_isFirstTurn() {
+        UltimateTicTacToeGame game = new UltimateTicTacToeGame();
+        game.getLastMove();
+    }
+
 }

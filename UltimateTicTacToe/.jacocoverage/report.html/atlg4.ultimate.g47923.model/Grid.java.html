@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Grid.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UltimateTicTacToe&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">atlg4.ultimate.g47923.model</a> &gt; <span class="el_source">Grid.java</span></div><h1>Grid.java</h1><pre class="source lang-java linenums">package atlg4.ultimate.g47923.model;
+
+import atlg4.ultimate.g47923.exception.GridException;
+import java.util.ArrayList;
+import java.util.List;
+import static java.util.Objects.requireNonNull;
+import static atlg4.ultimate.g47923.model.Position.requireValidCoordinate;
+import java.util.Collections;
+
+/**
+ * Represents a tic tac toe.
+ *
+ * @author Logan Farci (47923)
+ * @param &lt;CellType&gt; is the type of this tic tac toe grid cells.
+ */
+abstract class Grid&lt;CellType extends Grid&gt; {
+
+    /**
+     * Are the cells contained in this grid.
+     */
+    protected final List&lt;CellType&gt; cells;
+
+    /**
+     * Is the position of this grid in its parent grid.
+     */
+    protected final Position position;
+
+    /**
+     * Is this grid owner. A grid is owned by a player whenever a full row, a
+     * full column or a full diagonal is owned by the same player.
+     */
+    protected Player owner;
+
+    /**
+     * Is this grid size.
+     */
+    protected final int size;
+
+    /**
+     * Constructs a tic tac toe grid of the given size. This tic tac toe is
+     * constructed without an owner.
+     *
+     * @param size is the size of this tic tac toe grid.
+     */
+<span class="fc" id="L45">    Grid(Position position, int size) {</span>
+<span class="fc" id="L46">        this.cells = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L47">        this.position = new Position(position);</span>
+<span class="fc" id="L48">        this.owner = null;</span>
+<span class="fc" id="L49">        this.size = requireValidSize(size);</span>
+<span class="fc" id="L50">    }</span>
+
+    /**
+     * Makes sure the given size is valid. A valid size is positive.
+     *
+     * @param size the given size.
+     * @return the given size if it is valid.
+     * @throws GridException is the given size is negative.
+     */
+    static int requireValidSize(int size) {
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (size &lt; 0) {</span>
+<span class="nc" id="L61">            throw new GridException(size + &quot; is not valid grid size, it &quot;</span>
+                    + &quot;should be positive.&quot;);
+        }
+<span class="fc" id="L64">        return size;</span>
+    }
+
+    /**
+     * Initializes this grid cells.
+     */
+    abstract void initialize();
+
+    /**
+     * Gets this grid position in its parent.
+     *
+     * @return this grid position in its parent.
+     */
+    Position getPosition() {
+<span class="fc" id="L78">        return new Position(position);</span>
+    }
+
+    /**
+     * Tells if this grid has an owner.
+     *
+     * @return this grid owner.
+     */
+    boolean hasOwner() {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        return owner != null;</span>
+    }
+
+    /**
+     * Tells if this grid is full. A grid is full when all its cells are full.
+     * If this grid has no cells, it is full if it has an owner.
+     *
+     * @returntrue if this grid is full.
+     */
+    boolean isFull() {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        return cells.isEmpty() ? hasOwner()</span>
+<span class="pc bpc" id="L98" title="1 of 4 branches missed.">                : cells.stream().allMatch(cell -&gt; cell.isFull() || cell.hasOwner());</span>
+    }
+    
+    boolean isEmpty() {
+<span class="pc bpc" id="L102" title="1 of 4 branches missed.">        return cells.isEmpty() ? !hasOwner()</span>
+<span class="fc" id="L103">                : cells.stream().allMatch(cell -&gt; cell.isEmpty());</span>
+    }
+
+    /**
+     * Tells if this grid is playable. A grid is playable when it is not owned
+     * and is not full.
+     *
+     * @return true if this grid is playable.
+     */
+    boolean isPlayable() {
+<span class="fc bfc" id="L113" title="All 4 branches covered.">        return !isFull() &amp;&amp; !hasOwner();</span>
+    }
+
+    /**
+     * Gets this grid owner.
+     *
+     * @return this grid owner.
+     */
+    Player getOwner() {
+<span class="fc" id="L122">        return owner;</span>
+    }
+
+    /**
+     * Gets this grid cells.
+     *
+     * @return this grid cells.
+     */
+    List&lt;CellType&gt; getCells() {
+<span class="fc" id="L131">        return Collections.unmodifiableList(cells);</span>
+    }
+
+    /**
+     * Sets this grid owner. /!\ This method should only be used in a unit test.
+     *
+     * @param owner the owner of this grid.
+     */
+    void setOwner(Player owner) {
+<span class="fc" id="L140">        this.owner = owner;</span>
+<span class="fc" id="L141">    }</span>
+
+    /**
+     * Fills this grid. /!\ This method should only be used in a unit test /!\.
+     */
+    void fillWith(Player owner) {
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        if (cells.isEmpty()) {</span>
+<span class="fc" id="L148">            setOwner(owner);</span>
+        } else {
+<span class="fc" id="L150">            cells.forEach(cell -&gt; cell.fillWith(owner));</span>
+        }
+<span class="fc" id="L152">     }</span>
+
+    /**
+     * Gets the cell located at the given position in this grid.
+     *
+     * @param position is the position of the cell to get.
+     * @return the cell located at the given position in this grid.
+     * @throws NullPointerException is the given position is null.
+     */
+    final Grid getCellAt(Position position) {
+<span class="fc" id="L162">        requireNonNull(position, &quot;Trying to get a cell but the given &quot;</span>
+                + &quot;position is null.&quot;);
+<span class="fc" id="L164">        Grid target = null;</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        for (Grid cell : cells) {</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">            if (position.equals(cell.getPosition())) {</span>
+<span class="fc" id="L167">                target = cell;</span>
+            }
+<span class="fc" id="L169">        }</span>
+<span class="fc" id="L170">        return target;</span>
+    }
+
+    private boolean isARowOf(int row, Player owner) {
+<span class="fc" id="L174">        requireNonNull(owner, &quot;Impossible to tell if row &quot; + row + &quot; is a row of &quot;</span>
+                + &quot;null.&quot;);
+<span class="fc" id="L176">        requireValidCoordinate(row, row + &quot; is not a valid row.&quot;);</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">        return cells.isEmpty() ? false : cells.stream()</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">                .filter(cell -&gt; row == cell.getPosition().getRow())</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">                .allMatch(cell -&gt; cell.getOwner() == owner);</span>
+    }
+
+    private boolean isAColumnOf(int column, Player owner) {
+<span class="fc" id="L183">        requireNonNull(owner, &quot;Impossible to tell if column &quot; + column + &quot; is a &quot;</span>
+                + &quot;column of null.&quot;);
+<span class="fc" id="L185">        requireValidCoordinate(column, column + &quot; is not a valid column.&quot;);</span>
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">        return cells.isEmpty() ? false : cells.stream()</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">                .filter(cell -&gt; column == cell.getPosition().getColumn())</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">                .allMatch(cell -&gt; cell.getOwner() == owner);</span>
+    }
+
+    private boolean isOnDescendingDiagonal(Grid cell) {
+<span class="fc" id="L192">        requireNonNull(cell, &quot;Impossible to tell if null is on the descending &quot;</span>
+                + &quot;diagonal.&quot;);
+<span class="fc bfc" id="L194" title="All 2 branches covered.">        return cell.getPosition().getRow() == cell.getPosition().getColumn();</span>
+    }
+
+    private boolean hasDescendingDiagonalOf(Player owner) {
+<span class="fc" id="L198">        requireNonNull(owner, &quot;Impossible to tell if the descending diagonal&quot;</span>
+                + &quot; is a diagonal of null.&quot;);
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        return cells.isEmpty() ? false : cells.stream()</span>
+<span class="fc" id="L201">                .filter(cell -&gt; isOnDescendingDiagonal(cell))</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">                .allMatch(cell -&gt; cell.getOwner() == owner);</span>
+    }
+
+    private boolean isOnAscendingDiagonal(Grid cell) {
+<span class="fc" id="L206">        requireNonNull(cell, &quot;Impossible to tell if null is on the ascending &quot;</span>
+                + &quot;diagonal.&quot;);
+<span class="fc" id="L208">        int row = cell.getPosition().getRow();</span>
+<span class="fc" id="L209">        int col = cell.getPosition().getColumn();</span>
+<span class="pc bpc" id="L210" title="1 of 4 branches missed.">        return row == size - 1 - col &amp;&amp; col == size - 1 - row;</span>
+    }
+
+    private boolean hasAscendingDiagonalOf(Player owner) {
+<span class="fc" id="L214">        requireNonNull(owner, &quot;Impossible to tell if the ascending diagonal&quot;</span>
+                + &quot; is a diagonal of null.&quot;);
+<span class="fc bfc" id="L216" title="All 2 branches covered.">        return cells.isEmpty() ? false : cells.stream()</span>
+<span class="fc" id="L217">                .filter(cell -&gt; isOnAscendingDiagonal(cell))</span>
+<span class="fc bfc" id="L218" title="All 2 branches covered.">                .allMatch(cell -&gt; cell.getOwner() == owner);</span>
+    }
+
+    /**
+     * Tells if this grid has a full row owned by the given owner.
+     *
+     * @param owner is the owner of a row.
+     * @return true if this grid has a full row owned by the given owner.
+     * @throws NullPointerException is the owner is null.
+     */
+    final boolean hasFullRowOwnedBy(Player owner) {
+<span class="fc" id="L229">        requireNonNull(owner, &quot;Impossible to tell if this grid has a full row &quot;</span>
+                + &quot;owned by null.&quot;);
+<span class="fc" id="L231">        int row = 0;</span>
+<span class="fc" id="L232">        boolean hasFullRowOf = false;</span>
+<span class="fc bfc" id="L233" title="All 4 branches covered.">        while (row &lt; size &amp;&amp; !hasFullRowOf) {</span>
+<span class="fc" id="L234">            hasFullRowOf = isARowOf(row, owner);</span>
+<span class="fc" id="L235">            row++;</span>
+        }
+<span class="fc" id="L237">        return hasFullRowOf;</span>
+    }
+
+    /**
+     * Tells if this grid has a full column owned by the given owner.
+     *
+     * @param owner is the owner of a column.
+     * @return true if this grid has a full column owned by the given owner.
+     * @throws NullPointerException is the owner is null.
+     */
+    final boolean hasFullColumnOwnedBy(Player owner) {
+<span class="fc" id="L248">        requireNonNull(owner, &quot;Impossible to tell if this grid has a full column &quot;</span>
+                + &quot;owned by null.&quot;);
+<span class="fc" id="L250">        int column = 0;</span>
+<span class="fc" id="L251">        boolean hasFullColumnOf = false;</span>
+<span class="fc bfc" id="L252" title="All 4 branches covered.">        while (column &lt; size &amp;&amp; !hasFullColumnOf) {</span>
+<span class="fc" id="L253">            hasFullColumnOf = isAColumnOf(column, owner);</span>
+<span class="fc" id="L254">            column++;</span>
+        }
+<span class="fc" id="L256">        return hasFullColumnOf;</span>
+    }
+
+    /**
+     * Tells if this grid has a full diagonal owned by the given owner.
+     *
+     * @param owner is the owner of a diagonal.
+     * @return true if this grid has a full diagonal owned by the given owner.
+     * @throws NullPointerException is the owner is null.
+     */
+    final boolean hasFullDiagonalOwnedBy(Player owner) {
+<span class="fc" id="L267">        requireNonNull(owner, &quot;Impossible to tell if this grid has a full &quot;</span>
+                + &quot;diagonal owned by null.&quot;);
+<span class="fc bfc" id="L269" title="All 4 branches covered.">        return hasAscendingDiagonalOf(owner) || hasDescendingDiagonalOf(owner);</span>
+    }
+
+    /**
+     * Tells if this grid is owned by the given player.
+     *
+     * @param owner is the given player.
+     * @return true if this grid is owned by the given player.
+     */
+    final boolean isOwnedBy(Player owner) {
+<span class="fc bfc" id="L279" title="All 2 branches covered.">        return hasFullRowOwnedBy(owner)</span>
+<span class="fc bfc" id="L280" title="All 2 branches covered.">                || hasFullColumnOwnedBy(owner)</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">                || hasFullDiagonalOwnedBy(owner);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

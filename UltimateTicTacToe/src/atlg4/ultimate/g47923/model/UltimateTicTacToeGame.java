@@ -153,7 +153,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     }
 
     @Override
-    public boolean hasMoves() {
+    public boolean isStarted() {
         return !isFirstTurn();
     }
 
@@ -234,10 +234,7 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     }
 
     private boolean hasCurrentPlayerSelectedAPosition() {
-        if (currentMove == null) {
-            throw new IllegalStateException("Select a position before playing!");
-        }
-        return currentMove.getAuthor().getMarker()
+        return currentMove != null && currentMove.getAuthor().getMarker()
                 == getCurrentPlayer().getMarker();
     }
 

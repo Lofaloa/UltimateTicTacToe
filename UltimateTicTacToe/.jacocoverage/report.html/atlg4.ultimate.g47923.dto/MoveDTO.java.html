@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MoveDTO.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UltimateTicTacToe&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">atlg4.ultimate.g47923.dto</a> &gt; <span class="el_source">MoveDTO.java</span></div><h1>MoveDTO.java</h1><pre class="source lang-java linenums">package atlg4.ultimate.g47923.dto;
+
+import static java.util.Objects.requireNonNull;
+
+/**
+ * Data transfer object for a Move.
+ *
+ * @author Logan Farci (47923)
+ */
+public class MoveDTO {
+
+    private final PlayerDTO author;
+    private final PositionDTO miniTicTacToePosition;
+    private final PositionDTO cellPosition;
+    private final boolean isWinning;
+
+    /**
+     * Constructs this move data transfer object with the given player, the
+     * specified &lt;code&gt;MiniTicTacToe&lt;/code&gt; position and &lt;code&gt;Cell&lt;/code&gt;
+     * position.
+     *
+     * @param author is the player that makes this move.
+     * @param mini is the position of the &lt;code&gt;MiniTicTacToe&lt;/code&gt; where this
+     * move is made.
+     * @param cell is the position of the &lt;code&gt;Cell&lt;/code&gt; in the given
+     * &lt;code&gt;MiniTicTacToe&lt;/code&gt; where this move is made.
+     * @param isWinning tells if this move has lead to a
+     * &lt;code&gt;MiniTicTacToe&lt;/code&gt; win.
+     */
+    public MoveDTO(PlayerDTO author, PositionDTO mini, PositionDTO cell,
+<span class="fc" id="L31">            boolean isWinning) {</span>
+<span class="fc" id="L32">        this.author = requireNonNull(author, &quot;This move author is null.&quot;);</span>
+<span class="fc" id="L33">        this.miniTicTacToePosition = requireNonNull(mini, &quot;This move &quot;</span>
+                + &quot;MiniTicTacToe position is null.&quot;);
+<span class="fc" id="L35">        this.cellPosition = requireNonNull(cell, &quot;This move Cell position is &quot;</span>
+                + &quot;null.&quot;);
+<span class="fc" id="L37">        this.isWinning = isWinning;</span>
+<span class="fc" id="L38">    }</span>
+
+    /**
+     * Gets this move author data transfer object.
+     *
+     * @return this move author data transfer object.
+     */
+    public PlayerDTO getAuthor() {
+<span class="fc" id="L46">        return author;</span>
+    }
+
+    /**
+     * Gets this move &lt;code&gt;MiniTicTacToe&lt;/code&gt; position.
+     *
+     * @return this move &lt;code&gt;MiniTicTacToe&lt;/code&gt; position.
+     */
+    public PositionDTO getMiniTicTacToePosition() {
+<span class="nc" id="L55">        return miniTicTacToePosition;</span>
+    }
+
+    /**
+     * Gets this move &lt;code&gt;Cell&lt;/code&gt; position.
+     *
+     * @return this move &lt;code&gt;Cell&lt;/code&gt; position.
+     */
+    public PositionDTO getCellPosition() {
+<span class="fc" id="L64">        return cellPosition;</span>
+    }
+
+    /**
+     * Tells if this move has lead to a &lt;code&gt;MiniTicTacToe&lt;/code&gt; win.
+     *
+     * @return true id this move has lead to a &lt;code&gt;MiniTicTacToe&lt;/code&gt; win.
+     */
+    public boolean isWinning() {
+<span class="nc" id="L73">        return isWinning;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
