@@ -8,10 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.stage.Stage;
 
 /**
  * Error alert that displays its exception stack trace in the dialog details.
- * 
+ *
  * @author Logan Farci (47923)
  */
 public class ErrorAlert extends Alert {
@@ -19,6 +20,8 @@ public class ErrorAlert extends Alert {
     private static final String TITLE = "Error";
     private static final String HEADER = "An error occured and could not be "
             + "taken care of...";
+    private static final int MIN_WIDTH = 300;
+    private static final int MIN_HEIGHT = 400;
 
     private final Exception exception;
 
@@ -33,6 +36,15 @@ public class ErrorAlert extends Alert {
                 + "with null exception.");
         setText();
         setStackTrace();
+        Stage stage = (Stage) getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
+        
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        
+//        getDialogPane().minWidthProperty().bind(stage.widthProperty());
+//        getDialogPane().minHeightProperty().bind(stage.heightProperty());
+//        
     }
 
     private void setText() {
@@ -40,7 +52,7 @@ public class ErrorAlert extends Alert {
         setHeaderText(HEADER);
         setContentText(exception.getMessage());
     }
-    
+
     private void setStackTrace() {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
