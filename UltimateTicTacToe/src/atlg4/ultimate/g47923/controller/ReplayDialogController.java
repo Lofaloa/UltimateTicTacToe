@@ -62,13 +62,7 @@ public class ReplayDialogController implements Initializable {
     }
 
     @FXML
-    private void setCrossesUser(ActionEvent event) {
-        String pseudonym = view.askPseudonym();
-        setUser(pseudonym);
-    }
-
-    @FXML
-    private void setCirclesUser(ActionEvent event) {
+    private void setUser(ActionEvent event) {
         String pseudonym = view.askPseudonym();
         setUser(pseudonym);
     }

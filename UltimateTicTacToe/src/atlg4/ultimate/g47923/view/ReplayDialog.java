@@ -4,6 +4,7 @@ import atlg4.ultimate.g47923.controller.ReplayDialogController;
 import atlg4.ultimate.g47923.model.Game;
 import atlg4.ultimate.g47923.model.Marker;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.fxml.FXMLLoader;
@@ -59,11 +60,23 @@ class ReplayDialog extends Dialog<ButtonType> implements Observer {
             getPlayerLabel(marker).setText(pseudonym);
         }
     }
+    
+    private void updateHeader(String header) {
+        ((Label) getDialogPane().lookup("#headerText")).setText(header);
+    }
 
     @Override
     public void update(Observable o, Object o1) {
         setPseudonymLabelFor(Marker.X);
         setPseudonymLabelFor(Marker.O);
+        if (game.isOver()) {
+            if (game.isTied()) {
+                updateHeader("The game is over with a tied!");
+            } else {
+                String pseudonym = game.getWinner().getUser().getPseudonym();
+                updateHeader("Congratulations " + pseudonym + ", you win!");
+            }
+        }
     }
 
 }

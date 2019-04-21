@@ -143,6 +143,14 @@ public class UltimateTicTacToeGame extends Observable implements Game {
     public boolean isOver() {
         return board.hasOwner() || board.isFull() || hasAPlayerWithdrawn();
     }
+    
+    @Override
+    public boolean isTied() {
+        if (!isOver()) {
+            throw new IllegalStateException("The game is not over yet");
+        }
+        return board.isFull() && !board.hasOwner();
+    }
 
     @Override
     public boolean hasMoves() {

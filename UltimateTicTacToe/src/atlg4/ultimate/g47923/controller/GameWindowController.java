@@ -110,7 +110,6 @@ public class GameWindowController implements Initializable {
     }
 
     private void updateDataBase() {
-        System.out.println("UPDATING THE DATA BASE");
         UsersFacade.updateUser(game.getPlayer(Marker.X).getUser());
         UsersFacade.updateUser(game.getPlayer(Marker.O).getUser());
     }

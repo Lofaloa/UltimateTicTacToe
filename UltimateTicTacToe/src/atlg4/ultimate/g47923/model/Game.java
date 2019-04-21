@@ -67,6 +67,14 @@ public interface Game {
      * @return true if this game is over.
      */
     boolean isOver();
+    
+    /**
+     * Tells if this game is over with a tie.
+     * 
+     * @return true if the game is over with a tie.
+     * @throws IllegalStateException is the game is not over.
+     */
+    boolean isTied();
 
     /**
      * Starts a game.
