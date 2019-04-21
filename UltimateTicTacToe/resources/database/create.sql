@@ -1,3 +1,9 @@
+--------------------------------------------------------------------------------
+-- Contains creation instruction for the Ultimate Tic Tac Toe game.
+--
+-- Author: Logan Farci (47923)
+--------------------------------------------------------------------------------
+
 -- Represents an user that once played the game.
 create table USERS (
     pseudonym varchar(20) primary key,
@@ -11,7 +17,7 @@ ALTER TABLE USERS
 ADD CONSTRAINT checkPseudonymLength 
 CHECK (LENGTH(pseudonym) >= 8);
 
--- A pseudonym should be composed of laphabetical characters only.
+-- A pseudonym should be composed of alphabetical characters only.
 ALTER TABLE USERS 
 ADD CONSTRAINT checkPseudonymNoSpecialCharacters 
 CHECK (pseudonym NOT LIKE '%[^a-zA-Z0-9]%');
