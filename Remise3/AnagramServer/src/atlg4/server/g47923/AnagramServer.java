@@ -1,6 +1,13 @@
 package atlg4.server.g47923;
 
+import anagram.exception.ModelException;
+import anagram.model.Facade;
+import anagram.model.Model;
 import atlg4.g47923.anagram.message.Message;
+import atlg4.g47923.anagram.message.PlayersMessage;
+import atlg4.g47923.anagram.message.ProfileMessage;
+import atlg4.g47923.anagram.players.Players;
+import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
@@ -38,6 +45,8 @@ public class AnagramServer extends AbstractServer {
     }
 
     private int currentClientId;
+    private final Players players;
+    private final Facade anagram;
 
     /**
      * Constructs the server. Build a thread to listen connection request.
@@ -45,9 +54,13 @@ public class AnagramServer extends AbstractServer {
      * @throws IOException if an I/O error occurs when creating the server
      * socket.
      */
-    public AnagramServer() throws IOException {
+    public AnagramServer() throws IOException, ModelException {
         super(PORT);
         this.currentClientId = 0;
+        this.players = new Players();
+        this.anagram = new Model();
+        anagram.initialize();
+        anagram.start();
         this.listen();
     }
 
@@ -98,9 +111,23 @@ public class AnagramServer extends AbstractServer {
         switch (message.getType()) {
             case PROFILE:
                 // new client connection
+                int playerId = (int) client.getInfo("ID");
+                User author = message.getAuthor();
+                players.changeName(author.getName(), playerId);
+                Message messageName = new ProfileMessage(playerId, author.getName());
+                sendToClient(messageName, playerId);
+                sendToAllClients(new PlayersMessage(players));
                 break;
             case PROPOSAL:
-                // proposal validation
+                try {
+                    if(anagram.propose((String) message.getContent())) {
+                        // SUCCESS
+                    } else {
+                        // FAILURE
+                    }
+                } catch (ModelException ex) {
+                    clientException(client, ex);
+                }
                 break;
             case PLAYERS:
                 break;
@@ -121,6 +148,14 @@ public class AnagramServer extends AbstractServer {
     protected synchronized void clientException(ConnectionToClient client, Throwable exception) {
         super.clientException(client, exception);
         // envoie d'exception au client
+    }
+
+    void sendToClient(Message message, User recipient) {
+        sendToClient(message, recipient.getId());
+    }
+
+    void sendToClient(Message message, int clientId) {
+
     }
 
 }
