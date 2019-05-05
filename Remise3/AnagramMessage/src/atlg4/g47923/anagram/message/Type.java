@@ -17,6 +17,17 @@ public enum Type {
     PROPOSAL,
     
     /**
+     * Word sent from the server to a specific player.
+     */
+    WORD,
+    
+    /**
+     * A signal has no significant content but is used to inform that an event
+     * took place.
+     */
+    SIGNAL,
+    
+    /**
      * Message with the list of all connected users.
      */
     PLAYERS

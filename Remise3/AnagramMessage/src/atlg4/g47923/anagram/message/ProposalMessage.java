@@ -3,7 +3,7 @@ package atlg4.g47923.anagram.message;
 import atlg4.g47923.anagram.players.User;
 
 /**
- * The <code> Message </code> represents a message with the an anagram proposal
+ * The <code> Message </code> represents a message with an anagram proposal
  * made by a specific player.
  */
 public class ProposalMessage implements Message {
