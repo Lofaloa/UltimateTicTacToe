@@ -1,44 +1,136 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package atlg4.client.g47923;
 
+import atlg4.g47923.anagram.message.Message;
+import atlg4.g47923.anagram.message.ProfileMessage;
+import atlg4.g47923.anagram.message.Type;
+import atlg4.g47923.anagram.players.Players;
+import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 /**
- *
- * @author logan
+ * The <code> ChatClient </code> contains all the methods necessary to set up a
+ * Instant messaging client.
  */
-public class AnagramClient extends Application {
+public class AnagramClient extends AbstractClient {
 
-    private static final String TITLE = "Anagram";
-    private static final String FXML_PATH = "/fxml/AnagramWindow.fxml";
+    private final Players players;
+    private User mySelf;
+
+    /**
+     * Constructs the client. Opens the connection with the server. Sends the
+     * user name inside a <code> MessageProfile </code> to the server. Builds an
+     * empty list of users.
+     *
+     * @param host the server's host name.
+     * @param port the port number.
+     * @param name the name of the user.
+     * @param password the password needed to connect.
+     * @throws IOException if an I/O error occurs when opening.
+     */
+    public AnagramClient(String host, int port, String name, String password) throws IOException {
+        super(host, port);
+        openConnection();
+        updateName(name);
+        players = new Players();
+    }
 
     @Override
-    public void start(Stage primaryStage) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource(FXML_PATH));
-            Scene scene = new Scene(loader.load());
-            primaryStage.setTitle(TITLE);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+    protected void handleMessageFromServer(Object msg) {
+        Message message = (Message) msg;
+        Type type = message.getType();
+        switch (type) {
+            case PROFILE:
+                // on doit recevoir son profile je pense, on se connecte, 
+                // le serveur nous renvoie notre profile
+                break;
+            case PROPOSAL:
+                // je pense que l'on doit rien faire: le serveur n'envoit pas
+                // de proposal
+                break;
+            case PLAYERS:
+                // ici on doit stocker la liste des joueurs
+                Players players = (Players) message.getContent();
+                updatePlayers(players);
+                break;
+            default:
+                throw new IllegalArgumentException("Message type unknown " + type);
         }
     }
 
     /**
-     * @param args the command line arguments
+     * Quits the client and closes all aspects of the connection to the server.
+     *
+     * @throws IOException if an I/O error occurs when closing.
      */
-    public static void main(String[] args) {
-        launch(args);
+    public void quit() throws IOException {
+        closeConnection();
+    }
+
+    /**
+     * Return all the connected users.
+     *
+     * @return all the connected users.
+     */
+    public Players getPlayers() {
+        return players;
+    }
+
+    /**
+     * Return the user with the given id.
+     *
+     * @param id of the user.
+     * @return the user with the given id.
+     */
+    public User getUsers(int id) {
+        return players.getUser(id);
+    }
+
+    /**
+     * Return the user.
+     *
+     * @return the user.
+     */
+    public User getMySelf() {
+        return mySelf;
+    }
+
+    void setMySelf(User user) {
+        this.mySelf = user;
+    }
+
+    void updatePlayers(Players players) {
+        this.players.clear();
+        for (User member : players) {
+            this.players.add(member);
+        }
+        notifyChange();
+    }
+
+    void showMessage(Message message) {
+        notifyView(message);
+    }
+
+    private void updateName(String name) throws IOException {
+        sendToServer(new ProfileMessage(0, name));
+    }
+
+    private void notifyChange() {
+        setChanged();
+        notifyObservers();
+    }
+
+    private void notifyView(Message message) {
+        setChanged();
+        notifyObservers(message);
+    }
+
+    /**
+     * Return the numbers of connected users.
+     *
+     * @return the numbers of connected users.
+     */
+    public int getNbConnected() {
+        return players.size();
     }
 
 }
