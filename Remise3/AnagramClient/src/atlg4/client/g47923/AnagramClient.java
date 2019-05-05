@@ -2,14 +2,15 @@ package atlg4.client.g47923;
 
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.ProfileMessage;
+import atlg4.g47923.anagram.message.ProposalMessage;
 import atlg4.g47923.anagram.message.Type;
 import atlg4.g47923.anagram.players.Players;
 import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
 
 /**
- * The <code> ChatClient </code> contains all the methods necessary to set up a
- * Instant messaging client.
+ * The <code> AnagramClient </code> contains all the methods necessary to set up
+ * an Anagram game client.
  */
 public class AnagramClient extends AbstractClient {
 
@@ -18,7 +19,7 @@ public class AnagramClient extends AbstractClient {
 
     /**
      * Constructs the client. Opens the connection with the server. Sends the
-     * user name inside a <code> MessageProfile </code> to the server. Builds an
+     * user name inside a <code> ProfileMessage </code> to the server. Builds an
      * empty list of users.
      *
      * @param host the server's host name.
@@ -40,8 +41,7 @@ public class AnagramClient extends AbstractClient {
         Type type = message.getType();
         switch (type) {
             case PROFILE:
-                // on doit recevoir son profile je pense, on se connecte, 
-                // le serveur nous renvoie notre profile
+                setMySelf(message.getAuthor());
                 break;
             case PROPOSAL:
                 // je pense que l'on doit rien faire: le serveur n'envoit pas
@@ -76,22 +76,30 @@ public class AnagramClient extends AbstractClient {
     }
 
     /**
-     * Return the user with the given id.
-     *
-     * @param id of the user.
-     * @return the user with the given id.
-     */
-    public User getUsers(int id) {
-        return players.getUser(id);
-    }
-
-    /**
      * Return the user.
      *
      * @return the user.
      */
     public User getMySelf() {
         return mySelf;
+    }
+    
+    /**
+     * Sends the given proposal to the server.
+     * 
+     * @param proposal is the given proposal. 
+     */
+    public void sendProposal(String proposal) throws IOException {
+        if (proposal == null || proposal.isEmpty()) {
+            throw new IllegalArgumentException("Pas de proposition donnée!");
+        }
+        System.out.println("MySelf is " + mySelf);
+        Message message = new ProposalMessage(
+                proposal,
+                mySelf.getId(),
+                mySelf.getName()
+        );
+        sendToServer(message);
     }
 
     void setMySelf(User user) {
@@ -103,7 +111,7 @@ public class AnagramClient extends AbstractClient {
         for (User member : players) {
             this.players.add(member);
         }
-        notifyChange();
+        notifyView();
     }
 
     void showMessage(Message message) {
@@ -114,7 +122,7 @@ public class AnagramClient extends AbstractClient {
         sendToServer(new ProfileMessage(0, name));
     }
 
-    private void notifyChange() {
+    private void notifyView() {
         setChanged();
         notifyObservers();
     }
