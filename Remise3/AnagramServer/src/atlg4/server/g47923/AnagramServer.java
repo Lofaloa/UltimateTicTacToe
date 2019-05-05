@@ -108,20 +108,22 @@ public class AnagramServer extends AbstractServer {
     @Override
     protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
         Message message = (Message) msg;
-        System.out.println(msg);
+        System.out.println("Recu du client: " + msg + " de type " + message.getType());
         switch (message.getType()) {
             case PROFILE:
-                // new client connection
+                System.out.println("TYPE PROFILE HANDLING - BEGIN");
                 int playerId = (int) client.getInfo("ID");
                 User author = message.getAuthor();
+                System.out.println(author.getName());
                 players.changeName(author.getName(), playerId);
                 Message messageName = new ProfileMessage(playerId, author.getName());
                 sendToClient(messageName, playerId);
                 sendToAllClients(new PlayersMessage(players));
+                System.out.println("TYPE PROFILE HANDLING - END");
                 break;
             case PROPOSAL:
                 try {
-                    if(anagram.propose((String) message.getContent())) {
+                    if (anagram.propose((String) message.getContent())) {
                         // SUCCESS
                     } else {
                         // FAILURE
@@ -140,8 +142,12 @@ public class AnagramServer extends AbstractServer {
 
     @Override
     protected void clientConnected(ConnectionToClient client) {
-        // Exécuté à la connexion d'un client
         super.clientConnected(client);
+        int playerID = players.add(getNextId(), client.getName(), client.getInetAddress());
+        client.setInfo("ID", playerID);
+        sendToAllClients(new PlayersMessage(players));
+        setChanged();
+        notifyObservers();
 
     }
 
@@ -156,7 +162,23 @@ public class AnagramServer extends AbstractServer {
     }
 
     void sendToClient(Message message, int clientId) {
-
+        Thread connection = null;
+        for (Thread clientConnection : getClientConnections()) {
+            ConnectionToClient client = (ConnectionToClient) clientConnection;
+            if (((int) client.getInfo("ID")) == clientId) {
+                connection = clientConnection;
+            }
+        }
+        if (connection == null) {
+            throw new IllegalArgumentException("The client with id " + clientId
+                    + " does not exist.");
+        } else {
+            try {
+                ((ConnectionToClient) connection).sendToClient(message);
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
     }
 
 }

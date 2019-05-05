@@ -32,7 +32,7 @@ public class AnagramClientMain extends Application {
             client = new AnagramClient(
                     DEFAULT_HOST,
                     DEFAULT_PORT,
-                    TITLE, TITLE
+                    "Logan", ""
             );
             Parent root = new AnagramWindow(client);
             Scene scene = new Scene(root);
