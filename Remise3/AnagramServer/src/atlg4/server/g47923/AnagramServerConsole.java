@@ -1,8 +1,6 @@
 package atlg4.server.g47923;
 
 import anagram.exception.ModelException;
-import anagram.model.Facade;
-import anagram.model.Model;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;

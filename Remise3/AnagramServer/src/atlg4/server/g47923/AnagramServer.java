@@ -108,6 +108,7 @@ public class AnagramServer extends AbstractServer {
     @Override
     protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
         Message message = (Message) msg;
+        System.out.println(msg);
         switch (message.getType()) {
             case PROFILE:
                 // new client connection
