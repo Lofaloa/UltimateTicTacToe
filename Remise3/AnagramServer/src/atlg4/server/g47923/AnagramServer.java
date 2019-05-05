@@ -127,14 +127,16 @@ public class AnagramServer extends AbstractServer {
 
                 sendToClient(messageName, playerId);
                 sendToClient(word, playerId);
-                //sendToAllClients(new PlayersMessage(players));
+                sendToAllClients(new PlayersMessage(players));
                 break;
             case PROPOSAL:
                 try {
                     if (anagram.propose((String) message.getContent())) {
                         // SUCCESS
+                        System.out.println("SUCCESS");
                     } else {
                         // FAILURE
+                        System.out.println("FAILURE");
                     }
                 } catch (ModelException ex) {
                     clientException(client, ex);

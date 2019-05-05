@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -33,7 +34,7 @@
                <children>
                   <Label fx:id="anagram">
                      <font>
-                        <Font size="23.0" />
+                        <Font size="30.0" />
                      </font>
                   </Label>
                </children>
@@ -53,18 +54,20 @@
                         <Font size="16.0" />
                      </font>
                   </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+               <children>
                   <Button id="check" mnemonicParsing="false" onAction="#check" text="Check" />
                   <Button id="pass" mnemonicParsing="false" onAction="#pass" text="Pass" />
                </children>
             </HBox>
-            <HBox alignment="CENTER" spacing="10.0">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-            </HBox>
          </children>
          <BorderPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets />
          </BorderPane.margin>
       </VBox>
    </center>
@@ -84,4 +87,10 @@
          </children>
       </VBox>
    </bottom>
+   <right>
+      <ScrollPane fx:id="players" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="TOP_CENTER">
+         <content>
+            <Label text="Aucun autre joueur" />
+         </content></ScrollPane>
+   </right>
 </fx:root>

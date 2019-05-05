@@ -100,11 +100,8 @@ public class AnagramWindow extends BorderPane implements Observer {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("WORD UPDATED - BEGIN");
                         String word = (String) message.getContent();
                         anagram.setText(word);
-                        System.out.println("WORD: " + word);
-                        System.out.println("WORD UPDATED - END");
                     }
                 });
 
