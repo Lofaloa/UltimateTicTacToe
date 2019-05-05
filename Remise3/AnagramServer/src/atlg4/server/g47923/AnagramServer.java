@@ -6,6 +6,7 @@ import anagram.model.Model;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.PlayersMessage;
 import atlg4.g47923.anagram.message.ProfileMessage;
+import atlg4.g47923.anagram.message.WordMessage;
 import atlg4.g47923.anagram.players.Players;
 import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
@@ -111,15 +112,22 @@ public class AnagramServer extends AbstractServer {
         System.out.println("Recu du client: " + msg + " de type " + message.getType());
         switch (message.getType()) {
             case PROFILE:
-                System.out.println("TYPE PROFILE HANDLING - BEGIN");
                 int playerId = (int) client.getInfo("ID");
                 User author = message.getAuthor();
                 System.out.println(author.getName());
                 players.changeName(author.getName(), playerId);
                 Message messageName = new ProfileMessage(playerId, author.getName());
+
+                Message word = null;
+                try {
+                    word = new WordMessage(playerId, author.getName(), anagram.nextWord());
+                } catch (ModelException ex) {
+                    Logger.getLogger(AnagramServer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
                 sendToClient(messageName, playerId);
-                sendToAllClients(new PlayersMessage(players));
-                System.out.println("TYPE PROFILE HANDLING - END");
+                sendToClient(word, playerId);
+                //sendToAllClients(new PlayersMessage(players));
                 break;
             case PROPOSAL:
                 try {
@@ -131,6 +139,8 @@ public class AnagramServer extends AbstractServer {
                 } catch (ModelException ex) {
                     clientException(client, ex);
                 }
+                break;
+            case WORD:
                 break;
             case PLAYERS:
                 break;

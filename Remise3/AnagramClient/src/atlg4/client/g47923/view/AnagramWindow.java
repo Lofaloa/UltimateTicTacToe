@@ -1,12 +1,16 @@
 package atlg4.client.g47923.view;
 
 import atlg4.client.g47923.AnagramClient;
+import atlg4.g47923.anagram.message.Message;
+import atlg4.g47923.anagram.message.Type;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
@@ -22,6 +26,10 @@ public class AnagramWindow extends BorderPane implements Observer {
 
     @FXML
     private TextField proposal;
+
+    @FXML
+    private Label anagram;
+
     private final AnagramClient client;
 
     /**
@@ -86,6 +94,22 @@ public class AnagramWindow extends BorderPane implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         System.out.println("UPDATE");
+        if (arg != null) {
+            Message message = (Message) arg;
+            if (message.getType() == Type.WORD) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("WORD UPDATED - BEGIN");
+                        String word = (String) message.getContent();
+                        anagram.setText(word);
+                        System.out.println("WORD: " + word);
+                        System.out.println("WORD UPDATED - END");
+                    }
+                });
+
+            }
+        }
     }
 
 }

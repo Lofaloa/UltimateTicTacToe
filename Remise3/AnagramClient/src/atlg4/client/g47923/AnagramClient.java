@@ -45,11 +45,12 @@ public class AnagramClient extends AbstractClient {
                 setMySelf(message.getAuthor());
                 break;
             case PROPOSAL:
-                // je pense que l'on doit rien faire: le serveur n'envoit pas
-                // de proposal
+                break;
+            case WORD:
+                // afficher le mot sur la vue
+                showMessage(message);
                 break;
             case PLAYERS:
-                // ici on doit stocker la liste des joueurs
                 Players players = (Players) message.getContent();
                 updatePlayers(players);
                 break;

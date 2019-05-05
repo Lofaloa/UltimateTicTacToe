@@ -31,17 +31,7 @@
          <children>
             <HBox alignment="CENTER">
                <children>
-                  <Label text="Quel est l anagramme de ">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </Label>
-                  <Label id="anagram" text="&lt;amagram&gt;">
-                     <font>
-                        <Font size="23.0" />
-                     </font>
-                  </Label>
-                  <Label text="?">
+                  <Label fx:id="anagram">
                      <font>
                         <Font size="23.0" />
                      </font>
