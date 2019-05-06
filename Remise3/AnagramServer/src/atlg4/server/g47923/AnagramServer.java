@@ -196,10 +196,14 @@ public class AnagramServer extends AbstractServer {
         sendToAllClients(new PlayersMessage(players));
     }
 
-    private void handle(ProposalMessage message, ConnectionToClient client) {
+    private void handle(ProposalMessage proposal, ConnectionToClient client) {
         try {
-            if (anagram.propose((String) message.getContent())) {
-                System.out.println("SUCCESS");
+            if (anagram.propose((String) proposal.getContent())) {
+                WordMessage nextWord = new WordMessage(
+                        proposal.getAuthor().getId(), 
+                        proposal.getAuthor().getName(),
+                        anagram.nextWord());
+                sendToClient(nextWord, proposal.getAuthor().getId());
             } else {
                 System.out.println("FAILURE");
             }

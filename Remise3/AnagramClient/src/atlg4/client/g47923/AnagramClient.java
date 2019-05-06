@@ -95,7 +95,6 @@ public class AnagramClient extends AbstractClient {
         if (proposal == null || proposal.isEmpty()) {
             throw new IllegalArgumentException("Pas de proposition donnée!");
         }
-        System.out.println("MySelf is " + mySelf);
         Message message = new ProposalMessage(
                 proposal,
                 mySelf.getId(),

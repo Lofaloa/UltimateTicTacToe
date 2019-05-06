@@ -61,6 +61,7 @@ public class AnagramWindow extends BorderPane implements Observer {
         System.out.println("CHECK");
         try {
             String proposal = this.proposal.getText();
+            this.proposal.clear();
             client.sendProposal(proposal);
         } catch (IOException e) {
             System.err.println(e.getMessage());
