@@ -18,6 +18,7 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,7 +51,7 @@ public class AnagramServer extends AbstractServer {
 
     private int currentClientId;
     private final Players players;
-    private final Facade anagram;
+    private final HashMap<Integer, Facade> games;
 
     /**
      * Constructs the server. Build a thread to listen connection request.
@@ -62,9 +63,7 @@ public class AnagramServer extends AbstractServer {
         super(PORT);
         this.currentClientId = 0;
         this.players = new Players();
-        this.anagram = new Model();
-        anagram.initialize();
-        anagram.start();
+        this.games = new HashMap<>();
         this.listen();
     }
 
@@ -161,6 +160,21 @@ public class AnagramServer extends AbstractServer {
         // envoie d'exception au client
     }
 
+    @Override
+    protected synchronized void clientDisconnected(ConnectionToClient client) {
+        try {
+            client.close();
+            players.remove((int) client.getInfo("ID"));
+            games.remove((int) client.getInfo("ID"));
+            sendToAllClients(new PlayersMessage(players));
+            setChanged();
+            notifyObservers();
+        } catch (IOException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE,
+                    "Impossible de déconnecter le client!", ex);
+        }
+    }
+
     void sendToClient(Message message, User recipient) {
         sendToClient(message, recipient.getId());
     }
@@ -185,31 +199,42 @@ public class AnagramServer extends AbstractServer {
         }
     }
 
+    void startNewGameFor(ConnectionToClient client) {
+        try {
+            int clientId = (int) client.getInfo("ID");
+            Facade game = new Model();
+            game.initialize();
+            game.start();
+            games.put((int) clientId, game);
+            Message firstWord = new WordMessage(
+                    clientId,
+                    client.getName(),
+                    game.nextWord()
+            );
+            sendToClient(firstWord, clientId);
+        } catch (ModelException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     private void handle(ProfileMessage message, ConnectionToClient client) {
         int playerId = (int) client.getInfo("ID");
         User author = message.getAuthor();
         players.changeName(author.getName(), playerId);
         Message messageName = new ProfileMessage(playerId, author.getName());
-
-        Message word = null;
-        try {
-            word = new WordMessage(playerId, author.getName(), anagram.nextWord());
-        } catch (ModelException ex) {
-            Logger.getLogger(AnagramServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         sendToClient(messageName, playerId);
-        sendToClient(word, playerId);
         sendToAllClients(new PlayersMessage(players));
+        startNewGameFor(client);
     }
 
     private void handle(ProposalMessage proposal, ConnectionToClient client) {
         try {
-            if (anagram.propose((String) proposal.getContent())) {
+            Facade game = games.get(proposal.getAuthor().getId());
+            if (game.propose((String) proposal.getContent())) {
                 WordMessage nextWord = new WordMessage(
-                        proposal.getAuthor().getId(), 
+                        proposal.getAuthor().getId(),
                         proposal.getAuthor().getName(),
-                        anagram.nextWord());
+                        game.nextWord());
                 sendToClient(nextWord, proposal.getAuthor().getId());
             } else {
                 System.out.println("FAILURE");
@@ -218,11 +243,12 @@ public class AnagramServer extends AbstractServer {
             clientException(client, ex);
         }
     }
-    
+
     private void handle(PassCurrentWordMessage msg, ConnectionToClient client) {
         try {
-            String answer = anagram.pass();
-            String nextWord = anagram.nextWord();
+            Facade game = games.get(msg.getAuthor().getId());
+            String answer = game.pass();
+            String nextWord = game.nextWord();
             Message answerMessage = new AnswerMessage(
                     msg.getAuthor().getId(),
                     msg.getAuthor().getName(),
