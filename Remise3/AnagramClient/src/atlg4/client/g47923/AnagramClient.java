@@ -51,7 +51,7 @@ public class AnagramClient extends AbstractClient {
                 showMessage(message);
                 break;
             case ANSWER:
-                System.out.println("The answer was " + message.getContent());
+                showMessage(message);
                 break;
             case PASS_CURRENT_WORD:
                 break;

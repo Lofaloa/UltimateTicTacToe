@@ -30,15 +30,18 @@ public class AnagramMainWindow extends BorderPane implements Observer {
     @FXML
     private Label anagram;
 
+    private final View view;
     private final AnagramClient client;
 
     /**
      * Constructs an instance of AnagramWindow.
      *
+     * @param view is the view managing the user interface of the client.
      * @param client is the client to manage the view for.
      * @throws IOException is thrown when the FXML file cannot be loaded.
      */
-    public AnagramMainWindow(AnagramClient client) throws IOException {
+    public AnagramMainWindow(View view, AnagramClient client) throws IOException {
+        this.view = view;
         this.client = client;
         this.client.addObserver(this);
         load();
@@ -63,8 +66,8 @@ public class AnagramMainWindow extends BorderPane implements Observer {
             String proposal = this.proposal.getText();
             this.proposal.clear();
             client.sendProposal(proposal);
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
+        } catch (IllegalArgumentException | IOException e) {
+            view.showError("Erreur lors de la proposition!", e.getMessage());
         }
     }
 
@@ -74,7 +77,8 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         try {
             client.sendPassCurrentWord();
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            view.showError("Erreur au moment de passer au mot suivant!",
+                    e.getMessage());
         }
     }
 
@@ -84,13 +88,12 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         try {
             client.quit();
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            view.showError("Erreur lors de la déconnexion!", e.getMessage());
         }
     }
 
     @FXML
     private void quit(ActionEvent event) {
-        System.out.println("QUIT");
         // Vérifier que la connection soit fermer avant de quitter?
         System.exit(0);
     }
@@ -108,7 +111,20 @@ public class AnagramMainWindow extends BorderPane implements Observer {
                         anagram.setText(word);
                     }
                 });
-
+            }
+            if (message.getType() == Type.ANSWER) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        String answer = (String) message.getContent();
+                        view.showInformation(
+                                "Vous avez passé le mot",
+                                "C'est dommage! Ce n'était pourtant pas bien"
+                                + " compliqué, la réponse était \""
+                                + answer + "\"."
+                        );
+                    }
+                });
             }
         }
     }
