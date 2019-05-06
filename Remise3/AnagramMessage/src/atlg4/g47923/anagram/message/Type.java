@@ -35,6 +35,11 @@ public enum Type {
     /**
      * Message with the list of all connected users.
      */
-    PLAYERS
+    PLAYERS,
+    
+    /**
+     * Message with the statistics of a game played by a specified player.
+     */
+    STATISTICS
     
 }

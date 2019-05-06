@@ -164,6 +164,7 @@ public class AnagramServer extends AbstractServer {
     protected synchronized void clientDisconnected(ConnectionToClient client) {
         try {
             client.close();
+            
             players.remove((int) client.getInfo("ID"));
             games.remove((int) client.getInfo("ID"));
             sendToAllClients(new PlayersMessage(players));
