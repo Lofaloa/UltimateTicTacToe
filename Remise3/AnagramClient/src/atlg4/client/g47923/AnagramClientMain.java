@@ -5,13 +5,12 @@
  */
 package atlg4.client.g47923;
 
-import atlg4.client.g47923.view.AnagramWindow;
+import atlg4.client.g47923.view.AnagramView;
+import atlg4.client.g47923.view.View;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -21,24 +20,17 @@ import javafx.stage.Stage;
  */
 public class AnagramClientMain extends Application {
 
-    private static final String TITLE = "Anagram";
     private static final String DEFAULT_HOST = "localhost";
     private static final int DEFAULT_PORT = 12345;
 
     @Override
     public void start(Stage primaryStage) {
         AnagramClient client = null;
+        View view = null;
         try {
-            client = new AnagramClient(
-                    DEFAULT_HOST,
-                    DEFAULT_PORT,
-                    "Logan", ""
-            );
-            Parent root = new AnagramWindow(client);
-            Scene scene = new Scene(root);
-            primaryStage.setTitle(TITLE);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            client = new AnagramClient(DEFAULT_HOST, DEFAULT_PORT, "Logan", "");
+            view = new AnagramView(primaryStage, client);
+            view.showMainWindow();
         } catch (IOException e) {
             Logger.getLogger(getClass().getName()).log(
                     Level.SEVERE,

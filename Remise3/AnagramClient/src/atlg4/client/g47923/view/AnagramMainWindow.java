@@ -20,7 +20,7 @@ import javafx.scene.layout.BorderPane;
  *
  * @author Logan Farci (47923)
  */
-public class AnagramWindow extends BorderPane implements Observer {
+public class AnagramMainWindow extends BorderPane implements Observer {
 
     private static final String FXML_PATH = "/fxml/AnagramWindow.fxml";
 
@@ -38,7 +38,7 @@ public class AnagramWindow extends BorderPane implements Observer {
      * @param client is the client to manage the view for.
      * @throws IOException is thrown when the FXML file cannot be loaded.
      */
-    public AnagramWindow(AnagramClient client) throws IOException {
+    public AnagramMainWindow(AnagramClient client) throws IOException {
         this.client = client;
         this.client.addObserver(this);
         load();

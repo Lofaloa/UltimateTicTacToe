@@ -245,6 +245,7 @@ public class AnagramServer extends AbstractServer {
     }
 
     private void handle(PassCurrentWordMessage msg, ConnectionToClient client) {
+        // TODO: call canAskNextWOrd before passing to next word
         try {
             Facade game = games.get(msg.getAuthor().getId());
             String answer = game.pass();
