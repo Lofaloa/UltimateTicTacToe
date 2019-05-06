@@ -76,10 +76,8 @@ public class AnagramServerConsole implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("UPDATE IS CALLED");
         updatePlayers();
         if (arg != null) {
-            System.out.println("IL Y A UN ARGUMENT");
             Message message = (Message) arg;
             updateMessage(message);
         }

@@ -6,6 +6,7 @@ import anagram.model.Model;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.PlayersMessage;
 import atlg4.g47923.anagram.message.ProfileMessage;
+import atlg4.g47923.anagram.message.ProposalMessage;
 import atlg4.g47923.anagram.message.WordMessage;
 import atlg4.g47923.anagram.players.Players;
 import atlg4.g47923.anagram.players.User;
@@ -76,11 +77,11 @@ public class AnagramServer extends AbstractServer {
         }
         return getLocalAddress().getHostAddress();
     }
-    
+
     /**
      * Gets the players connected to this server.
-     * 
-     * @return the players connected to this server. 
+     *
+     * @return the players connected to this server.
      */
     public Players getPlayers() {
         return players;
@@ -120,34 +121,10 @@ public class AnagramServer extends AbstractServer {
         Message message = (Message) msg;
         switch (message.getType()) {
             case PROFILE:
-                int playerId = (int) client.getInfo("ID");
-                User author = message.getAuthor();
-                players.changeName(author.getName(), playerId);
-                Message messageName = new ProfileMessage(playerId, author.getName());
-
-                Message word = null;
-                try {
-                    word = new WordMessage(playerId, author.getName(), anagram.nextWord());
-                } catch (ModelException ex) {
-                    Logger.getLogger(AnagramServer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                sendToClient(messageName, playerId);
-                sendToClient(word, playerId);
-                sendToAllClients(new PlayersMessage(players));
+                handle((ProfileMessage) message, client);
                 break;
             case PROPOSAL:
-                try {
-                    if (anagram.propose((String) message.getContent())) {
-                        // SUCCESS
-                        System.out.println("SUCCESS");
-                    } else {
-                        // FAILURE
-                        System.out.println("FAILURE");
-                    }
-                } catch (ModelException ex) {
-                    clientException(client, ex);
-                }
+                handle((ProposalMessage) message, client);
                 break;
             case WORD:
                 break;
@@ -198,6 +175,36 @@ public class AnagramServer extends AbstractServer {
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }
+        }
+    }
+
+    private void handle(ProfileMessage message, ConnectionToClient client) {
+        int playerId = (int) client.getInfo("ID");
+        User author = message.getAuthor();
+        players.changeName(author.getName(), playerId);
+        Message messageName = new ProfileMessage(playerId, author.getName());
+
+        Message word = null;
+        try {
+            word = new WordMessage(playerId, author.getName(), anagram.nextWord());
+        } catch (ModelException ex) {
+            Logger.getLogger(AnagramServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        sendToClient(messageName, playerId);
+        sendToClient(word, playerId);
+        sendToAllClients(new PlayersMessage(players));
+    }
+
+    private void handle(ProposalMessage message, ConnectionToClient client) {
+        try {
+            if (anagram.propose((String) message.getContent())) {
+                System.out.println("SUCCESS");
+            } else {
+                System.out.println("FAILURE");
+            }
+        } catch (ModelException ex) {
+            clientException(client, ex);
         }
     }
 
