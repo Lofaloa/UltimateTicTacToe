@@ -76,6 +76,15 @@ public class AnagramServer extends AbstractServer {
         }
         return getLocalAddress().getHostAddress();
     }
+    
+    /**
+     * Gets the players connected to this server.
+     * 
+     * @return the players connected to this server. 
+     */
+    public Players getPlayers() {
+        return players;
+    }
 
     /**
      * Return the number of connected users.
@@ -109,12 +118,10 @@ public class AnagramServer extends AbstractServer {
     @Override
     protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
         Message message = (Message) msg;
-        System.out.println("Recu du client: " + msg + " de type " + message.getType());
         switch (message.getType()) {
             case PROFILE:
                 int playerId = (int) client.getInfo("ID");
                 User author = message.getAuthor();
-                System.out.println(author.getName());
                 players.changeName(author.getName(), playerId);
                 Message messageName = new ProfileMessage(playerId, author.getName());
 
@@ -160,7 +167,6 @@ public class AnagramServer extends AbstractServer {
         sendToAllClients(new PlayersMessage(players));
         setChanged();
         notifyObservers();
-
     }
 
     @Override

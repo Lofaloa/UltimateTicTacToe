@@ -1,6 +1,7 @@
 package atlg4.server.g47923;
 
 import anagram.exception.ModelException;
+import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -12,8 +13,7 @@ import java.util.logging.Logger;
  * manage the view in console mode of <code> AnagramServer </code>.
  */
 public class AnagramServerConsole implements Observer {
-    
-    
+
     /**
      * Entry point to the anagram game server side.
      *
@@ -30,7 +30,7 @@ public class AnagramServerConsole implements Observer {
             System.exit(0);
         }
     }
-    
+
     private final AnagramServer model;
 
     /**
@@ -42,9 +42,27 @@ public class AnagramServerConsole implements Observer {
         this.model = model;
     }
 
+    public void updatePlayers() {
+        System.out.println("");
+        StringBuilder builder = new StringBuilder();
+        builder.append("\n---- ---- Liste des joueurs ---- ----\n");
+        builder.append("Nombre d'utilisateurs connectes : ")
+                .append(model.getNbConnected()).append("\n");
+        builder.append("ID").append("\t");
+        builder.append("IP").append("\t\t");
+        builder.append("NAME").append("\n");
+        for (User member : model.getPlayers()) {
+            builder.append(member.getId()).append("\t");
+            builder.append(member.getAddress()).append("\t");
+            builder.append(member.getName()).append("\n");
+        }
+        System.out.println(builder);
+        System.out.println("");
+    }
+
     @Override
     public void update(Observable o, Object arg) {
-        
+        updatePlayers();
     }
-    
+
 }
