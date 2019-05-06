@@ -157,6 +157,8 @@ public class AnagramServer extends AbstractServer {
                 throw new IllegalArgumentException("Message type unkown: "
                         + message.getType());
         }
+        setChanged();
+        notifyObservers(message);
     }
 
     @Override

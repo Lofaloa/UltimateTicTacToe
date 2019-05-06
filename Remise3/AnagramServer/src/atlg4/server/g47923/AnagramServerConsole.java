@@ -1,8 +1,10 @@
 package atlg4.server.g47923;
 
 import anagram.exception.ModelException;
+import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -42,7 +44,7 @@ public class AnagramServerConsole implements Observer {
         this.model = model;
     }
 
-    public void updatePlayers() {
+    private void updatePlayers() {
         System.out.println("");
         StringBuilder builder = new StringBuilder();
         builder.append("\n---- ---- Liste des joueurs ---- ----\n");
@@ -60,9 +62,27 @@ public class AnagramServerConsole implements Observer {
         System.out.println("");
     }
 
+    private void updateMessage(Message message) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("\n---- ---- Message recu ---- ----\n");
+        builder.append(LocalDateTime.now()).append(" \n");
+        builder.append("Type : ").append(message.getType()).append("\n");
+        builder.append("De : ").append(message.getAuthor()).append("\t");
+        builder.append("Pour : ").append(message.getRecipient()).append("\n");
+        builder.append("Contenu\t").append(message.getContent());
+        builder.append("\n");
+        System.out.println(builder);
+    }
+
     @Override
     public void update(Observable o, Object arg) {
+        System.out.println("UPDATE IS CALLED");
         updatePlayers();
+        if (arg != null) {
+            System.out.println("IL Y A UN ARGUMENT");
+            Message message = (Message) arg;
+            updateMessage(message);
+        }
     }
 
 }
