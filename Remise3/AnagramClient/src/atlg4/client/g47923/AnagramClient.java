@@ -1,6 +1,7 @@
 package atlg4.client.g47923;
 
 import atlg4.g47923.anagram.message.Message;
+import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.ProfileMessage;
 import atlg4.g47923.anagram.message.ProposalMessage;
 import atlg4.g47923.anagram.message.Type;
@@ -47,8 +48,12 @@ public class AnagramClient extends AbstractClient {
             case PROPOSAL:
                 break;
             case WORD:
-                // afficher le mot sur la vue
                 showMessage(message);
+                break;
+            case ANSWER:
+                System.out.println("The answer was " + message.getContent());
+                break;
+            case PASS_CURRENT_WORD:
                 break;
             case PLAYERS:
                 Players players = (Players) message.getContent();
@@ -97,6 +102,17 @@ public class AnagramClient extends AbstractClient {
         }
         Message message = new ProposalMessage(
                 proposal,
+                mySelf.getId(),
+                mySelf.getName()
+        );
+        sendToServer(message);
+    }
+    
+    /**
+     * Sends a message asking the server to pass to the next word.
+     */ 
+    public void sendPassCurrentWord() throws IOException {
+        Message message = new PassCurrentWordMessage(
                 mySelf.getId(),
                 mySelf.getName()
         );

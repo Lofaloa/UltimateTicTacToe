@@ -6,7 +6,7 @@ import atlg4.g47923.anagram.players.User;
  * The <code> Message </code> represents a message informing the server that the
  * author client has passed the current word.
  */
-public class PassWordMessage implements Message {
+public class PassCurrentWordMessage implements Message {
 
     private final User author;
 
@@ -17,7 +17,7 @@ public class PassWordMessage implements Message {
      * @param id is the id this message author.
      * @param name is the name of this message author.
      */
-    public PassWordMessage(int id, String name) {
+    public PassCurrentWordMessage(int id, String name) {
         this.author = new User(id, name);
     }
 
@@ -42,13 +42,13 @@ public class PassWordMessage implements Message {
     }
 
     /**
-     * Return the type of the message, in this case Type.PLAYERS.
+     * Return the type of the message, in this case Type.PASS_CURRENT_WORD.
      *
-     * @return the type of the message, in this case Type.PLAYERS.
+     * @return the type of the message, in this case Type.PASS_CURRENT_WORD.
      */
     @Override
     public Type getType() {
-        return Type.PLAYERS;
+        return Type.PASS_CURRENT_WORD;
     }
 
     /**

@@ -71,8 +71,11 @@ public class AnagramWindow extends BorderPane implements Observer {
     @FXML
     private void pass(ActionEvent event) {
         System.out.println("PASS");
-        // Il faut rajouter un message qui signal au serveur de passer au mot
-        // suivant
+        try {
+            client.sendPassCurrentWord();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @FXML

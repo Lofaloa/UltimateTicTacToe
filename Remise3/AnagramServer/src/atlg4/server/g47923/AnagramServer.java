@@ -3,7 +3,9 @@ package atlg4.server.g47923;
 import anagram.exception.ModelException;
 import anagram.model.Facade;
 import anagram.model.Model;
+import atlg4.g47923.anagram.message.AnswerMessage;
 import atlg4.g47923.anagram.message.Message;
+import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.PlayersMessage;
 import atlg4.g47923.anagram.message.ProfileMessage;
 import atlg4.g47923.anagram.message.ProposalMessage;
@@ -128,6 +130,11 @@ public class AnagramServer extends AbstractServer {
                 break;
             case WORD:
                 break;
+            case ANSWER:
+                break;
+            case PASS_CURRENT_WORD:
+                handle((PassCurrentWordMessage) message, client);
+                break;
             case PLAYERS:
                 break;
             default:
@@ -209,6 +216,26 @@ public class AnagramServer extends AbstractServer {
             }
         } catch (ModelException ex) {
             clientException(client, ex);
+        }
+    }
+    
+    private void handle(PassCurrentWordMessage msg, ConnectionToClient client) {
+        try {
+            String answer = anagram.pass();
+            String nextWord = anagram.nextWord();
+            Message answerMessage = new AnswerMessage(
+                    msg.getAuthor().getId(),
+                    msg.getAuthor().getName(),
+                    answer
+            );
+            Message wordMessage = new WordMessage(
+                    msg.getAuthor().getId(),
+                    msg.getAuthor().getName(),
+                    nextWord
+            );
+            sendToClient(answerMessage, msg.getAuthor());
+            sendToClient(wordMessage, msg.getAuthor());
+        } catch (ModelException ex) {
         }
     }
 

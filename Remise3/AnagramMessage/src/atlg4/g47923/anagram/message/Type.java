@@ -22,6 +22,11 @@ public enum Type {
     WORD,
     
     /**
+     * Answer to the last passed word sent by the server to the client.
+     */
+    ANSWER,
+    
+    /**
      * Message that informs the server that the author has passed the current
      * word.
      */

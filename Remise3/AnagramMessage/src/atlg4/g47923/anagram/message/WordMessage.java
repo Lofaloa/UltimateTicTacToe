@@ -16,7 +16,7 @@ public class WordMessage implements Message {
      *
      * @param id userID of the recipient.
      * @param name user name of the recipient.
-     * @param word is the author proposal.
+     * @param word is the word to send.
      */
     public WordMessage(int id, String name, String word) {
         this.word = word;
