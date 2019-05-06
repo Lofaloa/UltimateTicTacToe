@@ -3,6 +3,7 @@ package atlg4.client.g47923.view;
 import atlg4.client.g47923.AnagramClient;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.Type;
+import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -11,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
@@ -29,6 +31,9 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @FXML
     private Label anagram;
+    
+    @FXML
+    private ScrollPane players;
 
     private final View view;
     private final AnagramClient client;
@@ -96,6 +101,12 @@ public class AnagramMainWindow extends BorderPane implements Observer {
     private void quit(ActionEvent event) {
         // Vérifier que la connection soit fermer avant de quitter?
         System.exit(0);
+    }
+    
+    private void updatePlayers() {
+        for (User player : client.getPlayers()) {
+            String name = player.getName();
+        }
     }
 
     @Override
