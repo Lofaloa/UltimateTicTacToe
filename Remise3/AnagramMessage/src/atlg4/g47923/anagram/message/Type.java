@@ -22,10 +22,10 @@ public enum Type {
     WORD,
     
     /**
-     * A signal has no significant content but is used to inform that an event
-     * took place.
+     * Message that informs the server that the author has passed the current
+     * word.
      */
-    SIGNAL,
+    PASS_CURRENT_WORD,
     
     /**
      * Message with the list of all connected users.
