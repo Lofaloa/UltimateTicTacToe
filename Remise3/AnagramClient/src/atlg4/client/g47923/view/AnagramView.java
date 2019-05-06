@@ -2,12 +2,15 @@ package atlg4.client.g47923.view;
 
 import atlg4.client.g47923.AnagramClient;
 import java.io.IOException;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * This class is used to manage the view of the Anagram client application.
@@ -20,7 +23,7 @@ public class AnagramView implements View {
     private static final String INFO_TITLE = "Information";
     private static final String ERROR_TITLE = "Erreur";
     private static final int MIN_WIDTH = 600;
-    private static final int MIN_HEIGHT = 400;
+    private static final int MIN_HEIGHT = 300;
 
     private static void setTitle(Dialog dialog, AlertType type) {
         if (null == dialog || null == type) {
@@ -71,6 +74,7 @@ public class AnagramView implements View {
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
         stage.setScene(scene);
+        addOnCloseHandler();
     }
 
     @Override
@@ -86,6 +90,16 @@ public class AnagramView implements View {
     @Override
     public void showError(String header, String message) {
         getDialog(AlertType.ERROR, header, message).show();
+    }
+    
+    private void addOnCloseHandler() {
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
     }
 
 }

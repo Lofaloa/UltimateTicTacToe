@@ -110,11 +110,13 @@ public class AnagramMainWindow extends BorderPane implements Observer {
                 try {
                     players.getChildren().clear();
                     for (User player : client.getPlayers()) {
-                        UserDisplay display = new UserDisplay(
-                                player.getName(),
-                                player.getNbSolvedWords()
-                        );
-                        players.getChildren().add(display);
+                        if (!player.equals(client.getMySelf())) {
+                            UserDisplay display = new UserDisplay(
+                                    player.getName(),
+                                    player.getNbSolvedWords()
+                            );
+                            players.getChildren().add(display);
+                        }
                     }
                 } catch (IOException e) {
                     view.showError(

@@ -105,9 +105,9 @@
       </VBox>
    </bottom>
    <right>
-      <ScrollPane BorderPane.alignment="TOP_CENTER">
+      <ScrollPane vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="players" alignment="TOP_CENTER">
+            <VBox fx:id="players" alignment="TOP_CENTER" prefWidth="175.0">
                <children>
                   <Label text="Aucun autres joueurs" />
                </children>
