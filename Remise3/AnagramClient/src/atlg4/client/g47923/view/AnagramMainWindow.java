@@ -12,9 +12,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 /**
  * AnagramWindow is the window used to play with the Anagram client. It shows a
@@ -31,9 +31,9 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @FXML
     private Label anagram;
-    
+
     @FXML
-    private ScrollPane players;
+    private VBox players;
 
     private final View view;
     private final AnagramClient client;
@@ -102,16 +102,35 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         // Vérifier que la connection soit fermer avant de quitter?
         System.exit(0);
     }
-    
+
     private void updatePlayers() {
-        for (User player : client.getPlayers()) {
-            String name = player.getName();
-        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    players.getChildren().clear();
+                    for (User player : client.getPlayers()) {
+                        UserDisplay display = new UserDisplay(
+                                player.getName(),
+                                player.getNbSolvedWords()
+                        );
+                        players.getChildren().add(display);
+                    }
+                } catch (IOException e) {
+                    view.showError(
+                            "Problème lors de la mise à jour des joueurs",
+                            e.getMessage()
+                    );
+                }
+            }
+        });
+
     }
 
     @Override
     public void update(Observable o, Object arg) {
         System.out.println("UPDATE");
+        updatePlayers();
         if (arg != null) {
             Message message = (Message) arg;
             if (message.getType() == Type.WORD) {

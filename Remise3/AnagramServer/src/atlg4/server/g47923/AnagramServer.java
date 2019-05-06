@@ -217,6 +217,17 @@ public class AnagramServer extends AbstractServer {
         }
     }
 
+    private void updateNbSolvedWords() {
+        try {
+            for (User player : players) {
+                Facade game = games.get(player.getId());
+                player.setNbSolvedWords(game.getNbSolvedWords());
+            }
+        } catch (ModelException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     private void handle(ProfileMessage message, ConnectionToClient client) {
         int playerId = (int) client.getInfo("ID");
         User author = message.getAuthor();
@@ -235,7 +246,9 @@ public class AnagramServer extends AbstractServer {
                         proposal.getAuthor().getId(),
                         proposal.getAuthor().getName(),
                         game.nextWord());
+                updateNbSolvedWords();
                 sendToClient(nextWord, proposal.getAuthor().getId());
+                sendToAllClients(new PlayersMessage(players));
             } else {
                 System.out.println("FAILURE");
             }

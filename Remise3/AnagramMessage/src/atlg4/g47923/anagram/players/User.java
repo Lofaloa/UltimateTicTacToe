@@ -20,6 +20,7 @@ public class User implements Serializable {
 
     private final int id;
     private String name;
+    private int nbSolvedWord;
     private InetAddress address;
 
     /**
@@ -30,8 +31,9 @@ public class User implements Serializable {
      * @param address IP address of the connected user.
      */
     public User(int id, String name, InetAddress address) {
-        this.name = name;
         this.id = id;
+        this.name = name;
+        this.nbSolvedWord = 0;
         this.address = address;
     }
 
@@ -52,6 +54,24 @@ public class User implements Serializable {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Gets the number of words this user has solved.
+     *
+     * @return the number of words this user has solved.
+     */
+    public int getNbSolvedWords() {
+        return nbSolvedWord;
+    }
+
+    /**
+     * Sets the number of words this user has solved.
+     *
+     * @param value is the number of words this user has solved.
+     */
+    public void setNbSolvedWords(int value) {
+        nbSolvedWord = value;
     }
 
     @Override
