@@ -19,8 +19,8 @@ public class AnagramView implements View {
     private static final String TITLE = "Anagramme";
     private static final String INFO_TITLE = "Information";
     private static final String ERROR_TITLE = "Erreur";
-    private static final int MIN_WIDTH = 500;
-    private static final int MIN_HEIGHT = 300;
+    private static final int MIN_WIDTH = 600;
+    private static final int MIN_HEIGHT = 400;
 
     private static void setTitle(Dialog dialog, AlertType type) {
         if (null == dialog || null == type) {
