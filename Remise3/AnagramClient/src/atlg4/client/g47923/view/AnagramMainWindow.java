@@ -42,7 +42,7 @@ public class AnagramMainWindow extends BorderPane implements Observer {
     private Label anagram;
 
     @FXML
-    private Text nbProposal;
+    private Text note;
 
     @FXML
     private VBox players;
@@ -148,11 +148,11 @@ public class AnagramMainWindow extends BorderPane implements Observer {
                     updateStatistics(message);
                     break;
                 case FAILURE:
-                    System.out.println("UPDATING FAILURE");
                     showFailure(message);
                     break;
                 case END_OF_GAME:
-
+                    showEnd(message);
+                    break;
                 default:
                     view.showError(
                             "Message inattendu",
@@ -233,7 +233,7 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         GameStatistics stats = (GameStatistics) statisticsMessage.getContent();
         Platform.runLater(() -> {
             String text = getNbProposalText(stats);
-            nbProposal.setText(text);
+            note.setText(text);
             progress.setProgress(getProgress(stats));
         });
     }
@@ -253,11 +253,9 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         boolean isOver = (boolean) message.getContent();
         Platform.runLater(() -> {
             if (isOver) {
-                view.showInformation(
-                        "Le jeu est fini",
-                        "Vous avez lu tous les mots, vous pouvez quitter "
-                        + "l'application ou vous déconnecter."
-                );
+                note.setText("Le jeu est fini vous avez lu tous les mots!");
+                check.setDisable(true);
+                pass.setDisable(true);
             }
         });
     }
