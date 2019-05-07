@@ -4,6 +4,7 @@ import anagram.exception.ModelException;
 import anagram.model.Facade;
 import anagram.model.Model;
 import atlg4.g47923.anagram.message.AnswerMessage;
+import atlg4.g47923.anagram.message.FailureMessage;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.PlayersMessage;
@@ -139,6 +140,8 @@ public class AnagramServer extends AbstractServer {
             case PLAYERS:
                 break;
             case STATISTICS:
+                break;
+            case FAILURE:
                 break;
             default:
                 throw new IllegalArgumentException("Message type unkown: "
@@ -277,7 +280,12 @@ public class AnagramServer extends AbstractServer {
                 sendToClient(nextWord, proposal.getAuthor().getId());
                 sendToAllClients(new PlayersMessage(players));
             } else {
-                System.out.println("FAILURE");
+                FailureMessage failure = new FailureMessage(
+                        (String) proposal.getContent(),
+                        proposal.getAuthor().getId(), 
+                        proposal.getAuthor().getName()
+                );
+                sendToClient(failure, proposal.getAuthor().getId());
             }
             sendGameStatisticsToClient(client);
         } catch (ModelException ex) {

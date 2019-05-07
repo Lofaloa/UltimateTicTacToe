@@ -40,6 +40,12 @@ public enum Type {
     /**
      * Message with the statistics of a game played by a specified player.
      */
-    STATISTICS
+    STATISTICS,
+    
+    /**
+     * Message sent by the server to the client to inform it that the given
+     * proposal is wrong.
+     */
+    FAILURE
     
 }

@@ -5,7 +5,6 @@ import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.ProfileMessage;
 import atlg4.g47923.anagram.message.ProposalMessage;
 import atlg4.g47923.anagram.message.Type;
-import atlg4.g47923.anagram.players.GameStatistics;
 import atlg4.g47923.anagram.players.Players;
 import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
@@ -51,6 +50,7 @@ public class AnagramClient extends AbstractClient {
             case WORD:
             case ANSWER:
             case STATISTICS:
+            case FAILURE:
                 showMessage(message);
                 break;
             case PASS_CURRENT_WORD:
@@ -58,7 +58,7 @@ public class AnagramClient extends AbstractClient {
             case PLAYERS:
                 Players players = (Players) message.getContent();
                 updatePlayers(players);
-                break;
+                break;                
             default:
                 throw new IllegalArgumentException("Message type unknown " + type);
         }

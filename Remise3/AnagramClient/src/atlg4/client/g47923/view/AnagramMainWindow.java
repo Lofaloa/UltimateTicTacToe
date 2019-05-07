@@ -39,7 +39,7 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @FXML
     private Label anagram;
-    
+
     @FXML
     private Text nbProposal;
 
@@ -129,6 +129,10 @@ public class AnagramMainWindow extends BorderPane implements Observer {
                 case STATISTICS:
                     updateStatistics(message);
                     break;
+                case FAILURE:
+                    System.out.println("UPDATING FAILURE");
+                    showFailure(message);
+                    break;
                 default:
                     view.showError(
                             "Message inattendu",
@@ -180,7 +184,7 @@ public class AnagramMainWindow extends BorderPane implements Observer {
             );
         });
     }
-    
+
     private String getNbProposalText(GameStatistics stats) {
         StringBuilder text = new StringBuilder();
         if (stats.getNbProposal() == 0) {
@@ -208,6 +212,17 @@ public class AnagramMainWindow extends BorderPane implements Observer {
             String text = getNbProposalText(stats);
             nbProposal.setText(text);
             progress.setProgress(getProgress(stats));
+        });
+    }
+
+    private void showFailure(Message message) {
+        String wrongProposal = (String) message.getContent();
+        Platform.runLater(() -> {
+            view.showInformation(
+                    "Mauvaise proposition",
+                    "Vous avez proposé \"" + wrongProposal + "\" mais ce n'est pas"
+                    + " le mot caché par l'anagramme courant! Réessayez!"
+            );
         });
     }
 
