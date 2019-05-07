@@ -100,61 +100,68 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         System.exit(0);
     }
 
-    private void updatePlayers() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    players.getChildren().clear();
-                    for (User player : client.getPlayers()) {
-                        if (!player.equals(client.getMySelf())) {
-                            UserDisplay display = new UserDisplay(
-                                    player.getName(),
-                                    player.getNbSolvedWords()
-                            );
-                            players.getChildren().add(display);
-                        }
-                    }
-                } catch (IOException e) {
-                    view.showError(
-                            "Problème lors de la mise à jour des joueurs",
-                            e.getMessage()
-                    );
-                }
-            }
-        });
-
-    }
-
     @Override
     public void update(Observable o, Object arg) {
         updatePlayers();
         if (arg != null) {
             Message message = (Message) arg;
-            if (message.getType() == Type.WORD) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        String word = (String) message.getContent();
-                        anagram.setText(word);
-                    }
-                });
-            }
-            if (message.getType() == Type.ANSWER) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        String answer = (String) message.getContent();
-                        view.showInformation(
-                                "Vous avez passé le mot",
-                                "C'est dommage! Ce n'était pourtant pas bien"
-                                + " compliqué, la réponse était \""
-                                + answer + "\"."
-                        );
-                    }
-                });
+            switch (message.getType()) {
+                case WORD:
+                    updateWord(message);
+                    break;
+                case ANSWER:
+                    updateAnswer(message);
+                    break;
+                default:
+                    view.showError(
+                            "Message inattendu",
+                            "Les messages de type " + message.getType() + " ne "
+                            + " peuvent pas être mis à jour dans cette fenêtre."
+                    );
             }
         }
+    }
+
+    private void updatePlayers() {
+        Platform.runLater(() -> {
+            try {
+                players.getChildren().clear();
+                for (User player : client.getPlayers()) {
+                    if (!player.equals(client.getMySelf())) {
+                        UserDisplay display = new UserDisplay(
+                                player.getName(),
+                                player.getNbSolvedWords()
+                        );
+                        players.getChildren().add(display);
+                    }
+                }
+            } catch (IOException e) {
+                view.showError(
+                        "Erreur lors de la mise à jour des joueurs",
+                        e.getMessage()
+                );
+            }
+        });
+
+    }
+
+    private void updateWord(Message message) {
+        Platform.runLater(() -> {
+            String word = (String) message.getContent();
+            anagram.setText(word);
+        });
+    }
+
+    private void updateAnswer(Message message) {
+        Platform.runLater(() -> {
+            String answer = (String) message.getContent();
+            view.showInformation(
+                    "Vous avez passé le mot",
+                    "C'est dommage! Ce n'était pourtant pas bien"
+                    + " compliqué, la réponse était \""
+                    + answer + "\"."
+            );
+        });
     }
 
 }

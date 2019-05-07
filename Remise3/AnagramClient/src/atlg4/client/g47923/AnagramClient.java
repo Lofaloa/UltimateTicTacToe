@@ -49,9 +49,8 @@ public class AnagramClient extends AbstractClient {
             case PROPOSAL:
                 break;
             case WORD:
-                showMessage(message);
-                break;
             case ANSWER:
+            case STATISTICS:
                 showMessage(message);
                 break;
             case PASS_CURRENT_WORD:
@@ -59,14 +58,6 @@ public class AnagramClient extends AbstractClient {
             case PLAYERS:
                 Players players = (Players) message.getContent();
                 updatePlayers(players);
-                break;
-            case STATISTICS:
-                GameStatistics statistics = (GameStatistics) message.getContent();
-                System.out.println("Words " + statistics.getNbWords());
-                System.out.println("Remaining words " + statistics.getNbRemaingingWords());
-                System.out.println("Solved words " + statistics.getNbSolvedWords());
-                System.out.println("Unsolved Words " + statistics.getNbUnsolvedWords());
-                System.out.println("Proposal " + statistics.getNbProposal());
                 break;
             default:
                 throw new IllegalArgumentException("Message type unknown " + type);
@@ -99,11 +90,11 @@ public class AnagramClient extends AbstractClient {
     public User getMySelf() {
         return mySelf;
     }
-    
+
     /**
      * Sends the given proposal to the server.
-     * 
-     * @param proposal is the given proposal. 
+     *
+     * @param proposal is the given proposal.
      */
     public void sendProposal(String proposal) throws IOException {
         if (proposal == null || proposal.isEmpty()) {
@@ -116,10 +107,10 @@ public class AnagramClient extends AbstractClient {
         );
         sendToServer(message);
     }
-    
+
     /**
      * Sends a message asking the server to pass to the next word.
-     */ 
+     */
     public void sendPassCurrentWord() throws IOException {
         Message message = new PassCurrentWordMessage(
                 mySelf.getId(),
