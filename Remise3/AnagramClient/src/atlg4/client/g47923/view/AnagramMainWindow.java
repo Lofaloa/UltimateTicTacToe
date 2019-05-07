@@ -66,7 +66,6 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @FXML
     private void check(ActionEvent event) {
-        System.out.println("CHECK");
         try {
             String proposal = this.proposal.getText();
             this.proposal.clear();
@@ -78,7 +77,6 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @FXML
     private void pass(ActionEvent event) {
-        System.out.println("PASS");
         try {
             client.sendPassCurrentWord();
         } catch (IOException e) {
@@ -89,7 +87,6 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @FXML
     private void disconnect(ActionEvent event) {
-        System.out.println("DISCONNECT");
         try {
             client.quit();
         } catch (IOException e) {
@@ -131,7 +128,6 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("UPDATE");
         updatePlayers();
         if (arg != null) {
             Message message = (Message) arg;

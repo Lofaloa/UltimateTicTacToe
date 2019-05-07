@@ -1,11 +1,13 @@
 package atlg4.g47923.anagram.players;
 
+import java.io.Serializable;
+
 /**
  * Represents the statistics of a specified anagram game.
  *
  * @author Logan Farci (47923)
  */
-public class GameStatistics {
+public class GameStatistics implements Serializable {
 
     private final int nbWords;
     private final int nbRemaingingWords;

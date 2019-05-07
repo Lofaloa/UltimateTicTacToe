@@ -19,11 +19,12 @@ public class StatisticsMessage implements Message {
      * specified statistics and the given recipient.
      *
      * @param statistics are the specified statistics.
-     * @param recipient is the specified recipient.
+     * @param id is the recipient id.
+     * @param name is the recipient name.
      */
-    public StatisticsMessage(GameStatistics statistics, User recipient) {
+    public StatisticsMessage(GameStatistics statistics, int id, String name) {
         this.statistics = statistics;
-        this.recipient = recipient;
+        this.recipient = new User(id, name);
     }
 
     /**

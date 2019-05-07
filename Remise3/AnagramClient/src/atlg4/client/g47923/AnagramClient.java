@@ -5,6 +5,7 @@ import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.ProfileMessage;
 import atlg4.g47923.anagram.message.ProposalMessage;
 import atlg4.g47923.anagram.message.Type;
+import atlg4.g47923.anagram.players.GameStatistics;
 import atlg4.g47923.anagram.players.Players;
 import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class AnagramClient extends AbstractClient {
     protected void handleMessageFromServer(Object msg) {
         Message message = (Message) msg;
         Type type = message.getType();
-        System.out.println("Recu du server: " + msg);
+        System.out.println("Recu du serveur: " + msg);
         switch (type) {
             case PROFILE:
                 setMySelf(message.getAuthor());
@@ -58,6 +59,14 @@ public class AnagramClient extends AbstractClient {
             case PLAYERS:
                 Players players = (Players) message.getContent();
                 updatePlayers(players);
+                break;
+            case STATISTICS:
+                GameStatistics statistics = (GameStatistics) message.getContent();
+                System.out.println("Words " + statistics.getNbWords());
+                System.out.println("Remaining words " + statistics.getNbRemaingingWords());
+                System.out.println("Solved words " + statistics.getNbSolvedWords());
+                System.out.println("Unsolved Words " + statistics.getNbUnsolvedWords());
+                System.out.println("Proposal " + statistics.getNbProposal());
                 break;
             default:
                 throw new IllegalArgumentException("Message type unknown " + type);

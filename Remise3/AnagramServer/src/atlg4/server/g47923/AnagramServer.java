@@ -9,7 +9,9 @@ import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.PlayersMessage;
 import atlg4.g47923.anagram.message.ProfileMessage;
 import atlg4.g47923.anagram.message.ProposalMessage;
+import atlg4.g47923.anagram.message.StatisticsMessage;
 import atlg4.g47923.anagram.message.WordMessage;
+import atlg4.g47923.anagram.players.GameStatistics;
 import atlg4.g47923.anagram.players.Players;
 import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
@@ -136,6 +138,8 @@ public class AnagramServer extends AbstractServer {
                 break;
             case PLAYERS:
                 break;
+            case STATISTICS:
+                break;
             default:
                 throw new IllegalArgumentException("Message type unkown: "
                         + message.getType());
@@ -164,7 +168,7 @@ public class AnagramServer extends AbstractServer {
     protected synchronized void clientDisconnected(ConnectionToClient client) {
         try {
             client.close();
-            
+
             players.remove((int) client.getInfo("ID"));
             games.remove((int) client.getInfo("ID"));
             sendToAllClients(new PlayersMessage(players));
@@ -229,6 +233,28 @@ public class AnagramServer extends AbstractServer {
         }
     }
 
+    private void sendGameStatisticsToClient(ConnectionToClient client) {
+        try {
+            int clientId = (int) client.getInfo("ID");
+            Facade game = games.get(clientId);
+            GameStatistics statistics = new GameStatistics(
+                    game.getNbWords(),
+                    game.getNbRemainingWords(),
+                    game.getNbSolvedWords(),
+                    game.getNbUnsolvedWords(),
+                    game.getNbProposal()
+            );
+            StatisticsMessage message = new StatisticsMessage(
+                    statistics,
+                    clientId,
+                    client.getName()
+            );
+            sendToClient(message, clientId);
+        } catch (ModelException ex) {
+            clientException(client, ex);
+        }
+    }
+
     private void handle(ProfileMessage message, ConnectionToClient client) {
         int playerId = (int) client.getInfo("ID");
         User author = message.getAuthor();
@@ -253,6 +279,7 @@ public class AnagramServer extends AbstractServer {
             } else {
                 System.out.println("FAILURE");
             }
+            sendGameStatisticsToClient(client);
         } catch (ModelException ex) {
             clientException(client, ex);
         }
@@ -276,7 +303,9 @@ public class AnagramServer extends AbstractServer {
             );
             sendToClient(answerMessage, msg.getAuthor());
             sendToClient(wordMessage, msg.getAuthor());
+            sendGameStatisticsToClient(client);
         } catch (ModelException ex) {
+
         }
     }
 
