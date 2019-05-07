@@ -84,8 +84,8 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" spacing="10.0">
                      <children>
-                        <Button id="check" mnemonicParsing="false" onAction="#check" text="Proposer" />
-                        <Button id="pass" mnemonicParsing="false" onAction="#pass" text="Passer" />
+                        <Button fx:id="check" mnemonicParsing="false" onAction="#check" text="Proposer" />
+                        <Button fx:id="pass" mnemonicParsing="false" onAction="#pass" text="Passer" />
                      </children>
                   </HBox>
                </children>

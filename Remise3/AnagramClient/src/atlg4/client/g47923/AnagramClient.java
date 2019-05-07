@@ -51,6 +51,7 @@ public class AnagramClient extends AbstractClient {
             case ANSWER:
             case STATISTICS:
             case FAILURE:
+            case END_OF_GAME:
                 showMessage(message);
                 break;
             case PASS_CURRENT_WORD:

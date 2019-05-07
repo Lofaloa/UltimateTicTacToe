@@ -46,6 +46,11 @@ public enum Type {
      * Message sent by the server to the client to inform it that the given
      * proposal is wrong.
      */
-    FAILURE
+    FAILURE,
+    
+    /**
+     * Message informing the client that the current game is over.
+     */
+    END_OF_GAME
     
 }

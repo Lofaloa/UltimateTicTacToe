@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -48,6 +49,12 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @FXML
     private ProgressBar progress;
+    
+    @FXML
+    private Button check;
+
+    @FXML
+    private Button pass;
 
     private final View view;
     private AnagramClient client;
@@ -80,7 +87,7 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         this.client = client;
         this.client.addObserver(this);
     }
-    
+
     @FXML
     private void check(ActionEvent event) {
         if (client == null) {
@@ -144,6 +151,8 @@ public class AnagramMainWindow extends BorderPane implements Observer {
                     System.out.println("UPDATING FAILURE");
                     showFailure(message);
                     break;
+                case END_OF_GAME:
+
                 default:
                     view.showError(
                             "Message inattendu",
@@ -237,6 +246,19 @@ public class AnagramMainWindow extends BorderPane implements Observer {
                     "Vous avez proposé \"" + wrongProposal + "\" mais ce n'est pas"
                     + " le mot caché par l'anagramme courant! Réessayez!"
             );
+        });
+    }
+
+    private void showEnd(Message message) {
+        boolean isOver = (boolean) message.getContent();
+        Platform.runLater(() -> {
+            if (isOver) {
+                view.showInformation(
+                        "Le jeu est fini",
+                        "Vous avez lu tous les mots, vous pouvez quitter "
+                        + "l'application ou vous déconnecter."
+                );
+            }
         });
     }
 

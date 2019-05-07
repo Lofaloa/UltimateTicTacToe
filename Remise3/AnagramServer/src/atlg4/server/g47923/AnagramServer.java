@@ -4,6 +4,7 @@ import anagram.exception.ModelException;
 import anagram.model.Facade;
 import anagram.model.Model;
 import atlg4.g47923.anagram.message.AnswerMessage;
+import atlg4.g47923.anagram.message.EndGameMessage;
 import atlg4.g47923.anagram.message.FailureMessage;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.PassCurrentWordMessage;
@@ -138,10 +139,9 @@ public class AnagramServer extends AbstractServer {
                 handle((PassCurrentWordMessage) message, client);
                 break;
             case PLAYERS:
-                break;
             case STATISTICS:
-                break;
             case FAILURE:
+            case END_OF_GAME:
                 break;
             default:
                 throw new IllegalArgumentException("Message type unkown: "
@@ -258,6 +258,21 @@ public class AnagramServer extends AbstractServer {
         }
     }
 
+    private void sendEndGameMessageToClient(ConnectionToClient client) {
+        try {
+            int clientId = (int) client.getInfo("ID");
+            Message message = new EndGameMessage(
+                    clientId,
+                    client.getName(),
+                    games.get(clientId).isOver(),
+                    games.get(clientId).canAskNextWord()
+            );
+            sendToClient(message, clientId);
+        } catch (ModelException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     private void handle(ProfileMessage message, ConnectionToClient client) {
         int playerId = (int) client.getInfo("ID");
         User author = message.getAuthor();
@@ -269,6 +284,8 @@ public class AnagramServer extends AbstractServer {
     }
 
     private void handle(ProposalMessage proposal, ConnectionToClient client) {
+        // TODO: lors du dernier tour est-ce que si le joueur fait une mauvaise
+        // proposition, le jeu se finit?
         try {
             Facade game = games.get(proposal.getAuthor().getId());
             if (game.propose((String) proposal.getContent())) {
@@ -282,19 +299,19 @@ public class AnagramServer extends AbstractServer {
             } else {
                 FailureMessage failure = new FailureMessage(
                         (String) proposal.getContent(),
-                        proposal.getAuthor().getId(), 
+                        proposal.getAuthor().getId(),
                         proposal.getAuthor().getName()
                 );
                 sendToClient(failure, proposal.getAuthor().getId());
             }
             sendGameStatisticsToClient(client);
+            sendEndGameMessageToClient(client);
         } catch (ModelException ex) {
             clientException(client, ex);
         }
     }
 
     private void handle(PassCurrentWordMessage msg, ConnectionToClient client) {
-        // TODO: call canAskNextWOrd before passing to next word
         try {
             Facade game = games.get(msg.getAuthor().getId());
             String answer = game.pass();
@@ -312,6 +329,7 @@ public class AnagramServer extends AbstractServer {
             sendToClient(answerMessage, msg.getAuthor());
             sendToClient(wordMessage, msg.getAuthor());
             sendGameStatisticsToClient(client);
+            sendEndGameMessageToClient(client);
         } catch (ModelException ex) {
 
         }
