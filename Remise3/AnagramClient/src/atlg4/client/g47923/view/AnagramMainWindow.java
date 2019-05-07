@@ -2,7 +2,8 @@ package atlg4.client.g47923.view;
 
 import atlg4.client.g47923.AnagramClient;
 import atlg4.g47923.anagram.message.Message;
-import atlg4.g47923.anagram.message.Type;
+import atlg4.g47923.anagram.message.StatisticsMessage;
+import atlg4.g47923.anagram.players.GameStatistics;
 import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
 import java.util.Observable;
@@ -12,9 +13,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 /**
  * AnagramWindow is the window used to play with the Anagram client. It shows a
@@ -26,14 +29,25 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     private static final String FXML_PATH = "/fxml/AnagramWindow.fxml";
 
+    private static double getProgress(GameStatistics stats) {
+        int readWords = stats.getNbWords() - stats.getNbRemaingingWords();
+        return (double) readWords / stats.getNbWords();
+    }
+
     @FXML
     private TextField proposal;
 
     @FXML
     private Label anagram;
+    
+    @FXML
+    private Text nbProposal;
 
     @FXML
     private VBox players;
+
+    @FXML
+    private ProgressBar progress;
 
     private final View view;
     private final AnagramClient client;
@@ -112,6 +126,9 @@ public class AnagramMainWindow extends BorderPane implements Observer {
                 case ANSWER:
                     updateAnswer(message);
                     break;
+                case STATISTICS:
+                    updateStatistics(message);
+                    break;
                 default:
                     view.showError(
                             "Message inattendu",
@@ -161,6 +178,36 @@ public class AnagramMainWindow extends BorderPane implements Observer {
                     + " compliqué, la réponse était \""
                     + answer + "\"."
             );
+        });
+    }
+    
+    private String getNbProposalText(GameStatistics stats) {
+        StringBuilder text = new StringBuilder();
+        if (stats.getNbProposal() == 0) {
+            text.append("Vous n'avez pas encore fait de propositions,");
+            text.append(" écrivez un mot dans le champ dédié et clickez sur");
+            text.append(" \"Proposer\" pour en faire une.");
+        } else if (1 <= stats.getNbProposal() && stats.getNbProposal() < 10) {
+            text.append("Vous avez proposé ");
+            text.append(stats.getNbProposal());
+            text.append(" mots pour l'anagramme courant.");
+        } else if (10 <= stats.getNbProposal()) {
+            text.append("Vous avez déjà fait ");
+            text.append(stats.getNbProposal());
+            text.append(" propositions! Êtes-vous sûr de pouvoir trouver la");
+            text.append(" réponse? N'oubliez pas qu'il est possible de passer");
+            text.append(" l'anagramme courant à tout moment!");
+        }
+        return text.toString();
+    }
+
+    private void updateStatistics(Message message) {
+        StatisticsMessage statisticsMessage = (StatisticsMessage) message;
+        GameStatistics stats = (GameStatistics) statisticsMessage.getContent();
+        Platform.runLater(() -> {
+            String text = getNbProposalText(stats);
+            nbProposal.setText(text);
+            progress.setProgress(getProgress(stats));
         });
     }
 
