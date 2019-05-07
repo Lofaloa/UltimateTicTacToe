@@ -50,19 +50,17 @@ public class AnagramMainWindow extends BorderPane implements Observer {
     private ProgressBar progress;
 
     private final View view;
-    private final AnagramClient client;
+    private AnagramClient client;
 
     /**
      * Constructs an instance of AnagramWindow.
      *
      * @param view is the view managing the user interface of the client.
-     * @param client is the client to manage the view for.
      * @throws IOException is thrown when the FXML file cannot be loaded.
      */
-    public AnagramMainWindow(View view, AnagramClient client) throws IOException {
+    public AnagramMainWindow(View view) throws IOException {
         this.view = view;
-        this.client = client;
-        this.client.addObserver(this);
+        this.client = null;
         load();
     }
 
@@ -78,8 +76,16 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         }
     }
 
+    void setClient(AnagramClient client) {
+        this.client = client;
+        this.client.addObserver(this);
+    }
+    
     @FXML
     private void check(ActionEvent event) {
+        if (client == null) {
+            throw new IllegalStateException("Pas de client.");
+        }
         try {
             String proposal = this.proposal.getText();
             this.proposal.clear();
@@ -91,6 +97,9 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @FXML
     private void pass(ActionEvent event) {
+        if (client == null) {
+            throw new IllegalStateException("Pas de client.");
+        }
         try {
             client.sendPassCurrentWord();
         } catch (IOException e) {
@@ -101,6 +110,9 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @FXML
     private void disconnect(ActionEvent event) {
+        if (client == null) {
+            throw new IllegalStateException("Pas de client.");
+        }
         try {
             client.quit();
         } catch (IOException e) {
@@ -110,7 +122,6 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @FXML
     private void quit(ActionEvent event) {
-        // Vérifier que la connection soit fermer avant de quitter?
         System.exit(0);
     }
 
@@ -144,6 +155,9 @@ public class AnagramMainWindow extends BorderPane implements Observer {
     }
 
     private void updatePlayers() {
+        if (client == null) {
+            throw new IllegalStateException("Pas de client.");
+        }
         Platform.runLater(() -> {
             try {
                 players.getChildren().clear();

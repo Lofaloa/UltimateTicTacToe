@@ -2,6 +2,7 @@ package atlg4.client.g47923.view;
 
 import atlg4.client.g47923.AnagramClient;
 import java.io.IOException;
+import java.util.Optional;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -51,6 +52,7 @@ public class AnagramView implements View {
         return dialog;
     }
 
+    private final Dialog loginDialog;
     private final AnagramMainWindow main;
     private final Stage stage;
     private final Scene scene;
@@ -59,11 +61,11 @@ public class AnagramView implements View {
      * Constructs an instance of the AnagramView with specified view and client.
      *
      * @param stage is the specified stage.
-     * @param client is the specified client.
      * @throws IOException when the loading of a FXML files fails.
      */
-    public AnagramView(Stage stage, AnagramClient client) throws IOException {
-        this.main = new AnagramMainWindow(this, client);
+    public AnagramView(Stage stage) throws IOException {
+        this.loginDialog = new AnagramLoginDialog(this);
+        this.main = new AnagramMainWindow(this);
         this.stage = stage;
         this.scene = new Scene(main);
         this.inititialize();
@@ -75,6 +77,17 @@ public class AnagramView implements View {
         stage.setMinHeight(MIN_HEIGHT);
         stage.setScene(scene);
         addOnCloseHandler();
+    }
+
+    @Override
+    public void setClient(AnagramClient client) {
+        this.main.setClient(client);
+    }
+    
+    @Override
+    public AnagramClient showAndWaitLoginDialog() {
+        Optional<AnagramClient> result = loginDialog.showAndWait();
+        return result.isPresent() ? result.get() : null;
     }
 
     @Override
@@ -91,14 +104,11 @@ public class AnagramView implements View {
     public void showError(String header, String message) {
         getDialog(AlertType.ERROR, header, message).show();
     }
-    
+
     private void addOnCloseHandler() {
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent t) {
-                Platform.exit();
-                System.exit(0);
-            }
+        stage.setOnCloseRequest((WindowEvent t) -> {
+            Platform.exit();
+            System.exit(0);
         });
     }
 
