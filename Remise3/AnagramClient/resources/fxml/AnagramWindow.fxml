@@ -110,8 +110,8 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </ProgressBar>
-            <Label text="Il reste n mot(s) a deviner sur les total mots disponibles..." />
-            <Label text="Vous avez trouve n mot(s) et echoue sur m mot(s)" />
+            <Label fx:id="progressNote" text="Vous n'avez lu aucuns anagrammes" />
+            <Label fx:id="statisticsNote" text="Vous avez résolu 0 anagrammes et vous avez passé 0 anagrammes" />
          </children>
       </VBox>
    </bottom>

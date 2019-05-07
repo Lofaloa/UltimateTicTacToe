@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.application.Platform;
+import javafx.beans.binding.StringBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,7 +50,13 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @FXML
     private ProgressBar progress;
-    
+
+    @FXML
+    private Label progressNote;
+
+    @FXML
+    private Label statisticsNote;
+
     @FXML
     private Button check;
 
@@ -228,12 +235,44 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         return text.toString();
     }
 
+    private String getProgressText(GameStatistics stats) {
+        StringBuilder text = new StringBuilder();
+        int remaining = stats.getNbRemaingingWords();
+        int total = stats.getNbWords();
+        if (remaining == 0) {
+            text.append("Vous avez lu tous les anagrammes.");
+        } else if (remaining != total && remaining != 0) {
+            text.append("Il reste encore ");
+            text.append(remaining + 1);
+            text.append(" anagrammes à lire (sur ");
+            text.append(total);
+            text.append(" au total)");
+        } else if (remaining == total) {
+            text.append("Vous n'avez lu aucuns mots.");
+        }
+        return text.toString();
+    }
+
+    private String getStatisticsText(GameStatistics stats) {
+        StringBuilder text = new StringBuilder();
+        int solved = stats.getNbSolvedWords();
+        int unsolved = stats.getNbUnsolvedWords();
+        text.append("Vous avez résolu ");
+        text.append(solved);
+        text.append(" anagrammes et vous avez passé ");
+        text.append(unsolved);
+        text.append(" anagrammes.");
+        return text.toString();
+    }
+
     private void updateStatistics(Message message) {
         StatisticsMessage statisticsMessage = (StatisticsMessage) message;
         GameStatistics stats = (GameStatistics) statisticsMessage.getContent();
         Platform.runLater(() -> {
             String text = getNbProposalText(stats);
             note.setText(text);
+            progressNote.setText(getProgressText(stats));
+            statisticsNote.setText(getStatisticsText(stats));
             progress.setProgress(getProgress(stats));
         });
     }
