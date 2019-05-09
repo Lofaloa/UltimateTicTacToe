@@ -6,6 +6,7 @@ import anagram.model.Model;
 import atlg4.g47923.anagram.message.AnswerMessage;
 import atlg4.g47923.anagram.message.EndGameMessage;
 import atlg4.g47923.anagram.message.FailureMessage;
+import atlg4.g47923.anagram.message.LoginValidationMessage;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.PlayersMessage;
@@ -131,17 +132,16 @@ public class AnagramServer extends AbstractServer {
             case PROPOSAL:
                 handle((ProposalMessage) message, client);
                 break;
-            case WORD:
-                break;
-            case ANSWER:
-                break;
             case PASS_CURRENT_WORD:
                 handle((PassCurrentWordMessage) message, client);
                 break;
+            case WORD:
+            case ANSWER:
             case PLAYERS:
             case STATISTICS:
             case FAILURE:
             case END_OF_GAME:
+            case LOGIN_VALIDATION:
                 break;
             default:
                 throw new IllegalArgumentException("Message type unkown: "
@@ -273,14 +273,32 @@ public class AnagramServer extends AbstractServer {
         }
     }
 
+    private boolean isUniqueLogin(String login) {
+        int frequency = 0;
+        for (User player : players) {
+            if (login.equals(player.getName())) {
+                frequency++;
+            }
+        }
+        return frequency == 1;
+    }
+
     private void handle(ProfileMessage message, ConnectionToClient client) {
         int playerId = (int) client.getInfo("ID");
         User author = message.getAuthor();
-        players.changeName(author.getName(), playerId);
-        Message messageName = new ProfileMessage(playerId, author.getName());
-        sendToClient(messageName, playerId);
-        sendToAllClients(new PlayersMessage(players));
-        startNewGameFor(client);
+        if (isUniqueLogin(author.getName())) {
+            players.changeName(author.getName(), playerId);
+            Message messageName = new ProfileMessage(playerId, author.getName());
+            sendToClient(messageName, playerId);
+            sendToAllClients(new PlayersMessage(players));
+            startNewGameFor(client);
+        }
+        Message validation = new LoginValidationMessage(
+                playerId,
+                author.getName(),
+                isUniqueLogin(author.getName())
+        );
+        sendToClient(validation, author);
     }
 
     private void handle(ProposalMessage proposal, ConnectionToClient client) {

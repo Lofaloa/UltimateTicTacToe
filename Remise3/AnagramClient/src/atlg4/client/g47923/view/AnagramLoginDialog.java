@@ -1,6 +1,7 @@
 package atlg4.client.g47923.view;
 
 import atlg4.client.g47923.AnagramClient;
+import atlg4.g47923.anagram.players.Credentials;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,13 +15,14 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Callback;
 
 /**
  * This dialog is used to log a client in to the Anagram server.
  *
  * @author Logan Farci (47923)
  */
-public class AnagramLoginDialog extends Dialog<AnagramClient> {
+public class AnagramLoginDialog extends Dialog<Credentials> {
 
     private static final String FXML_PATH = "/fxml/LoginDialogPane.fxml";
     private static final String CHECKED_ICON = "/images/checked.png";
@@ -65,23 +67,15 @@ public class AnagramLoginDialog extends Dialog<AnagramClient> {
         this.addConnectEventFilter();
         this.addQuitEventFilter();
         this.setResultConverter((ButtonType button) -> {
-            AnagramClient client = null;
+            Credentials credentials = null;
             if (button == connect) {
-                try {
-                    client = new AnagramClient(
-                            address.getText(),
-                            Integer.parseInt(port.getText()),
-                            login.getText(),
-                            ""
-                    );
-                } catch (IOException e) {
-                    view.showError(
-                            "Connexion impossible",
-                            "La connexion au serveur a échoué."
-                    );
-                }
+                credentials = new Credentials(
+                        address.getText(),
+                        login.getText(),
+                        Integer.parseInt(port.getText())
+                );
             }
-            return client;
+            return credentials;
         });
     }
 
