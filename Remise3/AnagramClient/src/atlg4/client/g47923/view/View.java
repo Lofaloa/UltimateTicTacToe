@@ -1,6 +1,7 @@
 package atlg4.client.g47923.view;
 
 import atlg4.client.g47923.AnagramClient;
+import atlg4.g47923.anagram.players.Credentials;
 
 /**
  * The interface is used to manage the view of an application composed of one
@@ -11,14 +12,13 @@ import atlg4.client.g47923.AnagramClient;
 public interface View {
 
     void setClient(AnagramClient client);
-    
+
     /**
-     * Shows the login dialog. The dialog is used to connect the client to the
-     * server with the data specified by the user.
-     * 
-     * On success a new client is constructed and connect to the server.
+     * Ask the connection credentials of the user.
+     *
+     * @return the credentials of the user.
      */
-    AnagramClient showAndWaitLoginDialog();
+    Credentials askCredentials();
 
     /**
      * Shows the main window of the application.

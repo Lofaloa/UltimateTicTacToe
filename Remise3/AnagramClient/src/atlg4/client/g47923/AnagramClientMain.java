@@ -7,6 +7,7 @@ package atlg4.client.g47923;
 
 import atlg4.client.g47923.view.AnagramView;
 import atlg4.client.g47923.view.View;
+import atlg4.g47923.anagram.players.Credentials;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -26,12 +27,7 @@ public class AnagramClientMain extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         View view = new AnagramView(primaryStage);
-        AnagramClient client = view.showAndWaitLoginDialog();
-        if (client == null) {
-            view.showError(CONNECTION_ERROR_HEADER, CONNECTION_ERROR_MESSAGE);
-        } else {
-            view.setClient(client);
-        }
+        Credentials credentials = view.askCredentials();
         view.showMainWindow();
     }
 

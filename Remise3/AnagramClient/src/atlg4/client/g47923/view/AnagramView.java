@@ -1,10 +1,10 @@
 package atlg4.client.g47923.view;
 
 import atlg4.client.g47923.AnagramClient;
+import atlg4.g47923.anagram.players.Credentials;
 import java.io.IOException;
 import java.util.Optional;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -85,8 +85,8 @@ public class AnagramView implements View {
     }
     
     @Override
-    public AnagramClient showAndWaitLoginDialog() {
-        Optional<AnagramClient> result = loginDialog.showAndWait();
+    public Credentials askCredentials() {
+        Optional<Credentials> result = loginDialog.showAndWait();
         return result.isPresent() ? result.get() : null;
     }
 

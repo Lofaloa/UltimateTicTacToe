@@ -152,7 +152,7 @@ public class AnagramMainWindow extends BorderPane implements Observer {
                     showFailure(message);
                     break;
                 case END_OF_GAME:
-
+                    
                 default:
                     view.showError(
                             "Message inattendu",
