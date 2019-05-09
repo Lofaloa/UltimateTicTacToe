@@ -32,7 +32,7 @@ public class AnagramClient extends AbstractClient {
     public AnagramClient(String host, int port, String name, String password) throws IOException {
         super(host, port);
         openConnection();
-        updateName(name);
+        updateName(name); // remettre la maj du pseudonym à plus tard
         players = new Players();
     }
 

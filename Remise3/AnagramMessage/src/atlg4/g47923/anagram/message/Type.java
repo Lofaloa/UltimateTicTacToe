@@ -51,6 +51,11 @@ public enum Type {
     /**
      * Message informing the client that the current game is over.
      */
-    END_OF_GAME
+    END_OF_GAME,
+    
+    /**
+     * Message
+     */
+    LOGIN_VALIDATION;
     
 }
