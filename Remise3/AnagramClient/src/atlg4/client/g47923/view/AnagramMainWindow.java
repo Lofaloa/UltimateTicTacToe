@@ -102,7 +102,6 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         }
         try {
             String proposal = this.proposal.getText();
-            this.proposal.clear();
             client.sendProposal(proposal);
         } catch (IllegalArgumentException | IOException e) {
             view.showError("Erreur lors de la proposition!", e.getMessage());
@@ -116,6 +115,7 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         }
         try {
             client.sendPassCurrentWord();
+            this.proposal.clear();
         } catch (IOException e) {
             view.showError("Erreur au moment de passer au mot suivant!",
                     e.getMessage());
