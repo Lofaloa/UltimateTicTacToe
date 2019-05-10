@@ -3,8 +3,6 @@ package atlg4.client.g47923.view;
 import atlg4.client.g47923.AnagramClient;
 import atlg4.g47923.anagram.players.Credentials;
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Optional;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -12,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -54,7 +53,7 @@ public class AnagramView implements View {
         return dialog;
     }
 
-    private final Dialog loginDialog;
+    private final VBox loginBox;
     private final AnagramMainWindow main;
     private final Stage stage;
     private final Scene scene;
@@ -66,7 +65,7 @@ public class AnagramView implements View {
      * @throws IOException when the loading of a FXML files fails.
      */
     public AnagramView(Stage stage, AnagramClient client) throws IOException {
-        this.loginDialog = new AnagramLoginDialog(this, client);
+        this.loginBox = new AnagramLoginBox(this, client);
         this.main = new AnagramMainWindow(this, client);
         this.stage = stage;
         this.scene = new Scene(main);
@@ -83,9 +82,9 @@ public class AnagramView implements View {
     }
     
     @Override
-    public Credentials askCredentials() {
-        Optional<Credentials> result = loginDialog.showAndWait();
-        return result.isPresent() ? result.get() : null;
+    public void showLoginBox() {
+        scene.setRoot(loginBox);
+        stage.sizeToScene();
     }
 
     @Override

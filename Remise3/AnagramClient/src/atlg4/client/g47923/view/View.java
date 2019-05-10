@@ -16,7 +16,7 @@ public interface View {
      *
      * @return the credentials of the user.
      */
-    Credentials askCredentials();
+    void showLoginBox();
 
     /**
      * Shows the main window of the application.

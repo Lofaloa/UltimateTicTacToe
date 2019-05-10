@@ -19,17 +19,11 @@ import javafx.stage.Stage;
  */
 public class AnagramClientMain extends Application {
 
-    private static final String CONNECTION_ERROR_HEADER = "Connexion impossible";
-
-    private static final String CONNECTION_ERROR_MESSAGE = "Une erreur s'est produite"
-            + " lors du traitement de vos données.";
-
     @Override
     public void start(Stage primaryStage) throws IOException {
         AnagramClient client = new AnagramClient();
         View view = new AnagramView(primaryStage, client);
-        Credentials credentials = view.askCredentials();
-        view.showMainWindow();
+        view.showLoginBox();
     }
 
     /**
