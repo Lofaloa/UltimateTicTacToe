@@ -273,37 +273,30 @@ public class AnagramServer extends AbstractServer {
         }
     }
 
-    private boolean isUniqueLogin(String login) {
+    private boolean isUsedLogin(String login) {
         int frequency = 0;
         for (User player : players) {
             if (login.equals(player.getName())) {
                 frequency++;
             }
         }
-        return frequency == 1;
+        return frequency > 0;
     }
 
     private void handle(ProfileMessage message, ConnectionToClient client) {
         int playerId = (int) client.getInfo("ID");
         User author = message.getAuthor();
-        if (isUniqueLogin(author.getName())) {
-            players.changeName(author.getName(), playerId);
-            Message messageName = new ProfileMessage(playerId, author.getName());
-            sendToClient(messageName, playerId);
-            sendToAllClients(new PlayersMessage(players));
-            startNewGameFor(client);
-        }
-        Message validation = new LoginValidationMessage(
-                playerId,
-                author.getName(),
-                isUniqueLogin(author.getName())
-        );
-        sendToClient(validation, author);
+        players.changeName(author.getName(), playerId);
+        Message messageName = new ProfileMessage(playerId, author.getName());
+        sendToClient(messageName, playerId);
+        sendToAllClients(new PlayersMessage(players));
+        startNewGameFor(client);
     }
 
     private void handle(ProposalMessage proposal, ConnectionToClient client) {
         // TODO: lors du dernier tour est-ce que si le joueur fait une mauvaise
         // proposition, le jeu se finit?
+        System.out.println("");
         try {
             Facade game = games.get(proposal.getAuthor().getId());
             if (game.propose((String) proposal.getContent())) {

@@ -35,6 +35,7 @@ public class AnagramClient extends AbstractClient {
     protected void handleMessageFromServer(Object msg) {
         Message message = (Message) msg;
         Type type = message.getType();
+        System.out.println("Reception: " + type);
         switch (type) {
             case PROFILE:
                 setMySelf(message.getAuthor());
@@ -98,7 +99,7 @@ public class AnagramClient extends AbstractClient {
         setHost(host);
         setPort(port);
         openConnection();
-        updateName(host);
+        updateName(login);
     }
 
     /**

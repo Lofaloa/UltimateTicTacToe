@@ -11,8 +11,6 @@ import atlg4.g47923.anagram.players.Credentials;
  */
 public interface View {
 
-    void setClient(AnagramClient client);
-
     /**
      * Ask the connection credentials of the user.
      *

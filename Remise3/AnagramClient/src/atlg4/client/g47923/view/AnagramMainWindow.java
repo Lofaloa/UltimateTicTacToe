@@ -72,9 +72,9 @@ public class AnagramMainWindow extends BorderPane implements Observer {
      * @param view is the view managing the user interface of the client.
      * @throws IOException is thrown when the FXML file cannot be loaded.
      */
-    public AnagramMainWindow(View view) throws IOException {
+    public AnagramMainWindow(View view, AnagramClient client) throws IOException {
         this.view = view;
-        this.client = null;
+        this.client = client;
         load();
     }
 
@@ -90,16 +90,12 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         }
     }
 
-    void setClient(AnagramClient client) {
-        this.client = client;
-        this.client.addObserver(this);
-    }
-
     @FXML
     private void check(ActionEvent event) {
         if (client == null) {
             throw new IllegalStateException("Pas de client.");
         }
+        System.out.println("CHECK");
         try {
             String proposal = this.proposal.getText();
             client.sendProposal(proposal);
@@ -141,6 +137,7 @@ public class AnagramMainWindow extends BorderPane implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        System.out.println("UPDATE");
         updatePlayers();
         if (arg != null) {
             Message message = (Message) arg;

@@ -3,6 +3,8 @@ package atlg4.client.g47923.view;
 import atlg4.client.g47923.AnagramClient;
 import atlg4.g47923.anagram.players.Credentials;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Platform;
@@ -60,9 +62,11 @@ public class AnagramLoginDialog extends Dialog<Credentials> {
     private ButtonType quit;
 
     private final View view;
+    private final AnagramClient client;
 
-    public AnagramLoginDialog(View view) throws IOException {
+    public AnagramLoginDialog(View view, AnagramClient client) throws IOException {
         this.view = view;
+        this.client = client;
         this.load();
         this.addConnectEventFilter();
         this.addQuitEventFilter();
@@ -139,6 +143,15 @@ public class AnagramLoginDialog extends Dialog<Credentials> {
             } else {
                 Image img = new Image(CHECKED_ICON);
                 portValidationIcon.setImage(img);
+            }
+            try {
+                client.connect(
+                        address.getText(),
+                        Integer.parseInt(port.getText()),
+                        login.getText()
+                );
+            } catch (IOException ex) {
+                view.showError("Erreur", "Connexion impossible!");
             }
         });
     }

@@ -26,7 +26,8 @@ public class AnagramClientMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        View view = new AnagramView(primaryStage);
+        AnagramClient client = new AnagramClient();
+        View view = new AnagramView(primaryStage, client);
         Credentials credentials = view.askCredentials();
         view.showMainWindow();
     }

@@ -3,6 +3,8 @@ package atlg4.client.g47923.view;
 import atlg4.client.g47923.AnagramClient;
 import atlg4.g47923.anagram.players.Credentials;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Optional;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -63,11 +65,12 @@ public class AnagramView implements View {
      * @param stage is the specified stage.
      * @throws IOException when the loading of a FXML files fails.
      */
-    public AnagramView(Stage stage) throws IOException {
-        this.loginDialog = new AnagramLoginDialog(this);
-        this.main = new AnagramMainWindow(this);
+    public AnagramView(Stage stage, AnagramClient client) throws IOException {
+        this.loginDialog = new AnagramLoginDialog(this, client);
+        this.main = new AnagramMainWindow(this, client);
         this.stage = stage;
         this.scene = new Scene(main);
+        client.addObserver(main);
         this.inititialize();
     }
 
@@ -77,11 +80,6 @@ public class AnagramView implements View {
         stage.setMinHeight(MIN_HEIGHT);
         stage.setScene(scene);
         addOnCloseHandler();
-    }
-
-    @Override
-    public void setClient(AnagramClient client) {
-        this.main.setClient(client);
     }
     
     @Override
