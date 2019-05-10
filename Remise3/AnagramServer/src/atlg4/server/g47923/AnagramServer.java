@@ -6,6 +6,7 @@ import anagram.model.Model;
 import atlg4.g47923.anagram.message.AnswerMessage;
 import atlg4.g47923.anagram.message.EndGameMessage;
 import atlg4.g47923.anagram.message.FailureMessage;
+import atlg4.g47923.anagram.message.LoginValidationMessage;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.PlayersMessage;
@@ -283,13 +284,21 @@ public class AnagramServer extends AbstractServer {
     }
 
     private void handle(ProfileMessage message, ConnectionToClient client) {
-        int playerId = (int) client.getInfo("ID");
         User author = message.getAuthor();
-        players.changeName(author.getName(), playerId);
-        Message messageName = new ProfileMessage(playerId, author.getName());
-        sendToClient(messageName, playerId);
-        sendToAllClients(new PlayersMessage(players));
-        startNewGameFor(client);
+        if (!isUsedLogin(author.getName()))  {
+            int playerId = (int) client.getInfo("ID");
+            players.changeName(author.getName(), playerId);
+            Message messageName = new ProfileMessage(playerId, author.getName());
+            sendToClient(messageName, playerId);
+            sendToAllClients(new PlayersMessage(players));
+            startNewGameFor(client);
+        }
+        Message validation = new LoginValidationMessage(
+                author.getId(),
+                author.getName(),
+                !isUsedLogin(author.getName())
+        );
+        sendToClient(validation, author.getId());
     }
 
     private void handle(ProposalMessage proposal, ConnectionToClient client) {
