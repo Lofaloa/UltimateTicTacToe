@@ -93,13 +93,15 @@ public class AnagramClient extends AbstractClient {
      *
      * @param host is the host of the server.
      * @param port is the port of the server.
-     * @param login is the login of the user.
      */
-    public void connect(String host, int port, String login) throws IOException {
+    public void connect(String host, int port) throws IOException {
         setHost(host);
         setPort(port);
         openConnection();
-        updateName(login);
+    }
+    
+    public void sendLogin(String login) throws IOException {
+        sendToServer(new ProfileMessage(0, login));
     }
 
     /**
@@ -144,10 +146,6 @@ public class AnagramClient extends AbstractClient {
 
     void showMessage(Message message) {
         notifyView(message);
-    }
-
-    private void updateName(String name) throws IOException {
-        sendToServer(new ProfileMessage(0, name));
     }
 
     private void notifyView() {

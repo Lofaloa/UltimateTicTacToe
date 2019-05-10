@@ -23,7 +23,7 @@ import javafx.scene.layout.VBox;
  */
 public class AnagramLoginBox extends VBox {
 
-    private static final String FXML_PATH = "/fxml/LoginDialogPane.fxml";
+    private static final String FXML_PATH = "/fxml/LoginBox.fxml";
     private static final String CHECKED_ICON = "/images/checked.png";
     private static final String UNCHECKED_ICON = "/images/unchecked.png";
     static final String PSEUDONYM_PATTERN = "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})"
@@ -52,12 +52,6 @@ public class AnagramLoginBox extends VBox {
     @FXML
     private ImageView portValidationIcon;
 
-    @FXML
-    private Button connect;
-
-    @FXML
-    private Button quit;
-
     private final View view;
     private final AnagramClient client;
 
@@ -71,6 +65,7 @@ public class AnagramLoginBox extends VBox {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource(FXML_PATH));
+            loader.setRoot(this);
             loader.setController(this);
             loader.load();
         } catch (IOException exception) {
@@ -130,9 +125,9 @@ public class AnagramLoginBox extends VBox {
         try {
             client.connect(
                     address.getText(),
-                    Integer.parseInt(port.getText()),
-                    login.getText()
+                    Integer.parseInt(port.getText())
             );
+            client.sendLogin(login.getText());
         } catch (IOException ex) {
             view.showError("Erreur", "Connexion impossible!");
         }

@@ -6,7 +6,6 @@ import anagram.model.Model;
 import atlg4.g47923.anagram.message.AnswerMessage;
 import atlg4.g47923.anagram.message.EndGameMessage;
 import atlg4.g47923.anagram.message.FailureMessage;
-import atlg4.g47923.anagram.message.LoginValidationMessage;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.PlayersMessage;

@@ -68,28 +68,36 @@ public class AnagramView implements View {
         this.loginBox = new AnagramLoginBox(this, client);
         this.main = new AnagramMainWindow(this, client);
         this.stage = stage;
-        this.scene = new Scene(main);
+        this.scene = new Scene(loginBox);
         client.addObserver(main);
         this.inititialize();
     }
 
     private void inititialize() {
         stage.setTitle(TITLE);
-        stage.setMinWidth(MIN_WIDTH);
-        stage.setMinHeight(MIN_HEIGHT);
+//        stage.setMinWidth(MIN_WIDTH);
+//        stage.setMinHeight(MIN_HEIGHT);
         stage.setScene(scene);
         addOnCloseHandler();
+    }
+
+    @Override
+    public void show() {
+        stage.show();
     }
     
     @Override
     public void showLoginBox() {
         scene.setRoot(loginBox);
         stage.sizeToScene();
+        stage.centerOnScreen();
     }
 
     @Override
     public void showMainWindow() {
-        stage.show();
+        scene.setRoot(main);
+        stage.sizeToScene();
+        stage.centerOnScreen();
     }
 
     @Override
