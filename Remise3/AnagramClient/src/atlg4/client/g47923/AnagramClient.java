@@ -15,24 +15,19 @@ import java.io.IOException;
  */
 public class AnagramClient extends AbstractClient {
 
+    static private final String DEFAULT_HOST = "localhost";
+    static private final int DEFAULT_PORT = 12345;
+
     private final Players players;
     private User mySelf;
 
     /**
-     * Constructs the client. Opens the connection with the server. Sends the
-     * user name inside a <code> ProfileMessage </code> to the server. Builds an
-     * empty list of users.
+     * Constructs the client.Builds an empty list of users.
      *
-     * @param host the server's host name.
-     * @param port the port number.
-     * @param name the name of the user.
-     * @param password the password needed to connect.
      * @throws IOException if an I/O error occurs when opening.
      */
-    public AnagramClient(String host, int port, String name, String password) throws IOException {
-        super(host, port);
-        openConnection();
-        updateName(name);
+    public AnagramClient() throws IOException {
+        super(DEFAULT_HOST, DEFAULT_PORT);
         players = new Players();
     }
 
@@ -58,7 +53,7 @@ public class AnagramClient extends AbstractClient {
             case PLAYERS:
                 Players players = (Players) message.getContent();
                 updatePlayers(players);
-                break;                
+                break;
             default:
                 throw new IllegalArgumentException("Message type unknown " + type);
         }
@@ -89,6 +84,21 @@ public class AnagramClient extends AbstractClient {
      */
     public User getMySelf() {
         return mySelf;
+    }
+
+    /**
+     * Connects this client to the given host and sends the given login to the
+     * server.
+     *
+     * @param host is the host of the server.
+     * @param port is the port of the server.
+     * @param login is the login of the user.
+     */
+    public void connect(String host, int port, String login) throws IOException {
+        setHost(host);
+        setPort(port);
+        openConnection();
+        updateName(host);
     }
 
     /**
