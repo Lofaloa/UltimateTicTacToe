@@ -285,7 +285,8 @@ public class AnagramServer extends AbstractServer {
 
     private void handle(ProfileMessage message, ConnectionToClient client) {
         User author = message.getAuthor();
-        if (!isUsedLogin(author.getName())) {
+        boolean isUsedLogin = isUsedLogin(author.getName());
+        if (!isUsedLogin) {
             int playerId = (int) client.getInfo("ID");
             players.changeName(author.getName(), playerId);
             Message messageName = new ProfileMessage(playerId, author.getName());
@@ -296,7 +297,7 @@ public class AnagramServer extends AbstractServer {
         Message validation = new LoginValidationMessage(
                 (int) client.getInfo("ID"),
                 author.getName(),
-                !isUsedLogin(author.getName())
+                !isUsedLogin
         );
         sendToClient(validation, (int) client.getInfo("ID"));
     }

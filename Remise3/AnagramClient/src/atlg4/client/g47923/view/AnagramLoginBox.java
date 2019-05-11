@@ -1,6 +1,8 @@
 package atlg4.client.g47923.view;
 
 import atlg4.client.g47923.AnagramClient;
+import atlg4.g47923.anagram.message.Message;
+import atlg4.g47923.anagram.message.Type;
 import atlg4.g47923.anagram.players.Credentials;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -94,6 +96,10 @@ public class AnagramLoginBox extends VBox {
         return matcher.matches();
     }
 
+    private boolean isReadyToConnect() {
+        return isValidLogin() && isValidAddress() && isValidPort();
+    }
+
     @FXML
     private void connect(ActionEvent e) {
         if (!isValidLogin()) {
@@ -122,14 +128,16 @@ public class AnagramLoginBox extends VBox {
             Image img = new Image(CHECKED_ICON);
             portValidationIcon.setImage(img);
         }
-        try {
-            client.connect(
-                    address.getText(),
-                    Integer.parseInt(port.getText())
-            );
-            client.sendLogin(login.getText());
-        } catch (IOException ex) {
-            view.showError("Erreur", "Connexion impossible!");
+        if (isReadyToConnect()) {
+            try {
+                client.connect(
+                        address.getText(),
+                        Integer.parseInt(port.getText())
+                );
+                client.sendLogin(login.getText());
+            } catch (IOException ex) {
+                view.showError("Erreur", "Connexion impossible!");
+            }
         }
     }
 
@@ -137,6 +145,17 @@ public class AnagramLoginBox extends VBox {
     private void quit(ActionEvent e) {
         Platform.exit();
         System.exit(0);
+    }
+
+    public void update(Object arg) {
+        Message message = (Message) arg;
+        if (message.getType() == Type.LOGIN_VALIDATION) {
+            boolean isValidLogin = (boolean) message.getContent();
+            if (!isValidLogin) {
+                Image img = new Image(UNCHECKED_ICON);
+                loginValidationIcon.setImage(img);
+            }
+        }
     }
 
 }

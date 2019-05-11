@@ -54,7 +54,7 @@ public class AnagramView implements View {
         return dialog;
     }
 
-    private final VBox loginBox;
+    private final AnagramLoginBox loginBox;
     private final AnagramMainWindow main;
     private final Stage stage;
     private final Scene scene;
@@ -86,7 +86,7 @@ public class AnagramView implements View {
     public void show() {
         stage.show();
     }
-    
+
     @Override
     public void showLoginBox() {
         scene.setRoot(loginBox);
@@ -120,14 +120,24 @@ public class AnagramView implements View {
 
     @Override
     public void update(Observable o, Object arg) {
-        Message message = (Message) arg; 
+        showMainWindow(arg);
+    }
+
+    private void showMainWindow(Object arg) {
+        Message message = (Message) arg;
         System.out.println("UPDATE DE LA VUE: " + message.getType());
-        main.update(arg);
-        if (message.getType() == Type.LOGIN_VALIDATION) {
-            if ((boolean) message.getContent()) {
-                showMainWindow();
+        Platform.runLater(() -> {
+            if (message.getType() == Type.LOGIN_VALIDATION) {
+                boolean isValidLogin = (boolean) message.getContent();
+                if (isValidLogin) {
+                    showMainWindow();
+                } else {
+                    loginBox.update(arg);
+                }
+            } else {
+                main.update(arg);
             }
-        }
+        });
     }
 
 }
