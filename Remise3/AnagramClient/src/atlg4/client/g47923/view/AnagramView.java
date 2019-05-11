@@ -1,9 +1,10 @@
 package atlg4.client.g47923.view;
 
 import atlg4.client.g47923.AnagramClient;
-import atlg4.g47923.anagram.players.Credentials;
+import atlg4.g47923.anagram.message.Message;
+import atlg4.g47923.anagram.message.Type;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.Observable;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -69,7 +70,7 @@ public class AnagramView implements View {
         this.main = new AnagramMainWindow(this, client);
         this.stage = stage;
         this.scene = new Scene(loginBox);
-        client.addObserver(main);
+        client.addObserver(this);
         this.inititialize();
     }
 
@@ -115,6 +116,18 @@ public class AnagramView implements View {
             Platform.exit();
             System.exit(0);
         });
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Message message = (Message) arg; 
+        System.out.println("UPDATE DE LA VUE: " + message.getType());
+        main.update(arg);
+        if (message.getType() == Type.LOGIN_VALIDATION) {
+            if ((boolean) message.getContent()) {
+                showMainWindow();
+            }
+        }
     }
 
 }

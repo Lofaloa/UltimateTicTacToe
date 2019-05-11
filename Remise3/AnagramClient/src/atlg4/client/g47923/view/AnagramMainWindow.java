@@ -27,7 +27,7 @@ import javafx.scene.text.Text;
  *
  * @author Logan Farci (47923)
  */
-public class AnagramMainWindow extends BorderPane implements Observer {
+public class AnagramMainWindow extends BorderPane {
 
     private static final String FXML_PATH = "/fxml/AnagramWindow.fxml";
 
@@ -135,9 +135,7 @@ public class AnagramMainWindow extends BorderPane implements Observer {
         System.exit(0);
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        System.out.println("UPDATE");
+    public void update(Object arg) {
         updatePlayers();
         if (arg != null) {
             Message message = (Message) arg;

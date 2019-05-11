@@ -1,7 +1,6 @@
 package atlg4.client.g47923.view;
 
-import atlg4.client.g47923.AnagramClient;
-import atlg4.g47923.anagram.players.Credentials;
+import java.util.Observer;
 
 /**
  * The interface is used to manage the view of an application composed of one
@@ -9,7 +8,7 @@ import atlg4.g47923.anagram.players.Credentials;
  *
  * @author Logan Farci (47923)
  */
-public interface View {
+public interface View extends Observer {
 
     void show();
     
