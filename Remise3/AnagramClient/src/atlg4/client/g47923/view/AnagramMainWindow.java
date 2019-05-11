@@ -38,7 +38,7 @@ public class AnagramMainWindow extends BorderPane {
 
     @FXML
     private Text name;
-    
+
     @FXML
     private TextField proposal;
 
@@ -65,6 +65,9 @@ public class AnagramMainWindow extends BorderPane {
 
     @FXML
     private Button pass;
+
+    @FXML
+    private Label status;
 
     private final View view;
     private AnagramClient client;
@@ -128,6 +131,7 @@ public class AnagramMainWindow extends BorderPane {
         }
         try {
             client.quit();
+            status.setText("déconnecté");
         } catch (IOException e) {
             view.showError("Erreur lors de la déconnexion!", e.getMessage());
         }
@@ -252,7 +256,7 @@ public class AnagramMainWindow extends BorderPane {
         int remaining = stats.getNbRemaingingWords();
         int total = stats.getNbWords();
         if (remaining == 0) {
-            text.append("Vous avez lu tous les anagrammes.");
+            text.append("Vous avez lu toutes les anagrammes.");
         } else if (remaining != total && remaining != 0) {
             text.append("Il reste encore ");
             text.append(remaining + 1);

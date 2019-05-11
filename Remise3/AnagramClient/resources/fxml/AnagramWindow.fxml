@@ -112,6 +112,7 @@
             </ProgressBar>
             <Label fx:id="progressNote" text="Vous n'avez lu aucuns anagrammes" />
             <Label fx:id="statisticsNote" text="Vous avez résolu 0 anagrammes et vous avez passé 0 anagrammes" />
+            <Label fx:id="status" style="-fx-text-fill: red;" text="connecté" />
          </children>
       </VBox>
    </bottom>
