@@ -25,8 +25,6 @@ public class AnagramView implements View {
     private static final String TITLE = "Anagramme";
     private static final String INFO_TITLE = "Information";
     private static final String ERROR_TITLE = "Erreur";
-    private static final int MIN_WIDTH = 600;
-    private static final int MIN_HEIGHT = 300;
 
     private static void setTitle(Dialog dialog, AlertType type) {
         if (null == dialog || null == type) {
@@ -54,6 +52,7 @@ public class AnagramView implements View {
         return dialog;
     }
 
+    private final AnagramClient client;
     private final AnagramLoginBox loginBox;
     private final AnagramMainWindow main;
     private final Stage stage;
@@ -63,22 +62,22 @@ public class AnagramView implements View {
      * Constructs an instance of the AnagramView with specified view and client.
      *
      * @param stage is the specified stage.
+     * @param client is the client to represent.
      * @throws IOException when the loading of a FXML files fails.
      */
     public AnagramView(Stage stage, AnagramClient client) throws IOException {
+        this.client = client;
         this.loginBox = new AnagramLoginBox(this, client);
         this.main = new AnagramMainWindow(this, client);
         this.stage = stage;
         this.scene = new Scene(loginBox);
-        client.addObserver(this);
         this.inititialize();
     }
 
     private void inititialize() {
         stage.setTitle(TITLE);
-//        stage.setMinWidth(MIN_WIDTH);
-//        stage.setMinHeight(MIN_HEIGHT);
         stage.setScene(scene);
+        client.addObserver(this);
         addOnCloseHandler();
     }
 
@@ -120,13 +119,12 @@ public class AnagramView implements View {
 
     @Override
     public void update(Observable o, Object arg) {
-        showMainWindow(arg);
+        showMessage(arg);
     }
 
-    private void showMainWindow(Object arg) {
-        Message message = (Message) arg;
-        System.out.println("UPDATE DE LA VUE: " + message.getType());
+    private void showMessage(Object arg) {
         Platform.runLater(() -> {
+            Message message = (Message) arg;
             if (message.getType() == Type.LOGIN_VALIDATION) {
                 boolean isValidLogin = (boolean) message.getContent();
                 if (isValidLogin) {

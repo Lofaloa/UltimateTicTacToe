@@ -37,6 +37,9 @@ public class AnagramMainWindow extends BorderPane {
     }
 
     @FXML
+    private Text name;
+    
+    @FXML
     private TextField proposal;
 
     @FXML
@@ -140,6 +143,9 @@ public class AnagramMainWindow extends BorderPane {
         if (arg != null) {
             Message message = (Message) arg;
             switch (message.getType()) {
+                case PROFILE:
+                    updateName(message);
+                    break;
                 case WORD:
                     updateWord(message);
                     break;
@@ -189,6 +195,17 @@ public class AnagramMainWindow extends BorderPane {
             }
         });
 
+    }
+
+    private void updateName(Message message) {
+        Platform.runLater(() -> {
+            User user = (User) message.getContent();
+            StringBuilder builder = new StringBuilder();
+            builder.append(user.getName());
+            builder.append(", serez-vous capable de trouver le mot caché par");
+            builder.append(" cette anagramme?");
+            name.setText(builder.toString());
+        });
     }
 
     private void updateWord(Message message) {

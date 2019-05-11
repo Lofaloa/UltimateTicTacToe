@@ -1,6 +1,5 @@
 package atlg4.client.g47923;
 
-import atlg4.g47923.anagram.message.LoginValidationMessage;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.ProfileMessage;
@@ -36,10 +35,10 @@ public class AnagramClient extends AbstractClient {
     protected void handleMessageFromServer(Object msg) {
         Message message = (Message) msg;
         Type type = message.getType();
-        System.out.println("Reception: " + type);
         switch (type) {
             case PROFILE:
                 setMySelf(message.getAuthor());
+                showMessage(message);
                 break;
             case PROPOSAL:
                 break;
