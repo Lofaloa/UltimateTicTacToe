@@ -4,6 +4,7 @@ import atlg4.client.g47923.AnagramClient;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.Type;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Observable;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -123,19 +124,21 @@ public class AnagramView implements View {
     }
 
     private void showMessage(Object arg) {
-        Platform.runLater(() -> {
+        if (arg != null) {
             Message message = (Message) arg;
-            if (message.getType() == Type.LOGIN_VALIDATION) {
-                boolean isValidLogin = (boolean) message.getContent();
-                if (isValidLogin) {
-                    showMainWindow();
+            Platform.runLater(() -> {
+                if (message.getType() == Type.LOGIN_VALIDATION) {
+                    boolean isValidLogin = (boolean) message.getContent();
+                    if (isValidLogin) {
+                        showMainWindow();
+                    } else {
+                        loginBox.update(arg);
+                    }
                 } else {
-                    loginBox.update(arg);
+                    main.update(arg);
                 }
-            } else {
-                main.update(arg);
-            }
-        });
+            });
+        }
     }
 
 }

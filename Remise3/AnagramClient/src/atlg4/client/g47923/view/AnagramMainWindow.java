@@ -101,7 +101,6 @@ public class AnagramMainWindow extends BorderPane {
         if (client == null) {
             throw new IllegalStateException("Pas de client.");
         }
-        System.out.println("CHECK");
         try {
             String proposal = this.proposal.getText();
             client.sendProposal(proposal);
