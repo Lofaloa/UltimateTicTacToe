@@ -51,7 +51,7 @@ public class EndGameMessage implements Message {
 
     /**
      * Gets this message recipient.
-     * 
+     *
      * @return this message recipient.
      */
     @Override
@@ -61,7 +61,7 @@ public class EndGameMessage implements Message {
 
     /**
      * Tells if the game is over.
-     * 
+     *
      * @return true if the game is over.
      */
     @Override
