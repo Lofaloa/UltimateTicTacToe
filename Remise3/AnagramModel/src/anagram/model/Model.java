@@ -5,6 +5,8 @@ import anagram.dto.WordDto;
 import anagram.exception.BusinessException;
 import anagram.exception.ModelException;
 import anagram.model.converter.WordDtoConverter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,11 +23,16 @@ public class Model implements Facade {
      * The current word in play.
      */
     private Word currentWord;
+    
+    private boolean hintUsed;
+    
     /**
      * A converter from WordDto to Word. This converter is used to transform the
      * data read from a file to a real object (with some methods).
      */
     private final WordDtoConverter wordDtoConverter;
+    
+    private final List<String> solved;
 
     /**
      * Constructs the <code> Model </code> of anagram game. The word converter
@@ -33,6 +40,8 @@ public class Model implements Facade {
      */
     public Model() {
         wordDtoConverter = new WordDtoConverter();
+        solved = new ArrayList<>();
+        hintUsed = false;
     }
 
     @Override
@@ -65,6 +74,7 @@ public class Model implements Facade {
         }
         currentWord = words.next();
         currentWord.setRead();
+        hintUsed = false;
         return currentWord.getScramble();
     }
 
@@ -76,6 +86,7 @@ public class Model implements Facade {
         boolean isAnagram = currentWord.isAnagram(proposal);
         if (isAnagram) {
             currentWord.solved();
+            solved.add(currentWord.getText());
         }
         currentWord.addProposal();
         return isAnagram;
@@ -88,6 +99,7 @@ public class Model implements Facade {
         }
         String answer = currentWord.getText();
         currentWord.unsolved();
+        hintUsed = false;
         return answer;
     }
 
@@ -107,8 +119,19 @@ public class Model implements Facade {
     }
 
     @Override
-    public String getCurrentWord() {
-        return currentWord.getText();
+    public Character getHint() {
+        hintUsed = true;
+        return currentWord.getText().charAt(0);
+    }
+
+    @Override
+    public boolean hasUsedHint() {
+        return hintUsed;
+    }
+    
+    @Override
+    public List<String> getSolvedWords() {
+        return Collections.unmodifiableList(solved);
     }
     
     @Override

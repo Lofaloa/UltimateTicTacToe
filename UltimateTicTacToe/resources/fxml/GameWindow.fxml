@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import atlg4.composant.g47923.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import atlg4.composant.g47923.MyTicTacToe?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -13,8 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
-<fx:root stylesheets="@../css/GameWindow.css" type="BorderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root stylesheets="@../css/GameWindow.css" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
         <GridPane id="board" fx:id="board" alignment="CENTER" hgap="5.0" stylesheets="@../css/GameWindow.css" vgap="5.0" BorderPane.alignment="CENTER">
             <columnConstraints>
@@ -50,12 +54,14 @@
                <children>
                   <Label styleClass="playerLabel" text="Player O: " />
                   <Label id="playerLabelO" fx:id="playerOPseudonym" styleClass="pseudonym" />
+                  <Label id="playerLabelO" fx:id="OjokerHint" layoutX="267.0" layoutY="12.0" styleClass="pseudonym" />
                </children>
             </HBox>
             <HBox id="playerX" fx:id="playerX" alignment="CENTER">
                <children>
                   <Label styleClass="playerLabel" text="Player X: " />
                   <Label id="playerLabelX" fx:id="playerXPseudonym" styleClass="pseudonym" />
+                  <Label id="playerLabelX" fx:id="XjokerHint" layoutX="266.0" layoutY="12.0" styleClass="pseudonym" />
                </children>
             </HBox>
          </children>

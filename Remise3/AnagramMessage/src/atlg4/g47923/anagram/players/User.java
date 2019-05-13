@@ -2,6 +2,10 @@ package atlg4.g47923.anagram.players;
 
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The <code> User </code> represents a connected user.

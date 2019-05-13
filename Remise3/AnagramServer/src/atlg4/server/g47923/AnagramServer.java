@@ -14,6 +14,7 @@ import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.PlayersMessage;
 import atlg4.g47923.anagram.message.ProfileMessage;
 import atlg4.g47923.anagram.message.ProposalMessage;
+import atlg4.g47923.anagram.message.SolvedWordMessage;
 import atlg4.g47923.anagram.message.StatisticsMessage;
 import atlg4.g47923.anagram.message.WordMessage;
 import atlg4.g47923.anagram.players.GameStatistics;
@@ -229,7 +230,7 @@ public class AnagramServer extends AbstractServer {
         }
     }
 
-    private void updateNbSolvedWords() {
+    private void updateUserStatistics() {
         try {
             for (User player : players) {
                 Facade game = games.get(player.getId());
@@ -307,9 +308,6 @@ public class AnagramServer extends AbstractServer {
     }
 
     private void handle(ProposalMessage proposal, ConnectionToClient client) {
-        // TODO: lors du dernier tour est-ce que si le joueur fait une mauvaise
-        // proposition, le jeu se finit?
-        System.out.println("");
         try {
             Facade game = games.get(proposal.getAuthor().getId());
             if (game.propose((String) proposal.getContent())) {
@@ -317,9 +315,15 @@ public class AnagramServer extends AbstractServer {
                         proposal.getAuthor().getId(),
                         proposal.getAuthor().getName(),
                         game.nextWord());
-                updateNbSolvedWords();
+                updateUserStatistics();
                 sendToClient(nextWord, proposal.getAuthor().getId());
                 sendToAllClients(new PlayersMessage(players));
+                sendToAllClients(new SolvedWordMessage(
+                        proposal.getAuthor().getId(),
+                        proposal.getAuthor().getName(),
+                        (String) proposal.getContent(),
+                        game.hasUsedHint()
+                ));
             } else {
                 FailureMessage failure = new FailureMessage(
                         (String) proposal.getContent(),
@@ -361,7 +365,7 @@ public class AnagramServer extends AbstractServer {
 
     private void handle(HintRequestMessage message, ConnectionToClient client) {
         Facade game = games.get(message.getAuthor().getId());
-        Character hint = game.getCurrentWord().charAt(0);
+        Character hint = game.getHint();
         Message hintMessage = new HintMessage(
                 message.getAuthor().getId(),
                 message.getAuthor().getName(),

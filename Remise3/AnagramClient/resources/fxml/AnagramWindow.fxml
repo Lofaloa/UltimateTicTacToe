@@ -123,16 +123,29 @@
       </VBox>
    </bottom>
    <right>
-      <ScrollPane vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
-         <content>
-            <VBox fx:id="players" alignment="TOP_CENTER" prefWidth="175.0">
-               <children>
-                  <Label text="Aucun autres joueurs" />
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </VBox>
-         </content></ScrollPane>
+      <VBox>
+         <children>
+            <ScrollPane BorderPane.alignment="CENTER">
+               <content>
+                  <VBox fx:id="players" alignment="TOP_CENTER" minHeight="100.0" minWidth="100.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Aucun autres joueurs" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <ScrollPane>
+               <content>
+                  <VBox fx:id="solved" alignment="TOP_CENTER" minHeight="100.0" minWidth="100.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding></VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
    </right>
 </fx:root>

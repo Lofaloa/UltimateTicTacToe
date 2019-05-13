@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root style="-fx-background-color: lightgrey; -fx-border-color: grey; -fx-border-width: 2px;" type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root style="-fx-background-color: lightgrey; -fx-border-color: grey; -fx-border-width: 2px;" type="VBox" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
          <children>
@@ -15,8 +20,14 @@
       </HBox>
       <HBox layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
          <children>
-            <Label text="Mots trouvés:" />
+            <Label text="Nombre de mots trouvés:" />
             <Label fx:id="nbFoundWordsLabel" minWidth="30.0" />
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <Label text="Liste de mots trouvés:" />
+            <Text fx:id="foundWords" strokeType="OUTSIDE" strokeWidth="0.0" />
          </children>
       </HBox>
    </children>

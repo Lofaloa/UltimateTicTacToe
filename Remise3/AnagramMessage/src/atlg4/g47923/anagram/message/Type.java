@@ -18,6 +18,9 @@ public enum Type {
      * Word sent from the server to a specific player.
      */
     WORD,
+    
+    SOLVED_WORD,
+    
     /**
      * Message sent from the server to the client to represent a hint for the
      * current word.

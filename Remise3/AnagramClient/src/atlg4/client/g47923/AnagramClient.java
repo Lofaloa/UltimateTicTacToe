@@ -50,6 +50,7 @@ public class AnagramClient extends AbstractClient {
             case END_OF_GAME:
             case LOGIN_VALIDATION:
             case HINT:
+            case SOLVED_WORD:
                 showMessage(message);
                 break;
             case PASS_CURRENT_WORD:

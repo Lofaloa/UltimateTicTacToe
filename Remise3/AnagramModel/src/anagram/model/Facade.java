@@ -1,6 +1,7 @@
 package anagram.model;
 
 import anagram.exception.ModelException;
+import java.util.List;
 
 /**
  * Facade of the Anagram game.
@@ -81,7 +82,11 @@ public interface Facade {
      */
     boolean canAskNextWord();
     
-    String getCurrentWord();
+    Character getHint();
+    
+    boolean hasUsedHint();
+    
+    List<String> getSolvedWords();
 
     /**
      * Returns the amount of words in the container.

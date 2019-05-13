@@ -50,12 +50,15 @@ public class UsersFacade {
         UserDTO user = null;
         try {
             DBManager.startTransaction();
+            System.out.println("TRANSACTION START");
             user = UsersFacade.findUserByPseudonym(pseudonym);
             if (user == null) {
+                System.out.println("CREATING NEW USER");
                 user = new UserDTO(pseudonym);
                 addUser(user);
             }
             DBManager.validateTransaction();
+            System.out.println("TRANSACTION is validated");
         } catch (DataBaseException e) {
             try {
                 DBManager.cancelTransaction();

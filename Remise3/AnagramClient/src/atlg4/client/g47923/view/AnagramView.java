@@ -124,6 +124,7 @@ public class AnagramView implements View {
     }
 
     private void showMessage(Object arg) {
+        main.updatePlayers();
         if (arg != null) {
             Message message = (Message) arg;
             Platform.runLater(() -> {

@@ -2,6 +2,7 @@ package atlg4.client.g47923.view;
 
 import atlg4.client.g47923.AnagramClient;
 import atlg4.g47923.anagram.message.Message;
+import atlg4.g47923.anagram.message.SolvedWordMessage;
 import atlg4.g47923.anagram.message.StatisticsMessage;
 import atlg4.g47923.anagram.players.GameStatistics;
 import atlg4.g47923.anagram.players.User;
@@ -52,6 +53,9 @@ public class AnagramMainWindow extends BorderPane {
 
     @FXML
     private VBox players;
+
+    @FXML
+    private VBox solved;
 
     @FXML
     private ProgressBar progress;
@@ -186,6 +190,9 @@ public class AnagramMainWindow extends BorderPane {
                 case END_OF_GAME:
                     showEnd(message);
                     break;
+                case SOLVED_WORD:
+                    showSolvedWord(message);
+                    break;
                 default:
                     view.showError(
                             "Message inattendu",
@@ -195,7 +202,23 @@ public class AnagramMainWindow extends BorderPane {
             }
         }
     }
-    
+
+    private void showSolvedWord(Message message) {
+        Platform.runLater(() -> {
+            String solvedWord = (String) message.getContent();
+            String authorName = message.getAuthor().getName();
+            boolean hasUsedHint = ((SolvedWordMessage) message).hasUsedhint();
+            StringBuilder builder = new StringBuilder(solvedWord);
+            if (hasUsedHint) {
+                builder.append("*");
+            }
+            builder.append(" (");
+            builder.append(authorName);
+            builder.append(")");
+            solved.getChildren().add(new Label(builder.toString()));
+        });
+    }
+
     private void showHint(Message message) {
         Platform.runLater(() -> {
             Character hint = (Character) message.getContent();
@@ -204,7 +227,7 @@ public class AnagramMainWindow extends BorderPane {
         });
     }
 
-    private void updatePlayers() {
+    void updatePlayers() {
         if (client == null) {
             throw new IllegalStateException("Pas de client.");
         }
