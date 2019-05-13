@@ -67,6 +67,9 @@ public class AnagramMainWindow extends BorderPane {
     private Button pass;
 
     @FXML
+    private Button hint;
+
+    @FXML
     private Label status;
 
     private final View view;
@@ -117,10 +120,17 @@ public class AnagramMainWindow extends BorderPane {
         try {
             client.sendPassCurrentWord();
             this.proposal.clear();
+            hint.setDisable(false);
         } catch (IOException e) {
             view.showError("Erreur au moment de passer au mot suivant!",
                     e.getMessage());
         }
+    }
+
+    @FXML
+    private void showHint(ActionEvent event) {
+        System.out.println("SHOWING HINT");
+        hint.setDisable(true);
     }
 
     @FXML
@@ -215,6 +225,7 @@ public class AnagramMainWindow extends BorderPane {
         Platform.runLater(() -> {
             String word = (String) message.getContent();
             anagram.setText(word);
+            hint.setDisable(false);
         });
     }
 
@@ -227,6 +238,7 @@ public class AnagramMainWindow extends BorderPane {
                     + " compliqué, la réponse était \""
                     + answer + "\"."
             );
+            hint.setDisable(false);
         });
     }
 
