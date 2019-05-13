@@ -9,7 +9,8 @@ create table USERS (
     pseudonym varchar(20) primary key,
 	nvictories int not null,
 	nexaequos int not null,
-	ndefeats int not null
+	ndefeats int not null,
+        hasUsedJoker int not null
 );
 
 -- A pseudonym should be composed of 8 to 20 characters.
@@ -36,3 +37,7 @@ CHECK (nexaequos >= 0);
 ALTER TABLE USERS
 ADD CONSTRAINT checkNDefeatsPositive
 CHECK (ndefeats >= 0);
+
+ALTER TABLE USERS
+ADD CONSTRAINT checkBooleanHasUsedJoker
+CHECK (hasUsedJoker = 0 OR hasUsedJoker = 1);
