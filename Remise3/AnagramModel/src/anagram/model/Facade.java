@@ -80,6 +80,8 @@ public interface Facade {
      * @return false if a word is in play and true otherwise.
      */
     boolean canAskNextWord();
+    
+    String getCurrentWord();
 
     /**
      * Returns the amount of words in the container.

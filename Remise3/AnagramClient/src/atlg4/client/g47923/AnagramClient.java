@@ -1,5 +1,6 @@
 package atlg4.client.g47923;
 
+import atlg4.g47923.anagram.message.HintRequestMessage;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.PassCurrentWordMessage;
 import atlg4.g47923.anagram.message.ProfileMessage;
@@ -48,6 +49,7 @@ public class AnagramClient extends AbstractClient {
             case FAILURE:
             case END_OF_GAME:
             case LOGIN_VALIDATION:
+            case HINT:
                 showMessage(message);
                 break;
             case PASS_CURRENT_WORD:
@@ -103,6 +105,11 @@ public class AnagramClient extends AbstractClient {
     
     public void sendLogin(String login) throws IOException {
         sendToServer(new ProfileMessage(0, login));
+    }
+    
+    public void askHint() throws IOException {
+        Message message = new HintRequestMessage(mySelf.getId(), mySelf.getName());
+        sendToServer(message);
     }
 
     /**

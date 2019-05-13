@@ -6,6 +6,8 @@ import anagram.model.Model;
 import atlg4.g47923.anagram.message.AnswerMessage;
 import atlg4.g47923.anagram.message.EndGameMessage;
 import atlg4.g47923.anagram.message.FailureMessage;
+import atlg4.g47923.anagram.message.HintMessage;
+import atlg4.g47923.anagram.message.HintRequestMessage;
 import atlg4.g47923.anagram.message.LoginValidationMessage;
 import atlg4.g47923.anagram.message.Message;
 import atlg4.g47923.anagram.message.PassCurrentWordMessage;
@@ -135,6 +137,8 @@ public class AnagramServer extends AbstractServer {
             case PASS_CURRENT_WORD:
                 handle((PassCurrentWordMessage) message, client);
                 break;
+            case HINT_REQUEST:
+                handle((HintRequestMessage) message, client);
             case WORD:
             case ANSWER:
             case PLAYERS:
@@ -353,6 +357,17 @@ public class AnagramServer extends AbstractServer {
         } catch (ModelException ex) {
 
         }
+    }
+
+    private void handle(HintRequestMessage message, ConnectionToClient client) {
+        Facade game = games.get(message.getAuthor().getId());
+        Character hint = game.getCurrentWord().charAt(0);
+        Message hintMessage = new HintMessage(
+                message.getAuthor().getId(),
+                message.getAuthor().getName(),
+                hint
+        );
+        sendToClient(hintMessage, message.getAuthor());
     }
 
 }

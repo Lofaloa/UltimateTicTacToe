@@ -107,6 +107,11 @@ public class Model implements Facade {
     }
 
     @Override
+    public String getCurrentWord() {
+        return currentWord.getText();
+    }
+    
+    @Override
     public int getNbWords() throws ModelException {
         if (words == null || words.isEmpty()) {
             throw new ModelException("la liste de mots est vide");

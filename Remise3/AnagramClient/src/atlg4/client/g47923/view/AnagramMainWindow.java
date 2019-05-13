@@ -8,6 +8,8 @@ import atlg4.g47923.anagram.players.User;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.binding.StringBinding;
 import javafx.event.ActionEvent;
@@ -128,9 +130,16 @@ public class AnagramMainWindow extends BorderPane {
     }
 
     @FXML
-    private void showHint(ActionEvent event) {
-        System.out.println("SHOWING HINT");
-        hint.setDisable(true);
+    private void askHint(ActionEvent event) {
+        try {
+            client.askHint();
+            hint.setDisable(true);
+        } catch (IOException ex) {
+            view.showError(
+                    "Failed to show hint",
+                    ex.getMessage()
+            );
+        }
     }
 
     @FXML
@@ -165,6 +174,9 @@ public class AnagramMainWindow extends BorderPane {
                 case ANSWER:
                     updateAnswer(message);
                     break;
+                case HINT:
+                    showHint(message);
+                    break;
                 case STATISTICS:
                     updateStatistics(message);
                     break;
@@ -182,6 +194,14 @@ public class AnagramMainWindow extends BorderPane {
                     );
             }
         }
+    }
+    
+    private void showHint(Message message) {
+        Platform.runLater(() -> {
+            Character hint = (Character) message.getContent();
+            proposal.clear();
+            proposal.setText(hint.toString());
+        });
     }
 
     private void updatePlayers() {

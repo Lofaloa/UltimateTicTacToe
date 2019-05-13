@@ -91,7 +91,7 @@
                      <children>
                         <Button fx:id="check" mnemonicParsing="false" onAction="#check" text="Proposer" />
                         <Button fx:id="pass" mnemonicParsing="false" onAction="#pass" text="Passer" />
-                        <Button fx:id="hint" layoutX="380.0" layoutY="10.0" mnemonicParsing="false" onAction="#showHint" text="Indice?" />
+                        <Button fx:id="hint" layoutX="380.0" layoutY="10.0" mnemonicParsing="false" onAction="#askHint" text="Indice?" />
                      </children>
                   </HBox>
                </children>
